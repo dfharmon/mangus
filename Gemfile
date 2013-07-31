@@ -8,6 +8,7 @@ gem 'rails', '3.2.13'
 gem 'sqlite3'
 gem 'rest-client'
 gem 'ox'
+gem 'devise'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -24,6 +25,7 @@ end
 gem 'jquery-rails'
 
 group :test, :development do
+  gem 'better_errors'
   gem 'pry'
   gem 'pry-rails'
   gem 'flog'

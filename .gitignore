@@ -1,0 +1,5 @@
+.idea
+tmp
+log/*.log
+db/*.sqlite3
+atlassian-ide-plugin.xml
