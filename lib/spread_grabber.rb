@@ -1,6 +1,6 @@
 module SpreadGrabber
   # Will need to switch from the NBA/MLB once some NFL games are up
-  BASEURL = 'http://xml.pinnaclesports.com/pinnacleFeed.aspx?sportType=Baseball&sportsubtype=MLB'
+  BASEURL = 'http://xml.pinnaclesports.com/pinnacleFeed.aspx?sportType=Football&sportsubtype=NFL'
 
   # Get current spreads
   def self.current_spreads
