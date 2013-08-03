@@ -1,3 +1,4 @@
+require 'open-uri'
 module ScoreGrabber
   # Will need to switch from the NBA/MLB once some NFL games are up
   BASEURL = 'http://scores.nbcsports.msnbc.com/ticker/data/gamesMSNBC.js.asp?jsonp=true&sport=NFL&period='
@@ -53,14 +54,13 @@ module ScoreGrabber
           time = g.search("td//[@class='shsTimezone shsMTZone']").inner_html
           visit = g.search("a//[@href]").first.inner_html
           home = g.search("a//[@href]").last.inner_html
+          # TODO: Put the search to get the game score here....
           games << {
-              time: "#{day} #{time}",
+              time: Time.parse("#{day} #{time}").utc,
               home: home,
               visit: visit
           }
         end
-
-
       end
     end
     games
