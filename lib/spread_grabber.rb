@@ -1,6 +1,7 @@
 module SpreadGrabber
   # Will need to switch from the NBA/MLB once some NFL games are up
-  SPREAD_BASEURL = 'http://xml.pinnaclesports.com/pinnacleFeed.aspx?sportType=Football&sportsubtype=NFL'
+  # Use NFL instead of NFLPreseason for regular season
+  SPREAD_BASEURL = 'http://xml.pinnaclesports.com/pinnacleFeed.aspx?sportType=Football&sportsubtype=NFLPreseason'
 
   # Get current spreads
   # Sometimes this is returning a 500 error, if it does... run it again
@@ -65,8 +66,8 @@ module SpreadGrabber
     home_team = {draw: 'Home', name: "#{game[:home]}"}
     visit_team = {draw: 'Visiting', name: "#{game[:visit]}"}
     found_spreads = spreads.select { |x| Time.parse(x[:time].to_s) == Time.parse(game[:time].to_s) &&
-        x[:teams].grep(home_team) &&
-        x[:teams].grep(visit_team) }
+        x[:teams][1][:name].grep(/#{home_team[:name]}/).count > 0 &&
+        x[:teams][0][:name].grep(/#{visit_team[:name]}/).count > 0 }
     return found_spreads.first[:spread] if found_spreads.count > 0
   end
 end

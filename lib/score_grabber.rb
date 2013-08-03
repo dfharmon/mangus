@@ -1,6 +1,7 @@
 require 'open-uri'
 module ScoreGrabber
-  BASEURL2 = "http://scores.nbcsports.msnbc.com/fb/scoreboard.asp?seasontype=reg&week="
+  # use reg in regular season
+  BASEURL2 = "http://scores.nbcsports.msnbc.com/fb/scoreboard.asp?seasontype=pre&week="
 
   def self.games_in_week(week = 1)
     games = []
@@ -23,8 +24,8 @@ module ScoreGrabber
           # TODO: Put the search to get the game score here....
           games << {
               time: Time.parse("#{day} #{time}").utc,
-              home: home,
-              visit: visit
+              home: home.gsub('NY', 'New York'),
+              visit: visit.gsub('NY', 'New York')
           }
         end
       end
