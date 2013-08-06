@@ -19,13 +19,22 @@ module ScoreGrabber
       if lookup_game.count > 0
         lookup_game.each do |g|
           time = g.search("td//[@class='shsTimezone shsMTZone']").inner_html
+          time = (time.present?) ? Time.parse("#{day} #{time}").utc : 'Final'
           visit = g.search("a//[@href]").first.inner_html
-          home = g.search("a//[@href]").last.inner_html
+          home = g.search("a//[@href]")[1].inner_html
+
+          scores = g.search("td//[@class='shsTotD']")
+          if scores.count > 0
+            visit_score = scores[9].inner_html
+            home_score = scores[14].inner_html
+          end
           # TODO: Put the search to get the game score here....
           games << {
-              time: Time.parse("#{day} #{time}").utc,
+              time: time,
               home: home.gsub('NY', 'New York'),
-              visit: visit.gsub('NY', 'New York')
+              home_score: home_score,
+              visit: visit.gsub('NY', 'New York'),
+              visit_score: visit_score
           }
         end
       end
