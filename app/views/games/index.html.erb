@@ -1,0 +1,31 @@
+<h1></h1>
+
+
+<% @games.each do |game| %>
+    <% next if game[:home] == "New York Giants" or game[:home] == "New York Jets" or game[:visit] == "New York Giants" or game[:visit] == "New York Jets" %>
+    <% home = Team.find_by_location(game[:home]) %>
+    <% visit = Team.find_by_location(game[:visit]) %>
+    <div id="game_time"><%= game[:time].getlocal.strftime("%A %m/%d/%Y %I:%M%p") %></div>
+    <table id="game">
+      <tbody>
+      <tr>
+        <td class="team_icons"><%= image_tag "icons/#{home.mascot.downcase}.jpg" %></td>
+        <td class="team_name"><%= "@#{home.location} #{home.mascot}" %></td>
+        <td class="spread"></td>
+        <td class="winner"><%= radio_button_tag(:winner, "child") %></td>
+        <td class="bet"><%= select_tag(:bet, options_for_select([['$1.00', 1], ['$2.00', 2]]) )%></td>
+        <td class="spacer"></td>
+      </tr>
+      <tr>
+        <td class="team_icons"><%= image_tag "icons/#{visit.mascot.downcase}.jpg" %></td>
+        <td class="team_name"><%= "#{visit.location} #{visit.mascot}" %></td>
+        <td class="spread"></td>
+        <td class="winner"><%= radio_button_tag(:winner, "adult") %></td>
+        <td class="bet"></td>
+        <td class="spacer"></td>
+      </tr>
+
+
+      </tbody>
+    </table>
+<% end %>

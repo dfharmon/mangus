@@ -1,0 +1,58 @@
+// Place all the styles related to the games controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#game {
+  border: 2px solid darkgray;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  margin-top:5px;
+  width: 760px;
+}
+
+tr {
+}
+
+td, thead {
+  padding-top:10px;
+}
+
+#game_time {
+  font-weight: bold;
+  text-transform: lowercase;
+  margin-top: 30px;
+}
+
+.team_icons img {
+  width: 50px;
+  height: 39px;
+}
+
+.team_icons {
+ padding-right:20px;
+}
+
+.team_name {
+  vertical-align: middle;
+  width:200px;
+}
+
+.spread {
+  vertical-align: middle;
+  width: 40px;
+}
+
+.winner {
+  vertical-align: middle;
+  width: 200px;
+}
+
+.bet {
+  vertical-align: bottom;
+  position:relative;
+  top:15px;
+  width: 200px;
+}
+
+.spacer {
+}
