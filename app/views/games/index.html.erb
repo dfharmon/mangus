@@ -12,7 +12,7 @@
         <td class="team_icons"><%= image_tag "icons/#{home.mascot.downcase}.jpg" %></td>
         <td class="team_name"><%= "@#{home.location} #{home.mascot}" %></td>
         <td class="spread"></td>
-        <td class="winner"><%= radio_button_tag(:winner, "child") %></td>
+        <td class="winner"><%= radio_button_tag(:winner, "#{home}") %></td>
         <td class="bet"><%= select_tag(:bet, options_for_select([['$1.00', 1], ['$2.00', 2]]) )%></td>
         <td class="spacer"></td>
       </tr>
@@ -20,7 +20,7 @@
         <td class="team_icons"><%= image_tag "icons/#{visit.mascot.downcase}.jpg" %></td>
         <td class="team_name"><%= "#{visit.location} #{visit.mascot}" %></td>
         <td class="spread"></td>
-        <td class="winner"><%= radio_button_tag(:winner, "adult") %></td>
+        <td class="winner"><%= radio_button_tag(:winner, "#{visit}") %></td>
         <td class="bet"></td>
         <td class="spacer"></td>
       </tr>

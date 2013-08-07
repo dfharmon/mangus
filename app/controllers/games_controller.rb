@@ -1,16 +1,5 @@
 class GamesController < ApplicationController
   require "#{Rails.root}/lib/score_grabber.rb"
-  def create
-    @game = Game.new(params[:game])
-
-    respond_to do |format|
-      if @game.save
-        format.html { redirect_to games_url, notice: 'game was successfully created.' }
-      else
-        format.html { render action: "new" }
-      end
-    end
-  end
 
   def show
     @game = Game.find(params[:id])
@@ -22,14 +11,6 @@ class GamesController < ApplicationController
 
   def edit
     @game = Game.find(params[:id])
-  end
-
-  def new
-    @game = Game.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-    end
   end
   
   def update
