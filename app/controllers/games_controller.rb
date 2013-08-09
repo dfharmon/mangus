@@ -27,7 +27,8 @@ class GamesController < ApplicationController
   end
 
   def index
-    @games = ScoreGrabber.games_in_week(2)
+    week = params[:week].nil? ? 1 : params[:week]
+    @games = Game.where(week: week)
 
     respond_to do |format|
       format.html # index.html.erb

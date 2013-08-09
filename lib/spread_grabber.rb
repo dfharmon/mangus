@@ -48,26 +48,4 @@ module SpreadGrabber
     end
     spreads
   end
-
-  # NOTE: This function may not stay here, this is just for testing.  Currently its going to use a game hash from
-  # the score grabber.  This will most likely need to be swapped out when we have real game and team models.
-  #
-  # If the game is found and the spread if found it will return the home based spread
-  # If the game is found but the spread is not yet listed it will be "OFF"
-  # If the game is not found it will be nil
-  #
-  # Example
-  #
-  # games = ScoreGrabber.games_in_week(1)
-  # spreads = SpreadGrabber.current_spreads
-  # SpreadGrabber.find_game_spread(spreads, games.first)
-  # => "OFF"
-  def self.find_game_spread(spreads, game)
-    home_team = {draw: 'Home', name: "#{game[:home]}"}
-    visit_team = {draw: 'Visiting', name: "#{game[:visit]}"}
-    found_spreads = spreads.select { |x| Time.parse(x[:time].to_s) == Time.parse(game[:time].to_s) &&
-        x[:teams][1][:name].grep(/#{home_team[:name]}/).count > 0 &&
-        x[:teams][0][:name].grep(/#{visit_team[:name]}/).count > 0 }
-    return found_spreads.first[:spread] if found_spreads.count > 0
-  end
 end

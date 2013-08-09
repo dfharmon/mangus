@@ -19,7 +19,7 @@ module ScoreGrabber
       if lookup_game.count > 0
         lookup_game.each do |g|
           time = g.search("td//[@class='shsTimezone shsMTZone']").inner_html
-          time = (time.present?) ? Time.parse("#{day} #{time}").utc : 'Final'
+          time = (time.present?) ? Time.parse("#{day} #{time}").utc : g.search("td//[@class='shsNamD']").first.inner_html
           visit = g.search("a//[@href]").first.inner_html
           home = g.search("a//[@href]")[1].inner_html
 

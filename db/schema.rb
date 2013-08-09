@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(:version => 20130807142652) do
     t.string   "away_team_id"
     t.integer  "away_score"
     t.datetime "start_date"
+    t.integer  "week"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
   end

@@ -1,26 +1,27 @@
 <h1></h1>
+Week |
+<% (1..5).each do |week| %>
+<a href="?week=<%= week %>"><%= week %></a> |
+<% end %>
 
 
 <% @games.each do |game| %>
-    <% next if game[:home] == "New York Giants" or game[:home] == "New York Jets" or game[:visit] == "New York Giants" or game[:visit] == "New York Jets" %>
-    <% home = Team.find_by_location(game[:home]) %>
-    <% visit = Team.find_by_location(game[:visit]) %>
-    <div id="game_time"><%= game[:time].getlocal.strftime("%A %m/%d/%Y %I:%M%p") %></div>
+    <div id="game_time"><%= game.start_date %></div>
     <table id="game">
       <tbody>
       <tr>
-        <td class="team_icons"><%= image_tag "icons/#{home.mascot.downcase}.jpg" %></td>
-        <td class="team_name"><%= "@#{home.location} #{home.mascot}" %></td>
-        <td class="spread"></td>
-        <td class="winner"><%= radio_button_tag(:winner, "#{home}") %></td>
+        <td class="team_icons"><%= image_tag "icons/#{game.home_team.mascot.downcase}.jpg" %></td>
+        <td class="team_name"><%= "@#{game.home_team.location} #{game.home_team.mascot}" %></td>
+        <td class="spread"><%= game.spread %></td>
+        <td class="winner"><%= radio_button_tag(:winner, "#{game.home_team}") %></td>
         <td class="bet"><%= select_tag(:bet, options_for_select([['$1.00', 1], ['$2.00', 2]]) )%></td>
         <td class="spacer"></td>
       </tr>
       <tr>
-        <td class="team_icons"><%= image_tag "icons/#{visit.mascot.downcase}.jpg" %></td>
-        <td class="team_name"><%= "#{visit.location} #{visit.mascot}" %></td>
+        <td class="team_icons"><%= image_tag "icons/#{game.away_team.mascot.downcase}.jpg" %></td>
+        <td class="team_name"><%= "#{game.away_team.location} #{game.away_team.mascot}" %></td>
         <td class="spread"></td>
-        <td class="winner"><%= radio_button_tag(:winner, "#{visit}") %></td>
+        <td class="winner"><%= radio_button_tag(:winner, "#{game.away_team}") %></td>
         <td class="bet"></td>
         <td class="spacer"></td>
       </tr>
