@@ -2,10 +2,12 @@ require 'score_grabber'
 require 'spread_grabber'
 
 class Game < ActiveRecord::Base
-  attr_accessible :favorite_id, :spread, :home_team, :away_team, :start_date, :week
+  attr_accessible :favorite_id, :spread, :home_team, :away_team, :start_date, :week, :winner
 
   belongs_to :home_team, class_name: 'Team'
   belongs_to :away_team, class_name: 'Team'
+
+  has_many :bets
 
   # Run me each day to scan the entire season and see if I can update or create any new info
   def self.scan_games
@@ -63,11 +65,36 @@ class Game < ActiveRecord::Base
     visit_team[:name] = "#{visit_team[:name]} #{self.away_team.mascot}" if visit_team[:name] == 'New York'
 
     begin
-    found_spreads = spreads.select { |x| Time.parse(x[:time].to_s) == Time.parse(self.start_date.to_s) &&
-        x[:teams][1][:name].grep(/#{home_team[:name]}/).count > 0 &&
-        x[:teams][0][:name].grep(/#{visit_team[:name]}/).count > 0 }
+      found_spreads = spreads.select { |x| Time.parse(x[:time].to_s) == Time.parse(self.start_date.to_s) &&
+          x[:teams][1][:name].grep(/#{home_team[:name]}/).count > 0 &&
+          x[:teams][0][:name].grep(/#{visit_team[:name]}/).count > 0 }
     rescue => e
     end
     return found_spreads.first[:spread] if found_spreads and found_spreads.count > 0
+  end
+
+  def winner
+    self.home_score > self.away_score ? self.home_team : self.away_team
+  end
+
+  #def find_pick(user_id)
+  #  bet = find_bet(user_id)
+  #  pick = bet.nil? ? nil : bet.pick_team_id
+  #
+  #  #pick = User.find(user_id).bets.where("game_id=#{self.id}")[0].nil? ? nil : User.find(user_id).bets.where("game_id=#{self.id}")[0].pick_team_id
+  #
+  #  if pick == self.away_team_id.to_i
+  #    return "away"
+  #  elsif pick == self.home_team_id.to_i
+  #    return "home"
+  #  else
+  #    return nil
+  #  end
+  #end
+
+  def find_bet(user_id)
+    bet = User.find(user_id).bets.where("game_id=#{self.id}")[0]
+    return nil if bet.nil?
+    bet
   end
 end

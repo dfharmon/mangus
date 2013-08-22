@@ -1,5 +1,6 @@
 Mangus::Application.routes.draw do
   resources :games
+  post "/place_bets" => "games#place_bets"
 
   devise_for :users
 

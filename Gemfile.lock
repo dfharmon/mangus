@@ -34,6 +34,9 @@ GEM
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
     builder (3.0.4)
+    cells (3.8.8)
+      actionpack (>= 3.0)
+      railties (>= 3.0)
     coderay (1.0.9)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
@@ -138,6 +141,7 @@ PLATFORMS
 
 DEPENDENCIES
   better_errors
+  cells
   coffee-rails (~> 3.2.1)
   devise
   flog

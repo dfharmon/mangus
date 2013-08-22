@@ -2,11 +2,13 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+/* GAME TABLE */
 #game {
   border: 2px solid gray;
   padding-bottom: 10px;
   padding-left: 10px;
   margin-top:5px;
+  margin-bottom:50px;
   width: 760px;
 }
 
@@ -15,6 +17,31 @@ tr {
 
 td, thead {
   padding-top:10px;
+}
+
+#games_header {
+  width:600px;
+  margin-left:180px;
+  position:relative;
+  top:40px;
+}
+#final {
+  color: #1D3767;
+  font-weight: bold;
+  font-size:1.2em;
+  margin-left:133px;
+}
+#bet_header {
+  color: #1D3767;
+  font-weight: bold;
+  font-size:1.2em;
+  margin-left:49px;
+}
+#spread_header {
+  color: #1D3767;
+  font-weight: bold;
+  font-size:1.2em;
+  margin-left:84px;
 }
 
 #game_time {
@@ -34,25 +61,59 @@ td, thead {
 
 .team_name {
   vertical-align: middle;
-  width:200px;
+  width:230px;
+}
+
+.score {
+  vertical-align: middle;
+  width:55px;
+  font-weight:bold;
+  text-align: right;
 }
 
 .spread {
   vertical-align: middle;
-  width: 40px;
+  width: 200px;
+  text-align:right;
+  font-weight:bold;
 }
 
 .winner {
   vertical-align: middle;
-  width: 200px;
+  width: 130px;
+  text-align:right;
+
 }
 
 .bet {
   vertical-align: bottom;
   position:relative;
   top:15px;
-  width: 200px;
+  width: 110px;
+  text-align:right;
 }
 
 .spacer {
 }
+
+#bet_submit {
+  position: fixed;
+  top: 102px;
+  width: 70px;
+  margin: 10px;
+  margin-left:750px;
+  padding: 20px;
+}
+
+.bet_button {
+  height: 100px;
+
+}
+
+#footer {
+}
+
+
+
+
+

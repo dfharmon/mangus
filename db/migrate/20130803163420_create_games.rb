@@ -8,7 +8,6 @@ class CreateGames < ActiveRecord::Migration
       t.string :away_team_id
       t.integer :away_score
       t.datetime :start_date
-      t.integer :week
 
       t.timestamps
     end

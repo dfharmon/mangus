@@ -22,3 +22,17 @@ td, thead {
     text-align: left;
     vertical-align: top;
 }
+
+#content {
+   width: 1080px;
+}
+
+#sidebar {
+    float: left;
+    width: 200px;
+}
+
+#main {
+    float: right;
+    width: 780px;
+}

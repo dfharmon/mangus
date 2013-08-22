@@ -8,7 +8,16 @@
 </head>
 <body>
 
-<%= yield %>
+<div id="container">
+  <div id="header"></div>
+  <div id="content">
+    <div id="sidebar"><%= render_cell :standings, :display %></div>
+    <div id="main"><%= yield %></div>
+  </div>
+</div>
+<div id="footer"></div>
+
 
 </body>
 </html>
+

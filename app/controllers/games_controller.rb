@@ -12,7 +12,7 @@ class GamesController < ApplicationController
   def edit
     @game = Game.find(params[:id])
   end
-  
+
   def update
     @game = Game.find(params[:id])
 
@@ -28,10 +28,22 @@ class GamesController < ApplicationController
 
   def index
     week = params[:week].nil? ? 1 : params[:week]
-    @games = Game.where(week: week)
+    puts week
+    @games = Game.where(week: week.to_i)
+    puts "GAMES #{@games}"
 
     respond_to do |format|
       format.html # index.html.erb
+      format.json { render json: @games }
+    end
+  end
+
+  def place_bets
+    Bet.make_bets(params)
+
+    respond_to do |format|
+      flash[:notice] = "Got 'yer bet cowboy. Good luck!"
+
       format.json { render json: @games }
     end
   end

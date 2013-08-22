@@ -1,32 +1,62 @@
-<h1></h1>
+<p class='notice'><%=h flash[:notice] %></p>
+<% user = User.find(3) %>
+<h1>Hello user <%= user.id %>: Week <%= params[:week] %></h1>
 Week |
 <% (1..5).each do |week| %>
-<a href="?week=<%= week %>"><%= week %></a> |
+    <a href="?week=<%= week %>"><%= week %></a> |
+<% end %>
+
+<!--VALIDATE ALL BETS -->
+<%= form_tag('/place_bets', remote: true) do %>
+    <div id="games_header">
+      <span id="final">FINAL</span>
+      <span id="spread_header">SPREAD</span>
+      <span id="bet_header">BET</span>
+    </div>
+
+    <% @games.each do |game| %>
+        <% closed = game.start_date < Time.now %>
+        <% bet = game.find_bet(user.id) %>
+
+        <div id="game_time"><%= game.start_date.strftime("%B %d, %Y, %I:%M%p") %>
+        </div>
+        <table id="game">
+          <tr><%= game.id %></tr>
+          <tr>
+          </tr>
+          <tr>
+            <td><%= hidden_field_tag :user_id, user.id %></td>
+            <td class="team_icons"><%= image_tag "icons/#{game.home_team.mascot.downcase}.jpg" %><%= game.home_team.id %></td>
+            <td class="team_name"><%= "@#{game.home_team.location} #{game.home_team.mascot}" %></td>
+            <td class="score"><%= game.home_score %></td>
+            <td class="spread"><%= game.spread %></td>
+
+            <!-- If no bet or user didn't pick home team, checked is false -->
+            <% checked = bet.nil? || bet.pick_team != game.home_team ? false : true %>
+            <td class="winner"><%= radio_button_tag("games[#{game.id}][winner]", "#{game.home_team.id}", checked = checked, disabled: closed) %></td>
+            <td class="bet"><%= select_tag("games[#{game.id}][bet]", options_for_select([['$1.00', 1], ['$4.00', 4]], bet.nil? ? 1 : bet.amount), disabled: closed) %>  <span class='score'><%= bet.won ? "W" : "L" unless bet.nil? %></span></td>
+            <td class="spacer"></td>
+          </tr>
+          <tr>
+            <td><%= hidden_field_tag :week, params[:week] %></td>
+            <td class="team_icons"><%= image_tag "icons/#{game.away_team.mascot.downcase}.jpg" %><%= game.away_team.id %></td>
+            <td class="team_name"><%= "#{game.away_team.location} #{game.away_team.mascot}" %></td>
+            <td class="score"><%= game.away_score %></td>
+            <td class="spread"></td>
+
+            <!-- If no bet or user didn't pick away team, checked is false -->
+            <% checked = bet.nil? || bet.pick_team != game.away_team ? false : true %>
+            <td class="winner"><%= radio_button_tag("games[#{game.id}][winner]", "#{game.away_team.id}", checked = checked, disabled: closed) %></td>
+            <td class="bet"></td>
+            <td class="spacer"></td>
+          </tr>
+
+        </table>
+    <% end %>
+    <div id="bet_submit">
+    <%= image_submit_tag("bet_logo.png", class: "bet_button")  %>
+    </div>
 <% end %>
 
 
-<% @games.each do |game| %>
-    <div id="game_time"><%= game.start_date %></div>
-    <table id="game">
-      <tbody>
-      <tr>
-        <td class="team_icons"><%= image_tag "icons/#{game.home_team.mascot.downcase}.jpg" %></td>
-        <td class="team_name"><%= "@#{game.home_team.location} #{game.home_team.mascot}" %></td>
-        <td class="spread"><%= game.spread %></td>
-        <td class="winner"><%= radio_button_tag(:winner, "#{game.home_team}") %></td>
-        <td class="bet"><%= select_tag(:bet, options_for_select([['$1.00', 1], ['$2.00', 2]]) )%></td>
-        <td class="spacer"></td>
-      </tr>
-      <tr>
-        <td class="team_icons"><%= image_tag "icons/#{game.away_team.mascot.downcase}.jpg" %></td>
-        <td class="team_name"><%= "#{game.away_team.location} #{game.away_team.mascot}" %></td>
-        <td class="spread"></td>
-        <td class="winner"><%= radio_button_tag(:winner, "#{game.away_team}") %></td>
-        <td class="bet"></td>
-        <td class="spacer"></td>
-      </tr>
 
-
-      </tbody>
-    </table>
-<% end %>

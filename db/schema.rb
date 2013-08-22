@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130807142652) do
+ActiveRecord::Schema.define(:version => 20130822055441) do
 
   create_table "bets", :force => true do |t|
     t.integer  "game_id"
@@ -31,9 +31,9 @@ ActiveRecord::Schema.define(:version => 20130807142652) do
     t.string   "away_team_id"
     t.integer  "away_score"
     t.datetime "start_date"
-    t.integer  "week"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+    t.integer  "week"
   end
 
   create_table "teams", :force => true do |t|
@@ -57,6 +57,8 @@ ActiveRecord::Schema.define(:version => 20130807142652) do
     t.boolean  "admin",                  :default => false
     t.datetime "created_at",                                :null => false
     t.datetime "updated_at",                                :null => false
+    t.integer  "total_cash",             :default => 0
+    t.string   "name"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
