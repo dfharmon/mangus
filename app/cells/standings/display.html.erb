@@ -1,3 +1,28 @@
+<% @user = User.find(2) %>
+<div id="badge"><%= image_tag "avatars/#{@user.avatar}" %> <span class="top"><%= @user.name %></span></div>
+
+<div id="standings_head">Overall Standings</div>
 <div id="standings">
-  You have <%= @games.size %> in your shopping cart.
+  <table id="users_headings">
+    <tr>
+      <td class="name"></td>
+      <td class="cash">$</td>
+      <td class="percent">W/L %</td>
+      <td class="wins">W</td>
+      <td class="losses">L</td>
+    </tr>
+  </table>
+
+  <table id="users">
+    <% User.all.each do |u| %>
+        <tr>
+          <td class="name"><%= u.name %></td>
+          <td class="cash"><%= number_to_currency(u.total_cash) %></td>
+          <td class="percent"><%= number_with_precision((u.wins / (u.wins + u.losses)), :precision => 3)  %></td>
+          <td class="wins"><%= u.wins %></td>
+          <td class="losses"><%= u.losses %></td>
+        </tr>
+    <% end %>
+  </table>
+
 </div>

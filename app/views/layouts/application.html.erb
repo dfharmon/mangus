@@ -9,7 +9,10 @@
 <body>
 
 <div id="container">
-  <div id="header"></div>
+  <div id="header">
+    <p class='notice'><%=h flash[:notice] %></p>
+    <div id="banner"></div>
+  </div>
   <div id="content">
     <div id="sidebar"><%= render_cell :standings, :display %></div>
     <div id="main"><%= yield %></div>

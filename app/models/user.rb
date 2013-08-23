@@ -8,8 +8,11 @@ class User < ActiveRecord::Base
   has_many :games, through: :bets
 
   devise :database_authenticatable, :rememberable, :trackable, :validatable
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :admin, :total_cash
-  attr_accessor :total_cash
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :admin, :total_cash, :avatar, :name, :wins, :losses
+
+
+
+  validates :name, :email, :presence => :true
 
   # WILL MAKE A JOB THAT CALLS THIS FOR EVERY USER AFTER MONDAY NIGHT GAME
   def tally_week_bets(week)

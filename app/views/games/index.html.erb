@@ -1,6 +1,4 @@
-<p class='notice'><%=h flash[:notice] %></p>
 <% user = User.find(3) %>
-<h1>Hello user <%= user.id %>: Week <%= params[:week] %></h1>
 Week |
 <% (1..5).each do |week| %>
     <a href="?week=<%= week %>"><%= week %></a> |
@@ -21,12 +19,12 @@ Week |
         <div id="game_time"><%= game.start_date.strftime("%B %d, %Y, %I:%M%p") %>
         </div>
         <table id="game">
-          <tr><%= game.id %></tr>
+          <!--<tr><%= game.id %></tr>-->
           <tr>
           </tr>
           <tr>
             <td><%= hidden_field_tag :user_id, user.id %></td>
-            <td class="team_icons"><%= image_tag "icons/#{game.home_team.mascot.downcase}.jpg" %><%= game.home_team.id %></td>
+            <td class="team_icons"><%= image_tag "icons/#{game.home_team.mascot.downcase}.jpg" %><!--<%= game.home_team.id %>--></td>
             <td class="team_name"><%= "@#{game.home_team.location} #{game.home_team.mascot}" %></td>
             <td class="score"><%= game.home_score %></td>
             <td class="spread"><%= game.spread %></td>
@@ -39,7 +37,7 @@ Week |
           </tr>
           <tr>
             <td><%= hidden_field_tag :week, params[:week] %></td>
-            <td class="team_icons"><%= image_tag "icons/#{game.away_team.mascot.downcase}.jpg" %><%= game.away_team.id %></td>
+            <td class="team_icons"><%= image_tag "icons/#{game.away_team.mascot.downcase}.jpg" %><!--<%= game.away_team.id %>--></td>
             <td class="team_name"><%= "#{game.away_team.location} #{game.away_team.mascot}" %></td>
             <td class="score"><%= game.away_score %></td>
             <td class="spread"></td>

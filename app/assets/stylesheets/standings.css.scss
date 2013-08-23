@@ -1,0 +1,63 @@
+// USER BADGE
+#badge img {
+  width: 70px;
+  height: 70px;
+  margin-bottom: 16px;
+}
+#badge .top {
+  font-weight: 800;
+  font-size: 1.3em;
+}
+
+
+// STANDINGS
+#standings {
+  background-color: #222222;
+  color: white;
+  width: 390px;
+  margin-top: 9px;
+  padding: 5px 0 10px 0;
+}
+#users_headings td {
+  font-weight: bold;
+  text-align: center;
+  padding-left: 10px;
+
+}
+
+
+#users {
+  border-spacing:0;
+  margin-top: 5px;
+
+}
+#users td {
+  padding-left: 10px;
+  padding-bottom: 7px;
+  text-align: left;
+
+
+}
+#users tr:nth-child(odd) {
+  background-color:#2D2D2D;
+
+  //background-color:#282828;
+}
+.name {
+  width: 200px;
+}
+.wins, .losses {
+  width: 50px;
+}
+
+.percent {
+  width: 70px;
+}
+
+.cash {
+  width: 80px;
+  text-align: left;
+
+}
+
+

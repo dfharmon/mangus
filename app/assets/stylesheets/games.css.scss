@@ -4,7 +4,7 @@
 
 /* GAME TABLE */
 #game {
-  border: 2px solid gray;
+  border: 2px solid #333333;
   padding-bottom: 10px;
   padding-left: 10px;
   margin-top:5px;
@@ -17,6 +17,12 @@ tr {
 
 td, thead {
   padding-top:10px;
+}
+
+td, thead {
+  padding-right: 20px;
+  text-align: left;
+  vertical-align: top;
 }
 
 #games_header {
@@ -98,7 +104,7 @@ td, thead {
 
 #bet_submit {
   position: fixed;
-  top: 102px;
+  top: 240px;
   width: 70px;
   margin: 10px;
   margin-left:750px;

@@ -1,7 +1,7 @@
 class StandingsCell < Cell::Rails
 
   def display
-    @games = Game.all
+    @users = User.all
 
     render
   end
