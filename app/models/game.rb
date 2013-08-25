@@ -92,7 +92,7 @@ class Game < ActiveRecord::Base
   #  end
   #end
 
-  def find_bet(user_id)
+  def get_bet(user_id)
     bet = User.find(user_id).bets.where("game_id=#{self.id}")[0]
     return nil if bet.nil?
     bet

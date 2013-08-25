@@ -2,27 +2,58 @@
 <div id="badge"><%= image_tag "avatars/#{@user.avatar}" %> <span class="top"><%= @user.name %></span></div>
 
 <div id="standings_head">Overall Standings</div>
-<div id="standings">
-  <table id="users_headings">
-    <tr>
+<div class="standings">
+  <table class="standings_table">
+    <tr class="standings_header">
       <td class="name"></td>
-      <td class="cash">$</td>
+      <td class="cash_head">$</td>
       <td class="percent">W/L %</td>
       <td class="wins">W</td>
       <td class="losses">L</td>
     </tr>
-  </table>
 
-  <table id="users">
     <% User.all.each do |u| %>
-        <tr>
+        <tr class="users">
           <td class="name"><%= u.name %></td>
           <td class="cash"><%= number_to_currency(u.total_cash) %></td>
-          <td class="percent"><%= number_with_precision((u.wins / (u.wins + u.losses)), :precision => 3)  %></td>
+          <% wl =  (number_with_precision((u.wins.to_f / (u.wins.to_f + u.losses.to_f)), :precision => 3)).gsub('0.', '.')%>
+          <td class="percent"><%= u.wins.to_f + u.losses.to_f == 0 ? "" : wl %></td>
           <td class="wins"><%= u.wins %></td>
           <td class="losses"><%= u.losses %></td>
         </tr>
     <% end %>
   </table>
+</div>
 
+<div id="by_the_week">By the Week</div>
+<div>
+  <% week_count = Game.last.week %>
+  <% while week_count > 0 %>
+    <% weekly_standings = Standings.where(week = week).order("total_cash DESC") %>
+
+    <div class="standings">
+      <table class="standings_table">
+        <th id="week_count">Week <%= week_count %></th>
+        <tr class="standings_header">
+          <td class="name"></td>
+          <td class="cash_head">$</td>
+          <td class="percent">W/L %</td>
+          <td class="wins">W</td>
+          <td class="losses">L</td>
+        </tr>
+
+        <% User.all.each do |u| %>
+            <tr class="users">
+              <td class="name"><%= u.name %></td>
+              <td class="cash"><%= number_to_currency(u.total_cash) %></td>
+              <% wl =  (number_with_precision((u.wins.to_f / (u.wins.to_f + u.losses.to_f)), :precision => 3)).gsub('0.', '.')%>
+              <td class="percent"><%= u.wins.to_f + u.losses.to_f == 0 ? "" : wl %></td>
+              <td class="wins"><%= u.wins %></td>
+              <td class="losses"><%= u.losses %></td>
+            </tr>
+        <% end %>
+      </table>
+    </div>
+    <% week_count -= 1 %>
+  <% end %>
 </div>

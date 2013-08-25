@@ -2,7 +2,7 @@ class Bet < ActiveRecord::Base
   validates :game_id, :uniqueness => {:scope => :user_id}
   validates :amount, :pick_team_id, :game_id, :user_id, presence: true
 
-  attr_accessible :won
+  attr_accessible :won, :counted
 
   belongs_to :user
   belongs_to :game
@@ -40,5 +40,6 @@ class Bet < ActiveRecord::Base
   def pick_team
      Team.find(self.pick_team_id).nil? ? nil : Team.find(self.pick_team_id)
   end
+
 
 end

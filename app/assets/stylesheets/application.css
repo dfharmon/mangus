@@ -25,19 +25,20 @@ body {
 }
 
 #content {
-   width: 1180px;
+   width: 1183px;
    padding: 10px;
 }
 
 #sidebar {
     float: left;
-    width: 400px;
+    width: 410px;
     margin-top: -30px;
+    margin-right:3px;
 }
 
 #main {
     float: right;
-    width: 780px;
+    width: 770px;
 }
 
 #header {

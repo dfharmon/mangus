@@ -1,4 +1,4 @@
-<% user = User.find(3) %>
+<% user = User.find(1) %>
 Week |
 <% (1..5).each do |week| %>
     <a href="?week=<%= week %>"><%= week %></a> |
@@ -14,7 +14,7 @@ Week |
 
     <% @games.each do |game| %>
         <% closed = game.start_date < Time.now %>
-        <% bet = game.find_bet(user.id) %>
+        <% bet = game.get_bet(user.id) %>
 
         <div id="game_time"><%= game.start_date.strftime("%B %d, %Y, %I:%M%p") %>
         </div>
@@ -32,7 +32,7 @@ Week |
             <!-- If no bet or user didn't pick home team, checked is false -->
             <% checked = bet.nil? || bet.pick_team != game.home_team ? false : true %>
             <td class="winner"><%= radio_button_tag("games[#{game.id}][winner]", "#{game.home_team.id}", checked = checked, disabled: closed) %></td>
-            <td class="bet"><%= select_tag("games[#{game.id}][bet]", options_for_select([['$1.00', 1], ['$4.00', 4]], bet.nil? ? 1 : bet.amount), disabled: closed) %>  <span class='score'><%= bet.won ? "W" : "L" unless bet.nil? %></span></td>
+            <td class="bet"><%= select_tag("games[#{game.id}][bet]", options_for_select([['$1.00', 1], ['$4.00', 4]], bet.nil? ? 1 : bet.amount), disabled: closed) %>  <span class='score'><%= bet.won ? "W" : "L" unless bet.nil? or !bet.counted %></span></td>
             <td class="spacer"></td>
           </tr>
           <tr>

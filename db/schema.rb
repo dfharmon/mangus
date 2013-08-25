@@ -11,16 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130823023608) do
+ActiveRecord::Schema.define(:version => 20130825212956) do
 
   create_table "bets", :force => true do |t|
     t.integer  "game_id"
     t.integer  "user_id"
     t.integer  "amount"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
     t.boolean  "won"
     t.integer  "pick_team_id"
+    t.boolean  "counted",      :default => false
   end
 
   create_table "games", :force => true do |t|
@@ -34,6 +35,16 @@ ActiveRecord::Schema.define(:version => 20130823023608) do
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
     t.integer  "week"
+  end
+
+  create_table "standings", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "week"
+    t.integer  "wins"
+    t.integer  "losses"
+    t.integer  "total_cash"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "teams", :force => true do |t|

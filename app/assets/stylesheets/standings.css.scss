@@ -1,9 +1,14 @@
+td {
+  padding-left: 0;
+}
+
 // USER BADGE
 #badge img {
   width: 70px;
   height: 70px;
   margin-bottom: 16px;
 }
+
 #badge .top {
   font-weight: 800;
   font-size: 1.3em;
@@ -11,53 +16,69 @@
 
 
 // STANDINGS
-#standings {
+.standings {
   background-color: #222222;
   color: white;
-  width: 390px;
+  width: 400px;
   margin-top: 9px;
   padding: 5px 0 10px 0;
-}
-#users_headings td {
-  font-weight: bold;
-  text-align: center;
-  padding-left: 10px;
-
+  margin-bottom: 20px;
 }
 
-
-#users {
-  border-spacing:0;
+.standings_table {
+  border-spacing: 0;
   margin-top: 5px;
-
+  padding-bottom: 15px;
 }
-#users td {
-  padding-left: 10px;
-  padding-bottom: 7px;
-  text-align: left;
 
-
-}
-#users tr:nth-child(odd) {
-  background-color:#2D2D2D;
-
+.standings_table tr:nth-child(odd)  {
+  background-color: #2D2D2D;
   //background-color:#282828;
+}
+.standings_table tr.standings_header,  {
+  background-color: #222222;
+}
+.standings_header td {
+  padding-bottom: 5px;
+  padding-top: 3px;
+}
+.users {
+  padding-bottom: 20px;
 }
 .name {
   width: 200px;
+  padding-left: 10px;
+  padding-right: 0px;
+  text-align: left;
 }
-.wins, .losses {
-  width: 50px;
+.cash_head, .cash {
+  width: 100px;
+  text-align: right;
+  padding-right: 15px;
 }
-
 .percent {
   width: 70px;
 }
+.wins, .losses {
+  width: 45px;
+}
+.wins, .losses, .percent {
+  text-align: right;
+  padding-right: 10px;
+}
 
-.cash {
-  width: 80px;
-  text-align: left;
 
+
+// BY THE WEEK
+#by_the_week {
+  width: 400px;
+  margin-top: 50px;
+}
+#week_count {
+  text-align:left;
+  background-color: #222222;
+  padding-left:10px;
+  padding-top:5px;
 }
 
 
