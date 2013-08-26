@@ -61,8 +61,6 @@ class Game < ActiveRecord::Base
     rescue => e
       pp e
     end
-    pp found_spreads
-    binding.pry
     return found_spreads.first[:spread] if found_spreads and found_spreads.count > 0
   end
 
