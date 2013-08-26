@@ -1,10 +1,12 @@
+<!-- TODO CHANGE THIS TO DYNAMIC USER -->
 <% user = User.find(1) %>
+<% week = Game.last.week %>
 Week |
-<% (1..5).each do |week| %>
+<% while week > 0 %>
     <a href="?week=<%= week %>"><%= week %></a> |
+    <% week -= 1 %>
 <% end %>
 
-<!--VALIDATE ALL BETS -->
 <%= form_tag('/place_bets', remote: true) do %>
     <div id="games_header">
       <span id="final">FINAL</span>

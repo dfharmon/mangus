@@ -20,7 +20,7 @@ td, thead {
 }
 
 td, thead {
-  padding-right: 20px;
+  //padding-right: 20px;
   text-align: left;
   vertical-align: top;
 }
@@ -35,24 +35,23 @@ td, thead {
   color: #1D3767;
   font-weight: bold;
   font-size:1.2em;
-  margin-left:133px;
+  margin-left:136px;
 }
 #bet_header {
   color: #1D3767;
   font-weight: bold;
   font-size:1.2em;
-  margin-left:49px;
+  margin-left:59px;
 }
 #spread_header {
   color: #1D3767;
   font-weight: bold;
   font-size:1.2em;
-  margin-left:84px;
+  margin-left:88px;
 }
 
 #game_time {
   font-weight: bold;
-  text-transform: lowercase;
   margin-top: 30px;
 }
 
@@ -62,7 +61,7 @@ td, thead {
 }
 
 .team_icons {
- padding-right:20px;
+  padding-right:20px;
 }
 
 .team_name {
@@ -79,7 +78,7 @@ td, thead {
 
 .spread {
   vertical-align: middle;
-  width: 200px;
+  width: 170px;
   text-align:right;
   font-weight:bold;
 }
@@ -100,11 +99,12 @@ td, thead {
 }
 
 .spacer {
+  width: 40px;
 }
 
 #bet_submit {
   position: fixed;
-  top: 240px;
+  top: 205px;
   width: 70px;
   margin: 10px;
   margin-left:750px;
@@ -113,7 +113,6 @@ td, thead {
 
 .bet_button {
   height: 100px;
-
 }
 
 #footer {

@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
     cash = 0
 
     games.each do |g|
-      puts g.id
+      # TODO CHANGE THIS to dynamic user!!!!!!
       user_bet = g.bets.where(user_id: 1)
 
       # TODO DUSTY WHY DOESNT THIS WORK??????

@@ -10,8 +10,8 @@
 
 <div id="container">
   <div id="header">
-    <p class='notice'><%=h flash[:notice] %></p>
     <div id="banner"></div>
+    <div id="title"><%= image_tag "title.png" %></div>
   </div>
   <div id="content">
     <div id="sidebar"><%= render_cell :standings, :display %></div>

@@ -30,6 +30,9 @@ td {
   margin-top: 5px;
   padding-bottom: 15px;
 }
+.standings_table td {
+  padding-bottom: 5px;
+}
 
 .standings_table tr:nth-child(odd)  {
   background-color: #2D2D2D;
@@ -56,6 +59,11 @@ td {
   text-align: right;
   padding-right: 15px;
 }
+.cash_plus, .cash_minus {
+  width: 100px;
+  text-align: right;
+  padding-right: 15px;
+}
 .percent {
   width: 70px;
 }
@@ -72,7 +80,7 @@ td {
 // BY THE WEEK
 #by_the_week {
   width: 400px;
-  margin-top: 50px;
+  margin-top: 76px;
 }
 #week_count {
   text-align:left;

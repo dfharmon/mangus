@@ -42,7 +42,7 @@ class GamesController < ApplicationController
     Bet.make_bets(params)
 
     respond_to do |format|
-      flash[:notice] = "Got 'yer bet cowboy. Good luck!"
+      flash[:notice] = "Nice bets. Good luck!"
 
       format.json { render json: @games }
     end

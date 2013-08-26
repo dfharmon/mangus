@@ -15,7 +15,8 @@
     <% User.all.each do |u| %>
         <tr class="users">
           <td class="name"><%= u.name %></td>
-          <td class="cash"><%= number_to_currency(u.total_cash) %></td>
+          <% class_name = u.total_cash >= 0 ? "cash_plus" : "cash_minus" %>
+          <td class="<%= class_name %>"><%= number_to_currency(u.total_cash) %></td>
           <% wl =  (number_with_precision((u.wins.to_f / (u.wins.to_f + u.losses.to_f)), :precision => 3)).gsub('0.', '.')%>
           <td class="percent"><%= u.wins.to_f + u.losses.to_f == 0 ? "" : wl %></td>
           <td class="wins"><%= u.wins %></td>
@@ -45,7 +46,8 @@
         <% User.all.each do |u| %>
             <tr class="users">
               <td class="name"><%= u.name %></td>
-              <td class="cash"><%= number_to_currency(u.total_cash) %></td>
+              <% class_name = u.total_cash >= 0 ? "cash_plus" : "cash_minus" %>
+              <td class="<%= class_name %>"><%= number_to_currency(u.total_cash) %></td>
               <% wl =  (number_with_precision((u.wins.to_f / (u.wins.to_f + u.losses.to_f)), :precision => 3)).gsub('0.', '.')%>
               <td class="percent"><%= u.wins.to_f + u.losses.to_f == 0 ? "" : wl %></td>
               <td class="wins"><%= u.wins %></td>
