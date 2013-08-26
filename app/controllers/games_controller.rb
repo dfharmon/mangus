@@ -39,7 +39,7 @@ class GamesController < ApplicationController
   end
 
   def place_bets
-    Bet.make_bets(params)
+    Bet.make_bets(params, current_user)
 
     respond_to do |format|
       flash[:notice] = "Got 'yer bet cowboy. Good luck!"

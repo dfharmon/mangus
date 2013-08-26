@@ -33,8 +33,8 @@ class Game < ActiveRecord::Base
             found_game = Game.create(week: week, home_team: home_team, away_team: away_team)
           end
 
-          #TODO - Get the spread here
           found_game.start_date = game[:time] if game[:time].is_a?(Time)
+          found_game.final = true if game[:time] == 'Final'
           found_game.home_score = game[:home_score] unless game[:home_score].nil?
           found_game.away_score = game[:visit_score] unless game[:visit_score].nil?
           found_game.spread = found_game.find_game_spread(spreads)
@@ -44,19 +44,9 @@ class Game < ActiveRecord::Base
     end
   end
 
-  # NOTE: This function may not stay here, this is just for testing.  Currently its going to use a game hash from
-  # the score grabber.  This will most likely need to be swapped out when we have real game and team models.
-  #
   # If the game is found and the spread if found it will return the home based spread
   # If the game is found but the spread is not yet listed it will be "OFF"
   # If the game is not found it will be nil
-  #
-  # Example
-  #
-  # games = ScoreGrabber.games_in_week(1)
-  # spreads = SpreadGrabber.current_spreads
-  # SpreadGrabber.find_game_spread(spreads, games.first)
-  # => "OFF"
   def find_game_spread(spreads)
     home_team = {draw: 'Home', name: self.home_team.location}
     home_team[:name] = "#{home_team[:name]} #{self.home_team.mascot}" if home_team[:name] == 'New York'
@@ -69,7 +59,10 @@ class Game < ActiveRecord::Base
           x[:teams][1][:name].grep(/#{home_team[:name]}/).count > 0 &&
           x[:teams][0][:name].grep(/#{visit_team[:name]}/).count > 0 }
     rescue => e
+      pp e
     end
+    pp found_spreads
+    binding.pry
     return found_spreads.first[:spread] if found_spreads and found_spreads.count > 0
   end
 
