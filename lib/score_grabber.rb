@@ -28,7 +28,6 @@ module ScoreGrabber
             visit_score = scores[9].inner_html
             home_score = scores[14].inner_html
           end
-          # TODO: Put the search to get the game score here....
           games << {
               time: time,
               home: home.gsub('NY', 'New York'),

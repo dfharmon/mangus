@@ -6,18 +6,18 @@ class Bet < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :game
+  belongs_to :pick_team, class_name: Team
 
-  def self.make_bets(params)
-    user = User.find(params[:user_id])
+  def self.make_bets(params, current_user)
     week = params[:week]
 
     games = params[:games]
     games.each do |game_id, bets|
       next if bets["winner"].nil?
-      user_bet = Bet.find_by_game_id_and_user_id(game_id, user.id)
+      user_bet = Bet.find_by_game_id_and_user_id(game_id, current_user.id)
       user_bet = Bet.new if user_bet.nil?
 
-      user_bet.user_id = user.id
+      user_bet.user_id = current_user.id
       user_bet.game_id = game_id
 
       bets.each do |key, value|
@@ -37,9 +37,11 @@ class Bet < ActiveRecord::Base
 
   end
 
-  def pick_team
-     Team.find(self.pick_team_id).nil? ? nil : Team.find(self.pick_team_id)
+  #def pick_team
+  #   Team.find(self.pick_team_id).nil? ? nil : Team.find(self.pick_team_id)
+  #end
+
+  def correct
+    self.game.winner == self.pick_team
   end
-
-
 end

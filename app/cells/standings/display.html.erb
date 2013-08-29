@@ -1,5 +1,5 @@
 <% @user = User.find(2) %>
-<div id="badge"><%= image_tag "avatars/#{@user.avatar}" %> <span class="top"><%= @user.name %></span></div>
+<div id="badge"><%= image_tag "avatars/#{@user.avatar}" if @user.avatar%> <span class="top"><%= @user.name %></span></div>
 
 <div id="standings_head">Overall Standings</div>
 <div class="standings">
@@ -12,15 +12,16 @@
       <td class="losses">L</td>
     </tr>
 
-    <% User.all.each do |u| %>
+    <% User.all.each do |u|
+      cash, wins, loss = u.get_results
+    %>
         <tr class="users">
-          <td class="name"><%= u.name %></td>
-          <% class_name = u.total_cash >= 0 ? "cash_plus" : "cash_minus" %>
-          <td class="<%= class_name %>"><%= number_to_currency(u.total_cash) %></td>
-          <% wl =  (number_with_precision((u.wins.to_f / (u.wins.to_f + u.losses.to_f)), :precision => 3)).gsub('0.', '.')%>
-          <td class="percent"><%= u.wins.to_f + u.losses.to_f == 0 ? "" : wl %></td>
-          <td class="wins"><%= u.wins %></td>
-          <td class="losses"><%= u.losses %></td>
+          <td class="name"><%= (u.name) ? u.name : u.email %></td>
+          <td class="cash"><%= cash %></td>
+          <% wl =  (number_with_precision((wins.to_f / (wins.to_f + loss.to_f)), :precision => 3)).gsub('0.', '.')%>
+          <td class="percent"><%= wins.to_f + loss.to_f == 0 ? "" : wl %></td>
+          <td class="wins"><%= wins %></td>
+          <td class="losses"><%= loss %></td>
         </tr>
     <% end %>
   </table>
@@ -28,9 +29,9 @@
 
 <div id="by_the_week">By the Week</div>
 <div>
-  <% week_count = Game.last.week %>
-  <% while week_count > 0 %>
-    <% weekly_standings = Standings.where(week = week).order("total_cash DESC") %>
+  <% week_count = Game.pluck(:week).sort.uniq.last
+     while week_count > 0
+  %>
 
     <div class="standings">
       <table class="standings_table">
@@ -43,15 +44,15 @@
           <td class="losses">L</td>
         </tr>
 
-        <% User.all.each do |u| %>
+        <% User.all.each do |u|
+          cash, wins, loss = u.get_results(week_count) %>
             <tr class="users">
-              <td class="name"><%= u.name %></td>
-              <% class_name = u.total_cash >= 0 ? "cash_plus" : "cash_minus" %>
-              <td class="<%= class_name %>"><%= number_to_currency(u.total_cash) %></td>
-              <% wl =  (number_with_precision((u.wins.to_f / (u.wins.to_f + u.losses.to_f)), :precision => 3)).gsub('0.', '.')%>
-              <td class="percent"><%= u.wins.to_f + u.losses.to_f == 0 ? "" : wl %></td>
-              <td class="wins"><%= u.wins %></td>
-              <td class="losses"><%= u.losses %></td>
+              <td class="name"><%= (u.name) ? u.name : u.email %></td>
+              <td class="cash"><%= cash %></td>
+              <% wl =  (number_with_precision((wins.to_f / (wins.to_f + loss.to_f)), :precision => 3)).gsub('0.', '.')%>
+              <td class="percent"><%= wins.to_f + loss.to_f == 0 ? "" : wl %></td>
+              <td class="wins"><%= wins %></td>
+              <td class="losses"><%= loss %></td>
             </tr>
         <% end %>
       </table>
