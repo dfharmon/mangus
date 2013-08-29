@@ -63,19 +63,27 @@ class User < ActiveRecord::Base
 
   # Tallys results for a week (or for all time if a week is not specified)
   def get_results(week = nil)
-    games = Game.where(final: true)
-    games = games.where(week: week) unless week.nil?
-
     winnings = 0.00
     wins = 0
     loss = 0
+
+    games = Game.where(final: true)
+    games = games.where(week: week) unless week.nil?
+
+    # User must have 2 large bets per week, get starting number of large bets per week
+    largebets = {}
+    weeks = (week.nil?) ? Game.pluck(:week).sort.uniq : [week]
+    weeks.each do |w|
+      largebets[w] = self.bets.joins(:game).where(amount: 4.00, games: {week: w}).count
+    end
 
     games.each do |g|
       user_bet = g.bets.where(user_id: self.id)
       raise "There is more than one bet for User id=#{self.id} on game #{g.id}" if user_bet.count > 1
       if user_bet.empty? or user_bet.first.pick_team_id.nil? or g.winner != user_bet.first.pick_team
-        #TODO: If user doesn't bet what do we do?  This logic causes an unbetted game to be a dollar loss
-        winnings -= (user_bet.empty?) ? 1.00 : user_bet.first.amount
+        adj = (largebets[g.week] < 2) ? 4.00 : 1.00
+        largebets[g.week] += 1
+        winnings -= (user_bet.empty?) ? adj : user_bet.first.amount
         loss += 1
       else
         winnings += user_bet.first.amount
