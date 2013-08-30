@@ -1,5 +1,6 @@
-<% @user = User.find(2) %>
-<div id="badge"><%= image_tag "avatars/#{@user.avatar}" if @user.avatar%> <span class="top"><%= @user.name %></span></div>
+<% user = current_user %>
+<% image_url = user.avatar ? user.avatar : 'avatars/default.gif' %>
+<div id="badge"><%= image_tag image_url%> <span class="top"><%= user.name %></span></div>
 
 <div id="standings_head">Overall Standings</div>
 <div class="standings">

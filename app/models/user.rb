@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   has_many :games, through: :bets
 
   devise :database_authenticatable, :rememberable, :trackable, :validatable, :registerable
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :admin, :total_cash
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :admin, :total_cash, :name
   attr_accessor :total_cash
 
 
