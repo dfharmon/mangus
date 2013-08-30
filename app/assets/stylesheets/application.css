@@ -46,8 +46,6 @@ body {
     float: right;
     width: 770px;
     margin-bottom: 124px;
-
-
 }
 
 #header {
@@ -109,6 +107,10 @@ body {
     font-weight: bold;
 }
 
+.bold {
+    font-size: 1.1em;
+    font-weight: bold;
+}
 .clear {
     clear: both;
 }
