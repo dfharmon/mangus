@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Mangus</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= stylesheet_link_tag "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
@@ -10,11 +10,14 @@
 
 <div id="container">
   <div id="header">
-    <div id="banner"><span id="week_label">WEEK <%= params[:week] %></span></div>
+    <% if user_signed_in? %>
+        <div id="login"><%= link_to('Logout', destroy_user_session_path, :method => :delete) %> </div>
+    <% end %>
+    <div id="banner"><span id="week_label" class='hide_on_login'>WEEK <%= params[:week] %></span></div>
     <div id="title"><%= image_tag "title.png" %></div>
   </div>
   <div id="content">
-    <div id="sidebar"><%= render_cell :standings, :display %></div>
+    <div id="sidebar"><span class='hide_on_login'><%= render_cell :standings, :display %></span></div>
     <div id="main"><%= yield %></div>
   </div>
 </div>
