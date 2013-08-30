@@ -1,9 +1,10 @@
-<p class='notice'><%=h flash[:notice] %></p>
-<h1>Hello user <%= current_user.email %>: Week <%= params[:week] %></h1>
-Week |
-<% (1..5).each do |week| %>
-    <a href="?week=<%= week %>"><%= week %></a> |
+<% week_count = Game.pluck(:week).sort.uniq.last %>
+<div id="week_menu">
+<% while week_count > 0 %>
+    <a href="?week=<%= week_count %>"><%= week_count %></a>
+<% week_count -= 1 %>|
 <% end %>
+</div>
 
 <!--VALIDATE ALL BETS -->
 <%= form_tag('/place_bets', remote: true) do %>
@@ -20,7 +21,6 @@ Week |
         <div id="game_time"><%= game.start_date.strftime("%B %d, %Y, %I:%M%p") %>
         </div>
         <table id="game">
-          <tr><%= game.id %></tr>
           <tr>
           </tr>
           <tr>
