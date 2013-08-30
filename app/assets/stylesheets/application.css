@@ -111,6 +111,18 @@ body {
     font-size: 1.1em;
     font-weight: bold;
 }
-.clear {
-    clear: both;
+
+#errors {
+    float: left;
+    display: none;
+    width: 400px;
+    padding: 7px 7px 15px 7px;
+    background-color: #000;
+    color: white;
+    margin-left: 5px;
+}
+
+#signup_link {
+    font-size: 1.2em;
+    font-weight: bold;
 }
