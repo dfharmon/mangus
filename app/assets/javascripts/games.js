@@ -1,8 +1,14 @@
 $(function () {
   $("#week_menu a").each(function () {
     var query_string = window.location.search.substring(1);
-    if ($(this).attr('href') === "?" + query_string) {
+    if (query_string != '' && $(this).attr('href') === "?" + query_string) {
       $(this).addClass("selected_link");
+      return false;
+    }
+    else {
+      $(this).addClass("selected_link");
+      window.location.pathname == '/?week=' + $(this);
+      return false;
     }
   });
 });

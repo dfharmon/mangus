@@ -51,7 +51,7 @@ body {
 }
 
 #header {
-    height:160px;
+    height:130px;
 }
 
 #banner {
@@ -62,18 +62,30 @@ body {
     z-index: -2;
 
 }
+#login {
+    font-family: NFL;
+    color: #fff;
+    font-size: 2em;
+    text-transform: lowercase;
+    float: right;
+    opacity: .6;
+    padding-right: 20px;
+    margin-top: 40px;
+}
+#login a {
+    color: white;
+    text-decoration: none;
+}
 #week_label {
     margin-left: 0;
     color: #004C00;
     opacity:0.05;
-    font-size: 21em;
+    font-size: 20em;
     font-family: "NFL";
     position:relative;
     top: 24px;
     left: 140px;
     z-index: -1;
-
-
 }
 
 .top {
@@ -97,7 +109,6 @@ body {
     font-weight: bold;
 }
 
-/* LOGIN */
-#login {
-
+.clear {
+    clear: both;
 }

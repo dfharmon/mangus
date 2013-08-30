@@ -8,18 +8,19 @@
 </head>
 <body>
 
-<div id="container">
-  <div id="header">
+<div id="header">
+
+  <div id="banner">
     <% if user_signed_in? %>
-        <div id="login"><%= link_to('Logout', destroy_user_session_path, :method => :delete) %> </div>
+        <div id="login"><%= link_to('sign off', destroy_user_session_path, :method => :delete) %> </div>
     <% end %>
-    <div id="banner"><span id="week_label" class='hide_on_login'>WEEK <%= params[:week] %></span></div>
-    <div id="title"><%= image_tag "title.png" %></div>
-  </div>
-  <div id="content">
-    <div id="sidebar"><span class='hide_on_login'><%= render_cell :standings, :display %></span></div>
-    <div id="main"><%= yield %></div>
-  </div>
+    <span id="week_label" class='hide_on_login'>WEEK <%= params[:week] ? params[:week] : Game.pluck(:week).sort.uniq.last %></span></div>
+
+  <div id="title"><%= image_tag "title.png" %></div>
+</div>
+<div id="content">
+  <div id="sidebar"><span class='hide_on_login'><%= render_cell :standings, :display %></span></div>
+  <div id="main"><%= yield %></div>
 </div>
 <div id="footer"></div>
 
