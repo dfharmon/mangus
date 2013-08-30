@@ -1,7 +1,7 @@
 require 'open-uri'
 module ScoreGrabber
   # use reg in regular season
-  BASEURL2 = "http://scores.nbcsports.msnbc.com/fb/scoreboard.asp?seasontype=pre&week="
+  BASEURL2 = "http://scores.nbcsports.msnbc.com/fb/scoreboard.asp?seasontype=reg&week="
 
   def self.games_in_week(week = 1)
     games = []

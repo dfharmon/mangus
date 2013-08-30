@@ -1,7 +1,7 @@
 module SpreadGrabber
   # Will need to switch from the NBA/MLB once some NFL games are up
   # Use NFL instead of NFLPreseason for regular season
-  SPREAD_BASEURL = 'http://xml.pinnaclesports.com/pinnacleFeed.aspx?sportType=Football&sportsubtype=NFLPreseason'
+  SPREAD_BASEURL = 'http://xml.pinnaclesports.com/pinnacleFeed.aspx?sportType=Football&sportsubtype=NFL'
 
   # Get current spreads
   # Sometimes this is returning a 500 error, if it does... run it again

@@ -14,7 +14,7 @@ class Game < ActiveRecord::Base
     spreads = SpreadGrabber.current_spreads
 
     # Change to 17 when in regular season
-    (1..5).each do |week|
+    (1..17).each do |week|
       weekly_games = ScoreGrabber.games_in_week(week)
       weekly_games.each do |game|
         home_team = Team.where(location: game[:home]).first
@@ -37,6 +37,7 @@ class Game < ActiveRecord::Base
           found_game.final = true if game[:time] == 'Final'
           found_game.home_score = game[:home_score] unless game[:home_score].nil?
           found_game.away_score = game[:visit_score] unless game[:visit_score].nil?
+          # TODO: Don't update spread if a numeric spread is found
           found_game.spread = found_game.find_game_spread(spreads)
           found_game.save!
         end
