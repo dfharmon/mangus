@@ -1,11 +1,10 @@
-<% week_count = Game.pluck(:week).sort.uniq.last %>
+<% week = Game.pluck(:week).sort.uniq.last %>
 <div id="week_menu"><span class="bold">Week</span>
-<% while week_count > 0 %>
-    <a href="?week=<%= week_count %>"><%= week_count %></a>
-<% week_count -= 1 %>|
+<% while week > 0 %>
+    <a href="?week=<%= week %>"><%= week %></a>
+<% week -= 1 %>|
 <% end %>
 </div>
-
 
 <!--VALIDATE ALL BETS -->
 <%= form_tag('/place_bets', remote: true) do %>
