@@ -15,7 +15,7 @@ class RegistrationsController < Devise::RegistrationsController
       set_flash_message :notice, :updated
       # Sign in the user bypassing validation in case his password changed
       sign_in @user, :bypass => true
-      redirect_to "?week=#{Game.pluck(:week).sort.uniq.last}"
+      redirect_to "?week=#{Game.current_week}"
     else
       render "edit"
     end

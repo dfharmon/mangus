@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
 
   def after_sign_in_path_for(resource)
-    latest_week = Game.pluck(:week).sort.uniq.last
+    latest_week = Game.current_week
     "?week=#{latest_week}"
   end
 
