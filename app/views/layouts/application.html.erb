@@ -9,27 +9,36 @@
 <body>
 
 <div id="header">
-  <div id="errors">
-  <%= content_tag(:div, flash[:error], :id => "error_explanation") if flash[:error] %>
-  <%= content_tag(:div, flash[:notice], :id => "error_explanation") if flash[:notice] %>
-  <%= content_tag(:div, flash[:alert], :id => "error_explanation") if flash[:alert] %>
-    </div>
+  <div id="notices">
+    <% if flash[:error] or flash[:notice] or flash[:alert] %>
+        <% notice = flash[:notice] if flash[:notice] %>
+        <% notice = flash[:alert] if flash[:alert] %>
+        <% notice = flash[:error] if flash[:error] %>
+        <div id="notice"><%= notice %></div>
+    <% else %>
+        <div id="notice"></div>
+    <% end %>
+  </div>
+
   <div id="banner">
     <% if user_signed_in? %>
-        <div id="login"><%= link_to('edit', edit_user_registration_path) %> &nbsp; &nbsp;<%= link_to('sign off', destroy_user_session_path, :method => :delete) %> </div>
+        <div id="login"><%= link_to('edit', edit_user_registration_path) %> &nbsp; &nbsp;<%= link_to('sign off', destroy_user_session_path, :method => :delete) %></div>
     <% end %>
-    <span id="week_label" class='hide_on_login'>WEEK <%= params[:week] ? params[:week] : Game.pluck(:week).sort.uniq.last %></span></div>
-
-  <div id="title"><%= image_tag "title.png" %></div>
+  </div>
 </div>
 <div id="content">
 
   <div id="sidebar"><%= render_cell :standings, :display %></div>
-  <div id="main">
-    <%= yield %></div>
-</div>
-<div id="footer"></div>
+  <span id="week_label" class='hide_on_login'>WEEK <%= params[:week] %></span>
 
+  <div id="main">
+
+    <div id="title"><%= image_tag "title.png" %></div>
+
+    <%= yield %>
+  </div>
+  <div id="footer"></div>
+</div>
 
 </body>
 </html>
