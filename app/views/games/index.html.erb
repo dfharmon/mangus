@@ -1,7 +1,9 @@
 <% week = Game.pluck(:week).sort.uniq.last %>
 <div id="week_menu"><span class="bold">Week</span>
-<% while week > 0 %>
-    <a href="?week=<%= week %>"><%= week %></a>
+<% while week > 0
+     week_class = (@games.first.week == week) ? 'class=selected_link' : ''
+%>
+    <a <%= week_class %> href="?week=<%= week %>"><%= week %></a>
 <% week -= 1 %>|
 <% end %>
 </div>

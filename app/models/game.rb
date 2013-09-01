@@ -37,12 +37,19 @@ class Game < ActiveRecord::Base
           found_game.final = true if game[:time] == 'Final'
           found_game.home_score = game[:home_score] unless game[:home_score].nil?
           found_game.away_score = game[:visit_score] unless game[:visit_score].nil?
-          # TODO: Don't update spread if a numeric spread is found
-          found_game.spread = found_game.find_game_spread(spreads)
+          found_game.spread = found_game.find_game_spread(spreads) unless found_game.spread and found_game.spread.match(/[0-9]+/)
           found_game.save!
         end
       end
     end
+  end
+
+  def self.current_week
+    week1start = Date.parse('Tue, 03 Sep 2013')
+    thisweekstart = Date.today.beginning_of_week(start_day = :tuesday)
+
+    week = ((thisweekstart - week1start) / 7 ).to_i + 1
+    return (week > 0) ? week : 1
   end
 
   # If the game is found and the spread if found it will return the home based spread

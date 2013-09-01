@@ -31,7 +31,7 @@
 
   <div id="by_the_week">By the Week</div>
   <div>
-    <% week_count = Game.pluck(:week).sort.uniq.last
+    <% week_count = Game.current_week
        while week_count > 0
     %>
 

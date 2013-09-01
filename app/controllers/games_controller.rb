@@ -27,7 +27,7 @@ class GamesController < ApplicationController
   end
 
   def index
-    week = params[:week].nil? ? 1 : params[:week]
+    week = params[:week].nil? ? Game.current_week : params[:week]
     puts week
     @games = Game.where(week: week.to_i)
     puts "GAMES #{@games}"
