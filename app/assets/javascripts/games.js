@@ -16,17 +16,23 @@ $(document).ready(function () {
   }
 });
 
-$('input[name=Choose]').attr('checked',false);
+// RESET BET FUNCTION IF WE WANT IT - Need to add logic in bet submit to clear db values
+$(document).ready(function () {
+  $("#reset_bet").click(function () {
+    $(this).parent().parent().parent().parent().find('input').removeAttr('checked');
+    $(this).parent().parent().parent().parent().find('option').removeAttr('selected');
+  });
+});
 
-$(document).ajaxComplete(function(event, request) {
+$(document).ajaxComplete(function (event, request) {
   var msg;
-  if(request.getResponseHeader('X-Flash-Notice')) {
+  if (request.getResponseHeader('X-Flash-Notice')) {
     msg = request.getResponseHeader('X-Flash-Notice');
   }
-  else if(request.getResponseHeader('X-Flash-Alert')) {
+  else if (request.getResponseHeader('X-Flash-Alert')) {
     msg = request.getResponseHeader('X-Flash-Alert');
   }
-  else if(request.getResponseHeader('X-Flash-Error')) {
+  else if (request.getResponseHeader('X-Flash-Error')) {
     msg = request.getResponseHeader('X-Flash-Error');
   }
 
@@ -39,11 +45,13 @@ $(document).ajaxComplete(function(event, request) {
   $('html, body').animate({ scrollTop: 0 }, 'slow');
 });
 
-$(document).ready(function(event, request) {
+$(document).ready(function (event, request) {
   if ($('#notice').text().length > 0) {
     $('#notices').hide().delay(800).slideDown(800).delay(4000).slideUp(800);
   }
   $('html, body').animate({ scrollTop: 0 }, 'slow');
 });
+
+
 
 

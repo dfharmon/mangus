@@ -120,11 +120,11 @@ body {
 #notices {
     float: left;
     display: none;
-    width: 400px;
+    width: 385px;
     padding: 7px 7px 15px 7px;
     background-color: #000;
     color: white;
-    margin-left: 5px;
+    margin-left: 10px;
 }
 
 #signup_link {

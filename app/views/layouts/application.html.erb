@@ -22,7 +22,7 @@
 
   <div id="banner">
     <% if user_signed_in? %>
-        <div id="login"><%= link_to('edit', edit_user_registration_path) %> &nbsp; &nbsp;<%= link_to('sign off', destroy_user_session_path, :method => :delete) %></div>
+        <div id="login"><%=link_to('gameday', root_path) %> &nbsp; &nbsp;<%= link_to('edit', edit_user_registration_path) %> &nbsp; &nbsp;<%= link_to('sign off', destroy_user_session_path, :method => :delete) %></div>
     <% end %>
   </div>
 </div>

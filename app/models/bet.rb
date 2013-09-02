@@ -35,9 +35,9 @@ class Bet < ActiveRecord::Base
 
     error = nil
     if large_bets_made > 2
-      error = "You have exceeded the $4.00 bet limit (2). Watch yer wallet there cowboy. Invalid bets were not saved - please adjust."
+      error = "You have exceeded the $4.00 bet limit (2). Watch yer wallet there cowboy. New bets were not saved - please adjust."
     elsif large_bets_made < large_bets_needed
-      error = "You must make 2 $4.00 bets. Live a little sport. Invalid bets were not saved - please adjust"
+      error = "You must make 2 $4.00 bets. Live a little sport. New bets were not saved - please adjust"
     end
 
     if error
