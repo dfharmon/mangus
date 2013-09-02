@@ -76,21 +76,6 @@ class Game < ActiveRecord::Base
     self.home_score > self.away_score ? self.home_team : self.away_team
   end
 
-  #def find_pick(user_id)
-  #  bet = find_bet(user_id)
-  #  pick = bet.nil? ? nil : bet.pick_team_id
-  #
-  #  #pick = User.find(user_id).bets.where("game_id=#{self.id}")[0].nil? ? nil : User.find(user_id).bets.where("game_id=#{self.id}")[0].pick_team_id
-  #
-  #  if pick == self.away_team_id.to_i
-  #    return "away"
-  #  elsif pick == self.home_team_id.to_i
-  #    return "home"
-  #  else
-  #    return nil
-  #  end
-  #end
-
   def get_bet(user_id)
     bet = User.find(user_id).bets.where("game_id=#{self.id}")[0]
     return nil if bet.nil?

@@ -28,9 +28,7 @@ class GamesController < ApplicationController
 
   def index
     week = params[:week].nil? ? Game.current_week : params[:week]
-    puts week
     @games = Game.where(week: week.to_i)
-    puts "GAMES #{@games}"
 
     respond_to do |format|
       format.html # index.html.erb
@@ -39,12 +37,15 @@ class GamesController < ApplicationController
   end
 
   def place_bets
-    Bet.make_bets(params, current_user)
+    result = Bet.validate_bets(params, current_user)
 
     respond_to do |format|
-      flash[:notice] = "Nice bets. Good luck!"
-
-      format.json { render json: @games }
+      if result != true
+        flash[:error] = result
+      else
+        flash[:notice] = "Nice bets. Good luck!"
+        format.json { head :no_content }
+      end
     end
   end
 end

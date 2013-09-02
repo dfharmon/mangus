@@ -25,7 +25,6 @@
           <tr>
           </tr>
           <tr>
-            <td>&nbsp</td>
             <td class="team_icons"><%= image_tag "icons/#{game.home_team.mascot.downcase}.jpg", alt:"#{game.home_team.id}" %></td>
             <td class="team_name"><%= "@#{game.home_team.location} #{game.home_team.mascot}" %></td>
             <td class="score"><%= game.home_score %></td>
@@ -41,7 +40,6 @@
             <td class="spacer"></td>
           </tr>
           <tr>
-            <td><%= hidden_field_tag :week, params[:week] %></td>
             <td class="team_icons"><%= image_tag "icons/#{game.away_team.mascot.downcase}.jpg", alt:"#{game.away_team.id}" %></td>
             <td class="team_name"><%= "#{game.away_team.location} #{game.away_team.mascot}" %></td>
             <td class="score"><%= game.away_score %></td>

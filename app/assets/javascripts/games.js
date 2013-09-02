@@ -10,12 +10,13 @@ $(function () {
   });
 });
 
-
 $(document).ready(function () {
   if ($('#error_explanation').text().length > 0) {
     $('#errors').hide().delay(800).slideDown(800).delay(4000).slideUp(800);
   }
 });
+
+$('input[name=Choose]').attr('checked',false);
 
 $(document).ajaxComplete(function(event, request) {
   var msg;
@@ -26,22 +27,23 @@ $(document).ajaxComplete(function(event, request) {
     msg = request.getResponseHeader('X-Flash-Alert');
   }
   else if(request.getResponseHeader('X-Flash-Error')) {
-    request.getResponseHeader('X-Flash-Error');
+    msg = request.getResponseHeader('X-Flash-Error');
   }
 
   if (msg) {
     $('#notice').html(msg);
   }
-
   if ($('#notice').text().length > 0) {
     $('#notices').hide().delay(800).slideDown(800).delay(4000).slideUp(800);
   }
+  $('html, body').animate({ scrollTop: 0 }, 'slow');
 });
 
 $(document).ready(function(event, request) {
   if ($('#notice').text().length > 0) {
     $('#notices').hide().delay(800).slideDown(800).delay(4000).slideUp(800);
   }
+  $('html, body').animate({ scrollTop: 0 }, 'slow');
 });
 
 
