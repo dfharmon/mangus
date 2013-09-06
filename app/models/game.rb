@@ -73,7 +73,7 @@ class Game < ActiveRecord::Base
   end
 
   def winner
-    self.home_score > self.away_score ? self.home_team : self.away_team
+    self.away_score.to_f > (self.home_score.to_f + self.spread.to_f) ? self.away_team : self.home_team
   end
 
   def get_bet(user_id)
