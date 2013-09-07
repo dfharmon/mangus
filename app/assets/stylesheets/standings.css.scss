@@ -67,6 +67,13 @@ td {
   text-align: right;
   padding-right: 15px;
 }
+.cash_plus {
+  color: green;
+  font-weight: bold;
+}
+.cash_minus {
+  color: red;
+}
 .percent {
   width: 70px;
 }
@@ -91,5 +98,6 @@ td {
   padding-left:10px;
   padding-top:5px;
 }
+
 
 

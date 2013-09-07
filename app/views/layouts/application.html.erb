@@ -29,7 +29,7 @@
 <div id="content">
 
   <div id="sidebar"><%= render_cell :standings, :display %></div>
-  <span id="week_label" class='hide_on_login'>WEEK <%= params[:week] %></span>
+  <span id="week_label" class='hide_on_login'>WEEK <%= Game.current_week %></span>
 
   <div id="main">
 

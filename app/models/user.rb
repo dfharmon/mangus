@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
 
 
   validates :name, :email, :presence => :true
+  validates :name, :uniqueness => true
 
   # WILL MAKE A JOB THAT CALLS THIS FOR EVERY USER AFTER MONDAY NIGHT GAME
   def tally_week_bets(week)
