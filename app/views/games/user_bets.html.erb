@@ -8,7 +8,8 @@
           <td class="m_team_name"><%= "@#{game.home_team.location} #{game.home_team.mascot}" %></td>
           <td class="m_score"><%= game.home_score %></td>
           <td class="m_spread"><%= game.spread %></td>
-          <td class='m_wl'><%= (bet.present? and bet.correct) ? 'W' : 'L' if game.final %></td>
+          <td class='m_wl'><%= (bet.present? and bet.correct) ? 'W' : 'L' if game.final unless game.winner.nil? %><%= 'P' if game.final and game.winner.nil? %></td>
+
           <td class="m_amount">$<%= bet.amount %>.00</td>
         </tr>
         <tr id="pad_bottom">
