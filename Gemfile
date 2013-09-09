@@ -13,6 +13,12 @@ gem 'ox'
 gem 'devise'
 gem 'hpricot'
 
+gem 'execjs'
+gem 'therubyracer', '0.10.0'
+#gem 'libv8', '3.11.8.0'
+
+
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
