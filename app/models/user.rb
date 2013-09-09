@@ -82,11 +82,13 @@ class User < ActiveRecord::Base
     games.each do |g|
       user_bet = g.bets.where(user_id: self.id)
       raise "There is more than one bet for User id=#{self.id} on game #{g.id}" if user_bet.count > 1
-      if user_bet.empty? or user_bet.first.pick_team_id.nil? or g.winner != user_bet.first.pick_team
+      if user_bet.empty? or user_bet.first.pick_team_id.nil? or (g.winner.present? and g.winner != user_bet.first.pick_team)
         adj = (largebets[g.week] < 2) ? 4.00 : 1.00
         largebets[g.week] += 1
         winnings -= (user_bet.empty?) ? adj : user_bet.first.amount
         loss += 1
+      elsif g.winner.nil?
+        # push
       else
         winnings += user_bet.first.amount
         wins += 1

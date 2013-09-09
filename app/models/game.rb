@@ -73,6 +73,8 @@ class Game < ActiveRecord::Base
   end
 
   def winner
+    # Push
+    return nil if self.away_score.to_f == (self.home_score.to_f + self.spread.to_f)
     self.away_score.to_f > (self.home_score.to_f + self.spread.to_f) ? self.away_team : self.home_team
   end
 
