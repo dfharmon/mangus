@@ -1,0 +1,24 @@
+<% user = User.find(@user.id) %>
+<div id="modal_header"><span id="avatar_small"><%= image_tag user.avatar.to_s %></span>&nbsp; <%= user.name %> crushed it in Week <%= @week %>!</div>
+<div id="bets_for_week">
+  <% @games.each do |game| %>
+      <% bet = game.get_bet(@user.id) %>
+      <table id="results">
+        <tr>
+          <td class="m_team_name"><%= "@#{game.home_team.location} #{game.home_team.mascot}" %></td>
+          <td class="m_score"><%= game.home_score %></td>
+          <td class="m_spread"><%= game.spread %></td>
+          <td class='m_wl'><%= (bet.present? and bet.correct) ? 'W' : 'L' if game.final %></td>
+          <td class="m_amount">$<%= bet.amount %>.00</td>
+        </tr>
+        <tr id="pad_bottom">
+          <td class="m_team_name"><%= "#{game.away_team.location} #{game.away_team.mascot}" %></td>
+          <td class="m_score"><%= game.away_score %></td>
+          <td class="m_spread"></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+  <% end %>
+
+</div>

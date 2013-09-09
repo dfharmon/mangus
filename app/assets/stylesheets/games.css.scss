@@ -118,7 +118,66 @@ td, thead {
 #footer {
 }
 
+/* USER BET MODAL */
+#modal_header {
+  vertical-align: top;
+  font-weight: bold;
+  padding-bottom: 5px;
+}
+#avatar_small img {
+  width: 40px;
+}
+#bets_for_week {
+  font-size: .9em;
+  width: 400px;
+  background-color: white;
+  opacity: .99;
 
+}
+#results {
+  border: 1px solid gray;
+  margin-bottom: 4px;
+  padding: 2px 0 2px 2px;
+}
+#bets_for_week td {
+  padding: 2px;
+}
+
+#bets_for_week tr {
+  padding: 12px;
+}
+#pad_bottom td {
+  padding-bottom: 5px;
+}
+
+.m_team_name {
+  width: 160px;
+}
+.m_score {
+  width: 60px;
+  font-weight: bold;
+  text-align: right;
+
+}
+.m_spread {
+  width: 50px;
+  text-align: right;
+}
+.m_wl {
+  width: 65px;
+  text-align: right;
+  padding-right:15px;
+  font-weight: bold;
+}
+.m_amount {
+  width: 50px;
+}
+#total_cash {
+  padding-top: 5px;
+  position:relative;
+  left: 240px;
+  font-weight: bold;
+}
 
 
 

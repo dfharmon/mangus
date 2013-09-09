@@ -50,7 +50,7 @@
             <% User.all.sort_by { |u| u.get_results(week_count).first }.reverse_each do |u|
               cash, wins, loss = u.get_results(week_count) %>
                 <tr class="users">
-                  <td class="name"><%= (u.name) ? u.name : u.email %></td>
+                  <td class="name"><%= link_to_modal (u.name) ? u.name : u.email, "user_bets?user_id=#{u.id}&week=#{week_count}", class: "button", remote: true  %></td>
                   <% style = cash > 0 ? "cash_plus" : "cash_minus" %>
                   <td class="<%= style %>"><%= sprintf "%.02f", cash %></td>
                   <% wl = (number_with_precision((wins.to_f / (wins.to_f + loss.to_f)), :precision => 3)).gsub('0.', '.') %>

@@ -48,4 +48,16 @@ class GamesController < ApplicationController
       end
     end
   end
+
+  def user_bets
+    @week = params[:week]
+    @games = Game.where(final: true)
+    @games = @games.where(week: @week)
+    @user = User.find(params[:user_id])
+
+    respond_to do |format|
+      format.html { render "user_bets" }
+      format.json { head :no_content }
+    end
+  end
 end

@@ -17,14 +17,18 @@ $(document).ready(function () {
 });
 
 // RESET BET FUNCTION IF WE WANT IT - Need to add logic in bet submit to clear db values
-$(document).ready(function () {
-  $("#reset_bet").click(function () {
-    $(this).parent().parent().parent().parent().find('input').removeAttr('checked');
-    $(this).parent().parent().parent().parent().find('option').removeAttr('selected');
-  });
-});
+//$(document).ready(function () {
+//  $("#reset_bet").click(function () {
+//    $(this).parent().parent().parent().parent().find('input').removeAttr('checked');
+//    $(this).parent().parent().parent().parent().find('option').removeAttr('selected');
+//  });
+//});
 
 $(document).ajaxComplete(function (event, request) {
+//  $('#bets select').each(function() {
+//    $(this).attr('savedValue', $(this).val());
+//  });
+
   var msg;
   if (request.getResponseHeader('X-Flash-Notice')) {
     msg = request.getResponseHeader('X-Flash-Notice');
@@ -41,8 +45,21 @@ $(document).ajaxComplete(function (event, request) {
   }
   if ($('#notice').text().length > 0) {
     $('#notices').hide().delay(800).slideDown(800).delay(4000).slideUp(800);
+    $('html, body').animate({ scrollTop: 0 }, 'slow');
   }
-  $('html, body').animate({ scrollTop: 0 }, 'slow');
+
+//  if($('#bets input:first').attr('savedValue')!=undefined) {
+//    // Have saved values, reset to last saved values
+//    $('#bets input').each(function() {
+//      $(this).val($(this).attr('savedValue'));
+//    });
+//  }
+//  else {
+//    // No saved values, reset form
+//    $('#bets')[0].reset();
+//  }
+
+
 });
 
 $(document).ready(function (event, request) {

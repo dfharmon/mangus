@@ -2,6 +2,7 @@ Mangus::Application.routes.draw do
   resources :games
 
   post "/place_bets" => "games#place_bets"
+  get "/user_bets" => "games#user_bets"
 
   devise_for :users, :controllers => { :registrations => "registrations" }
 

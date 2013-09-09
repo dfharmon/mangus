@@ -57,6 +57,12 @@ td {
   padding-right: 0px;
   text-align: left;
 }
+.name a {
+  color: white;
+}
+.name a:hover {
+  color: gray;
+}
 .cash_head, .cash {
   width: 100px;
   text-align: right;
@@ -98,6 +104,8 @@ td {
   padding-left:10px;
   padding-top:5px;
 }
+
+
 
 
 
