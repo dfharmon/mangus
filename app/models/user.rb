@@ -13,7 +13,6 @@ class User < ActiveRecord::Base
   attr_accessor :total_cash
 
 
-
   validates :name, :email, :presence => :true
   validates :name, :uniqueness => true
 
@@ -51,7 +50,7 @@ class User < ActiveRecord::Base
       bet.counted = true
       bet.save
     end
-    
+
     puts "WINS #{wins}"
     puts "LOSSES #{losses}"
     puts "CASH #{cash}"
@@ -63,39 +62,44 @@ class User < ActiveRecord::Base
     Standings.create(user_id: self.id, wins: wins, losses: losses, week: week, total_cash: cash)
   end
 
-  # Tallys results for a week (or for all time if a week is not specified)
-  def get_results(week = nil)
-    winnings = 0.00
-    wins = 0
-    loss = 0
-
-    games = Game.where(final: true)
-    games = games.where(week: week) unless week.nil?
+  # Tallys results for a user, returns array where the 0'th element is the total, and the others are for each week
+  def get_results()
+    winnings = []
+    wins = []
+    loss = []
+    winnings[0] = 0.00
+    wins[0] = 0
+    loss[0] = 0
 
     # User must have 2 large bets per week, get starting number of large bets per week
     largebets = {}
-    weeks = (week.nil?) ? Game.pluck(:week).sort.uniq : [week]
+    weeks = (1..Game.current_week)
     weeks.each do |w|
-      largebets[w] = self.bets.joins(:game).where(amount: 4.00, games: {week: w}).count
-    end
+      winnings[w] = 0.00
+      wins[w] = 0
+      loss[w] = 0
 
-    games.each do |g|
-      user_bet = g.bets.where(user_id: self.id)
-      raise "There is more than one bet for User id=#{self.id} on game #{g.id}" if user_bet.count > 1
-      if user_bet.empty? or user_bet.first.pick_team_id.nil? or (g.winner.present? and g.winner != user_bet.first.pick_team)
-        adj = (largebets[g.week] < 2) ? 4.00 : 1.00
-        largebets[g.week] += 1
-        winnings -= (user_bet.empty?) ? adj : user_bet.first.amount
-        loss += 1
-      elsif g.winner.nil?
-        # push
-      else
-        winnings += user_bet.first.amount
-        wins += 1
+      largebets[w] = self.bets.joins(:game).where(amount: 4.00, games: {week: w}).count
+      games = Game.where(final: true, week: w)
+      games.each do |g|
+        user_bet = g.bets.where(user_id: self.id)
+        raise "There is more than one bet for User id=#{self.id} on game #{g.id}" if user_bet.count > 1
+        if user_bet.empty? or user_bet.first.pick_team_id.nil? or (g.winner.present? and g.winner != user_bet.first.pick_team)
+          adj = (largebets[w] < 2) ? 4.00 : 1.00
+          largebets[w] += 1
+          winnings[w] -= (user_bet.empty?) ? adj : user_bet.first.amount
+          loss[w] += 1
+        elsif g.winner.nil?
+          # push
+        else
+          winnings[w] += user_bet.first.amount
+          wins[w] += 1
+        end
       end
     end
+    winnings[0] = winnings.sum
+    wins[0] = wins.sum
+    loss[0] = loss.sum
     return winnings, wins, loss
   end
-
-
 end
