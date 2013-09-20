@@ -59,7 +59,12 @@
                cash, wins, loss = results[0][week_count], results[1][week_count], results[2][week_count]
           %>
             <tr class="users">
-              <td class="name"><%= link_to_modal (u.name) ? u.name : u.email, "user_bets?user_id=#{u.id}&week=#{week_count}", class: "button", remote: true %></td>
+              <td class="name">
+                <%= link_to_modal (u.name) ? u.name : u.email, "user_bets?user_id=#{u.id}&week=#{week_count}", class: "button", remote: true %>
+                <% if week_count == Game.current_week and Game.where(final:nil, week:Game.current_week).count - u.bets.joins(:game).where(games: {week: Game.current_week, final:nil}).count > 0 %>
+                  <a title='User has bets to make this week.  Go bug them.'>*</a>
+                <% end %>
+              </td>
               <% style = cash >= 0 ? "cash_plus" : "cash_minus" %>
               <td class="<%= style %>"><%= sprintf "%.02f", cash %></td>
               <% wl = (number_with_precision((wins.to_f / (wins.to_f + loss.to_f)), :precision => 3)).gsub('0.', '.') %>
