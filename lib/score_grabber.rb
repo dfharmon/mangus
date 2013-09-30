@@ -25,8 +25,13 @@ module ScoreGrabber
 
           scores = g.search("td//[@class='shsTotD']")
           if scores.count > 0
-            visit_score = scores[9].inner_html
-            home_score = scores[14].inner_html
+            if scores[4].inner_html == 'OT'
+              visit_score = scores[11].inner_html
+              home_score = scores[17].inner_html
+            else
+              visit_score = scores[9].inner_html
+              home_score = scores[14].inner_html
+            end
           end
           games << {
               time: time,
