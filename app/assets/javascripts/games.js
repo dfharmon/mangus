@@ -29,6 +29,7 @@ $(document).ajaxComplete(function (event, request) {
 //    $(this).attr('savedValue', $(this).val());
 //  });
 
+
   var msg;
   if (request.getResponseHeader('X-Flash-Notice')) {
     msg = request.getResponseHeader('X-Flash-Notice');
@@ -42,10 +43,12 @@ $(document).ajaxComplete(function (event, request) {
 
   if (msg) {
     $('#notice').html(msg);
-  }
-  if ($('#notice').text().length > 0) {
-    $('#notices').hide().delay(800).slideDown(800).delay(4000).slideUp(800);
-    $('html, body').animate({ scrollTop: 0 }, 'slow');
+
+
+    if ($('#notice').text().length > 0) {
+      $('#notices').hide().delay(800).slideDown(800).delay(4000).slideUp(800);
+      $('html, body').animate({ scrollTop: 0 }, 'slow');
+    }
   }
 
 //  if($('#bets input:first').attr('savedValue')!=undefined) {
