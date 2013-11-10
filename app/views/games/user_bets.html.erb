@@ -9,7 +9,7 @@
           <td class="m_score"><%= game.home_score %></td>
           <td class="m_spread"><%= game.spread %></td>
           <td class='m_wl'><%= (bet.present? and bet.correct) ? 'W' : 'L' if game.final unless game.winner.nil? %><%= 'P' if game.final and game.winner.nil? %></td>
-          <% amount = bet.present? ? "#${bet.amount}.00" : "No bet" %>
+          <% amount = bet.present? ? "$#{bet.amount}.00" : "No bet" %>
           <td class="m_amount"><%= amount %></td>
         </tr>
         <tr id="pad_bottom">
