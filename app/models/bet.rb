@@ -1,3 +1,5 @@
+require 'score_grabber'
+
 class Bet < ActiveRecord::Base
   validates :game_id, :uniqueness => {:scope => :user_id}
   validates :amount, :pick_team_id, :game_id, :user_id, presence: true
@@ -9,11 +11,13 @@ class Bet < ActiveRecord::Base
   belongs_to :pick_team, class_name: Team
 
   def self.validate_bets(params, current_user)
-    games = params[:games]
+    games = params[:games] #sends in saved bets AND new bets
+    game_count = Game.where(week: params['current_week'].to_i).count
     large_bets_made = 0
     large_bets_needed = 0
     complete_bets = 0
 
+    # count large bets
     games.each do |game_id, bets|
       next if bets["winner"].nil?
       bets.each do |key, value|
@@ -26,10 +30,11 @@ class Bet < ActiveRecord::Base
       complete_bets += 1
     end
 
-    case complete_bets
-      when 15
+    bets_needed = game_count - complete_bets
+    case bets_needed
+      when 1
         large_bets_needed = 1
-      when 16
+      when 0
         large_bets_needed = 2
     end
 
@@ -58,7 +63,9 @@ class Bet < ActiveRecord::Base
     begin
       transaction do
         games.each do |game_id, bets|
-          next if bets["winner"].nil?
+          game = Game.find(game_id)
+          # do not save if a bet was submitted after game started or there is no bet
+          next if bets["winner"].nil? or game.start_date < Time.now
           user_bet = Bet.find_by_game_id_and_user_id(game_id, current_user.id)
           user_bet = Bet.new if user_bet.nil?
 
@@ -79,8 +86,5 @@ class Bet < ActiveRecord::Base
     rescue => e
       return e.message
     end
-
   end
-
-
 end
