@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
 
   has_many :bets
   has_many :games, through: :bets
+  has_many :user_week_resultses
 
   devise :database_authenticatable, :rememberable, :trackable, :validatable, :registerable
   attr_accessible :email, :password, :password_confirmation, :remember_me, :admin, :total_cash, :name, :avatar
@@ -77,38 +78,50 @@ class User < ActiveRecord::Base
     missedbets = {}
     weeks = (1..Game.current_week)
     weeks.each do |w|
-      winnings[w] = 0.00
-      wins[w] = 0
-      loss[w] = 0
 
-      largebets[w] = self.bets.joins(:game).where(amount: 4.00, games: {week: w}).count
-      missedbets[w] = Game.where(week:w).count - self.bets.joins(:game).where(games: {week: w}).count
+      res = UserWeekResults.where(week: w, user_id: self.id)
+      if w < Game.current_week and res.count > 0
+        res = res.first
+        winnings[w] = res.result
+        wins[w] = res.win
+        loss[w] = res.loss
 
-      games = Game.where(final: true, week: w)
-      games.each do |g|
-        user_bet = g.bets.where(user_id: self.id)
-        raise "There is more than one bet for User id=#{self.id} on game #{g.id}" if user_bet.count > 1
+      else
+        winnings[w] = 0.00
+        wins[w] = 0
+        loss[w] = 0
 
-        if user_bet.empty? or user_bet.first.pick_team_id.nil? or (g.winner.present? and g.winner != user_bet.first.pick_team)
-          adj = nil
-          if user_bet.empty?
-            adj = 1.00
-            if (missedbets[w] < 3 and largebets[w] < 2)
-              adj = 4.00
-              largebets[w] += 1
+        largebets[w] = self.bets.joins(:game).where(amount: 4.00, games: {week: w}).count
+        missedbets[w] = Game.where(week:w).count - self.bets.joins(:game).where(games: {week: w}).count
+
+        games = Game.where(final: true, week: w)
+        games.each do |g|
+          user_bet = g.bets.where(user_id: self.id)
+          raise "There is more than one bet for User id=#{self.id} on game #{g.id}" if user_bet.count > 1
+
+          if user_bet.empty? or user_bet.first.pick_team_id.nil? or (g.winner.present? and g.winner != user_bet.first.pick_team)
+            adj = nil
+            if user_bet.empty?
+              adj = 1.00
+              if (missedbets[w] < 3 and largebets[w] < 2)
+                adj = 4.00
+                largebets[w] += 1
+              end
+              missedbets[w] -= 1
             end
-            missedbets[w] -= 1
+            winnings[w] -= (adj.present?) ? adj : user_bet.first.amount
+            loss[w] += 1
+          elsif g.winner.nil?
+            # push
+          else
+            winnings[w] += user_bet.first.amount
+            wins[w] += 1
           end
-          winnings[w] -= (adj.present?) ? adj : user_bet.first.amount
-          loss[w] += 1
-        elsif g.winner.nil?
-          # push
-        else
-          winnings[w] += user_bet.first.amount
-          wins[w] += 1
         end
+        UserWeekResults.create(user_id: self.id, week: w, win: wins[w], loss: loss[w], result: winnings[w]) if w < Game.current_week
       end
     end
+
     winnings[0] = winnings.sum
     wins[0] = wins.sum
     loss[0] = loss.sum
