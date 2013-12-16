@@ -12,37 +12,44 @@ class Bet < ActiveRecord::Base
 
   def self.validate_bets(params, current_user)
     games = params[:games] #sends in saved bets AND new bets
-    game_count = Game.where(week: params['current_week'].to_i).count
+    current_week = params[:current_week].to_i
+    game_count = Game.where(week: current_week).count
     large_bets_made = 0
     large_bets_needed = 0
     complete_bets = 0
+    playoffs = current_week > 17 and current_week < 21 ? true : false
+    superbowl = current_week == 21 ? true : false
 
-    # count large bets
-    games.each do |game_id, bets|
-      next if bets["winner"].nil?
-      bets.each do |key, value|
-        if key == "bet"
-          if value.to_i == 4
-            large_bets_made += 1
+    if !playoffs and !superbowl
+      # count large bets
+      games.each do |game_id, bets|
+        next if bets["winner"].nil?
+        bets.each do |key, value|
+          if key == "bet"
+            if value.to_i == 4
+              large_bets_made += 1
+            end
           end
         end
+        complete_bets += 1
       end
-      complete_bets += 1
-    end
 
-    bets_needed = game_count - complete_bets
-    case bets_needed
-      when 1
-        large_bets_needed = 1
-      when 0
-        large_bets_needed = 2
-    end
+      bets_needed = game_count - complete_bets
+      case bets_needed
+        when 1
+          large_bets_needed = 1
+        when 0
+          large_bets_needed = 2
+      end
 
-    error = nil
-    if large_bets_made > 2
-      error = "You have exceeded the $4.00 bet limit (2). Watch yer wallet there cowboy. New bets were not saved - please adjust."
-    elsif large_bets_made < large_bets_needed
-      error = "You must make 2 $4.00 bets. Live a little sport. New bets were not saved - please adjust"
+      error = nil
+      if large_bets_made > 2
+        error = "You have exceeded the $4.00 bet limit (2). Watch yer wallet there cowboy. New bets were not saved - please adjust."
+      elsif large_bets_made < large_bets_needed
+        error = "You must make 2 $4.00 bets. Live a little sport. New bets were not saved - please adjust"
+      end
+    elsif superbowl
+      error = validate_superbowl_bet(params, current_user)
     end
 
     if error
@@ -50,6 +57,23 @@ class Bet < ActiveRecord::Base
     else
       return Bet.make_bets(params, current_user)
     end
+  end
+
+  def self.validate_superbowl_bet(params, user)
+    bet_amount = 0
+    user = User.find(user)
+    cash_balance = user.get_results[0].first
+    games = params[:games]
+    games.each do |game_id, bet|
+      next if bets["winner"].nil?
+      bets.each do |key, value|
+        if key == "bet"
+
+        end
+      end
+    end
+
+
   end
 
   def correct

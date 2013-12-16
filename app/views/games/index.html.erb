@@ -7,6 +7,12 @@
 <% end %>
 </div>
 
+<% current_week = params[:week].to_i %>
+<% @playoff = (current_week > 17 and current_week < 21) ? true : false %>
+<% @superbowl = current_week == 21 ? true : false %>
+<% if @playoff or @superbowl %>
+    <%= render "playoffs" %>
+<% else %>
 <!--VALIDATE ALL BETS -->
 <%= form_tag('/place_bets', remote: true) do %>
     <div id="games_header">
@@ -81,6 +87,7 @@
     <div id="bet_submit">
     <%= image_submit_tag("bet_logo.png", id: "bet_button")  %>
     </div>
+    <% end %>
 <% end %>
 
 
