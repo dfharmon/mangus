@@ -13,8 +13,7 @@ class Game < ActiveRecord::Base
   def self.scan_games
     spreads = SpreadGrabber.current_spreads
 
-    # Change to 17 when in regular season
-    (1..22).each do |week|
+    (Game.current_week..22).each do |week|
       weekly_games = ScoreGrabber.games_in_week(week)
       weekly_games.each do |game|
         home_team = Team.where(location: game[:home]).first
@@ -32,6 +31,9 @@ class Game < ActiveRecord::Base
           unless found_game
             found_game = Game.create(week: week, home_team: home_team, away_team: away_team)
           end
+
+          pp found_game
+          pp spreads
 
           found_game.start_date = game[:time] if game[:time].is_a?(Time)
           found_game.final = true if game[:time] == 'Final'
@@ -63,10 +65,12 @@ class Game < ActiveRecord::Base
     visit_team[:name] = "#{visit_team[:name]} #{self.away_team.mascot}" if visit_team[:name] == 'New York'
 
     begin
-      found_spreads = spreads.select { |x| (Time.parse(x[:time].to_s) == Time.parse(self.start_date.to_s) ||
-          Time.parse(x[:time].to_s) == (Time.parse(self.start_date.to_s) - 1.hour) )&&
+      found_spreads = spreads.select { |x|
+          #(Time.parse(x[:time].to_s) == Time.parse(self.start_date.to_s) ||
+          #Time.parse(x[:time].to_s) == (Time.parse(self.start_date.to_s) - 1.hour) ) &&
           x[:teams][1][:name].grep(/#{home_team[:name]}/).count > 0 &&
-          x[:teams][0][:name].grep(/#{visit_team[:name]}/).count > 0 }
+          x[:teams][0][:name].grep(/#{visit_team[:name]}/).count > 0
+          }
     rescue => e
       pp e
     end
