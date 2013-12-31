@@ -14,7 +14,7 @@ class Game < ActiveRecord::Base
     spreads = SpreadGrabber.current_spreads
 
     # Change to 17 when in regular season
-    (1..17).each do |week|
+    (1..22).each do |week|
       weekly_games = ScoreGrabber.games_in_week(week)
       weekly_games.each do |game|
         home_team = Team.where(location: game[:home]).first

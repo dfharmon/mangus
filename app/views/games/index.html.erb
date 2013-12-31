@@ -9,7 +9,7 @@
 
 <% current_week = params[:week].to_i %>
 <% @playoff = (current_week > 17 and current_week < 21) ? true : false %>
-<% @superbowl = current_week == 21 ? true : false %>
+<% @superbowl = current_week == 22 ? true : false %>
 <% if @playoff or @superbowl %>
     <%= render "playoffs" %>
 <% else %>
