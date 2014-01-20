@@ -36,9 +36,7 @@
                   <%= select_tag("games[#{game.id}][bet]", options_for_select([['$1.00', 1], ['$2.00', 2], ['$3.00', 3], ['$4.00', 4]], bet.nil? ? 1 : bet.amount), disabled: closed) %>
                   <%= hidden_field_tag "games[#{game.id}][bet]", bet.nil? ? 1 : bet.amount %>
               <% elsif @superbowl %>
-                  <%= @user_cash = current_user.get_results[0].first %>
-
-                  <%= select_tag("games[#{game.id}][bet]", options_for_select([['$12.00', 1], ['$12.00 + my cash', 12]], bet.nil? ? 12 : bet.amount), class: 'bet_option') %>
+                  Check back shortly to bet
               <% else %>
                   <%= select_tag("games[#{game.id}][bet]", options_for_select([['$1.00', 1], ['$2.00', 2], ['$3.00', 3], ['$4.00', 4]], bet.nil? ? 1 : bet.amount), class: 'bet_option') %>
               <% end %>
@@ -75,6 +73,9 @@
         </table>
     <% end %>
     <div id="bet_submit">
+      <% if @superbowl %>
+      <% else %>
       <%= image_submit_tag("bet_logo.png", id: "bet_button") %>
+      <% end %>
     </div>
 <% end %>
