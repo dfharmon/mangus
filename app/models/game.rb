@@ -14,6 +14,7 @@ class Game < ActiveRecord::Base
     spreads = SpreadGrabber.current_spreads
 
     (Game.current_week..22).each do |week|
+      next if week == 21
       weekly_games = ScoreGrabber.games_in_week(week)
       weekly_games.each do |game|
         home_team = Team.where(location: game[:home]).first
@@ -32,9 +33,6 @@ class Game < ActiveRecord::Base
             found_game = Game.create(week: week, home_team: home_team, away_team: away_team)
           end
 
-          pp found_game
-          pp spreads
-
           found_game.start_date = game[:time] if game[:time].is_a?(Time)
           found_game.final = true if game[:time] == 'Final'
           found_game.home_score = game[:home_score] unless game[:home_score].nil?
@@ -51,6 +49,7 @@ class Game < ActiveRecord::Base
     thisweekstart = Date.today.beginning_of_week(start_day = :tuesday)
 
     week = ((thisweekstart - week1start) / 7 ).to_i + 1
+    week = 22 if week == 21
     return (week > 0) ? week : 1
   end
 
