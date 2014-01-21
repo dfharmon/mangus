@@ -6,8 +6,21 @@
        next
      end
      this_week = @games.first.nil? ?  21 : @games.first.week
+     case week
+       when 22
+         label = 'Superbowl'
+       when 20
+         label = 'Conf Championship'
+       when 19
+         label = 'Divisional'
+       when 18
+         label = 'Wild Card'
+       else
+         label = week
+     end
+
      week_class = (this_week == week) ? 'class=selected_link' : ''%>
-    <a <%= week_class %> href="?week=<%= week %>"><%= week %></a>
+    <a <%= week_class %> href="?week=<%= week %>"><%= label %></a>
 <% week -= 1 %>|
 <% end %>
 </div>
