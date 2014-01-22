@@ -49,6 +49,9 @@ td, thead {
   font-size:1.2em;
   margin-left:88px;
 }
+#week_menu {
+  width: 1000px;
+}
 
 #game_time {
   font-weight: bold;
@@ -94,6 +97,7 @@ td, thead {
   vertical-align: bottom;
   position:relative;
   top:15px;
+  left:35px;
   width: 110px;
   text-align:right;
 }
@@ -171,6 +175,9 @@ td, thead {
 }
 .m_amount {
   width: 50px;
+}
+.long {
+  margin-left: -15px;
 }
 #total_cash {
   padding-top: 5px;
