@@ -8,6 +8,7 @@ gem 'carrierwave'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
+gem 'pg'
 gem 'rest-client'
 gem 'ox'
 gem 'devise'
