@@ -1,10 +1,11 @@
 Mangus::Application.routes.draw do
+  devise_for :users #, :controllers => { :registrations => "registrations" }
+
   resources :games
 
   post "/place_bets" => "games#place_bets"
   get "/user_bets" => "games#user_bets"
 
-  devise_for :users, :controllers => { :registrations => "registrations" }
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

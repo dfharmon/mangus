@@ -1,4 +1,12 @@
 class User < ActiveRecord::Base
+  # validates :name, presence: true
+  # validates :email, presence: true
+  # validates :name, uniqueness: true
+
+  devise :database_authenticatable, :rememberable, :trackable, :validatable, :registerable
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :admin, :total_cash, :name, :avatar
+  attr_accessor :total_cash
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
@@ -9,13 +17,8 @@ class User < ActiveRecord::Base
   has_many :games, through: :bets
   has_many :user_week_resultses
 
-  devise :database_authenticatable, :rememberable, :trackable, :validatable, :registerable
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :admin, :total_cash, :name, :avatar
-  attr_accessor :total_cash
+  #
 
-
-  validates :name, :email, :presence => :true
-  validates :name, :uniqueness => true
 
   # WILL MAKE A JOB THAT CALLS THIS FOR EVERY USER AFTER MONDAY NIGHT GAME
   def tally_week_bets(week)

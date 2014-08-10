@@ -1,6 +1,7 @@
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
+  config.secret_key = '1c51f55ef371e42c6643ec045d1da579f57515438f921b907ca1841fe0f277cc7ad558e485a330d00f8788c5e96dbeb4c911207a6c28cefe9b395c476d13bc96'
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
@@ -48,14 +49,10 @@ Devise.setup do |config|
   # enable it only for database (email + password) authentication.
   # config.params_authenticatable = true
 
-  # Tell if authentication through HTTP Auth is enabled. False by default.
+  # Tell if authentication through HTTP Basic Auth is enabled. False by default.
   # It can be set to an array that will enable http authentication only for the
   # given strategies, for example, `config.http_authenticatable = [:token]` will
-  # enable it only for token authentication. The supported strategies are:
-  # :database      = Support basic authentication with authentication key + password
-  # :token         = Support basic authentication with token authentication key
-  # :token_options = Support token authentication with options as defined in
-  #                  http://api.rubyonrails.org/classes/ActionController/HttpAuthentication/Token.html
+  # enable it only for token authentication.
   # config.http_authenticatable = false
 
   # If http headers should be returned for AJAX requests. True by default.
@@ -86,7 +83,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 10
 
   # Setup a pepper to generate the encrypted password.
-  # config.pepper = "c63184b177950e61668f27258c9e26e90b8b469a985724549adf187dbff67cfe8b8629d70f3f5ffa729d03797ee93b969ecd589308e4cfeb609f705a887005d1"
+  # config.pepper = "71aed9f27ed4330a982b263ebbd568e97d8745f4e69b7bb0c7167245b63d185ea582548d70538cde22c6cc6c1dfd5d53eb53b2a5c4197fce75453df1652533bb"
 
   # ==> Configuration for :confirmable
   # A period that the user is allowed to access the website even without
@@ -129,7 +126,7 @@ Devise.setup do |config|
   config.password_length = 8..128
 
   # Email regex used to validate email formats. It simply asserts that
-  # one (and only one) @ exists in the given string. This is mainly
+  # an one (and only one) @ exists in the given string. This is mainly
   # to give user feedback and not to assert the e-mail validity.
   # config.email_regexp = /\A[^@]+@[^@]+\z/
 
@@ -179,9 +176,7 @@ Devise.setup do |config|
   # :sha1, :sha512 or encryptors from others authentication tools as :clearance_sha1,
   # :authlogic_sha512 (then you should set stretches above to 20 for default behavior)
   # and :restful_authentication_sha1 (then you should set stretches to 10, and copy
-  # REST_AUTH_SITE_KEY to pepper).
-  #
-  # Require the `devise-encryptable` gem when using anything other than bcrypt
+  # REST_AUTH_SITE_KEY to pepper)
   # config.encryptor = :sha512
 
   # ==> Configuration for :token_authenticatable

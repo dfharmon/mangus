@@ -13,6 +13,7 @@ gem 'rest-client'
 gem 'ox'
 gem 'devise'
 gem 'hpricot'
+#gem 'rhc'
 
 gem 'execjs'
 gem 'therubyracer', '0.10.0'
