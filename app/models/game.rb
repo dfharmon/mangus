@@ -45,7 +45,7 @@ class Game < ActiveRecord::Base
   end
 
   def self.current_week
-    week1start = Date.parse('Tue, 03 Sep 2013')
+    week1start = Date.parse('Tue, 04 Sep 2014')
     thisweekstart = Date.today.beginning_of_week(start_day = :tuesday)
 
     week = ((thisweekstart - week1start) / 7 ).to_i + 1
