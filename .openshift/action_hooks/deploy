@@ -1,1 +1,2 @@
 bundle exec rake db:migrate RAILS_ENV="production"
+gem install rack -v '1.4.5'
