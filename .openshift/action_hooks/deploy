@@ -1,2 +1,4 @@
+echo "migrating"
 bundle exec rake db:migrate RAILS_ENV="production"
+echo "Installing rack 1.4.5"
 gem install rack -v '1.4.5'
