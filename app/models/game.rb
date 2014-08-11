@@ -68,8 +68,8 @@ class Game < ActiveRecord::Base
       found_spreads = spreads.select { |x|
           #(Time.parse(x[:time].to_s) == Time.parse(self.start_date.to_s) ||
           #Time.parse(x[:time].to_s) == (Time.parse(self.start_date.to_s) - 1.hour) ) &&
-          x[:teams][1][:name].grep(/#{home_team[:name]}/).count > 0 &&
-          x[:teams][0][:name].grep(/#{visit_team[:name]}/).count > 0
+          x[:teams][1][:name].scan(/#{home_team[:name]}/).count > 0 &&
+          x[:teams][0][:name].scan(/#{visit_team[:name]}/).count > 0
           }
     rescue => e
       pp e
