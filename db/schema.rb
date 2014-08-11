@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131126234224) do
+ActiveRecord::Schema.define(:version => 20140811122121) do
 
   create_table "bets", :force => true do |t|
     t.integer  "game_id"
