@@ -1,1 +1,1 @@
-cd $OPENSHIFT_REPO_DIR && bundle exec rake nfl:update
+cd $OPENSHIFT_REPO_DIR && bundle exec rake nfl:update RAILS_ENV=production
