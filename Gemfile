@@ -12,7 +12,7 @@ gem 'pg'
 gem 'rest-client'
 gem 'ox'
 gem 'devise'
-gem 'hpricot'
+gem 'hpricot', '0.8.3'
 #gem 'rhc'
 
 gem 'execjs'

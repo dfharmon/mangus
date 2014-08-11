@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(:version => 20131126234224) do
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
     t.boolean  "final"
+    t.integer  "week"
   end
 
   create_table "standings", :force => true do |t|
