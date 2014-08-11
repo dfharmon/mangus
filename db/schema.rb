@@ -27,13 +27,13 @@ ActiveRecord::Schema.define(:version => 20140811122121) do
   create_table "games", :force => true do |t|
     t.string   "favorite_id"
     t.string   "spread"
-    t.string   "home_team_id"
+    t.integer  "home_team_id", :limit => 255
     t.integer  "home_score"
-    t.string   "away_team_id"
+    t.integer  "away_team_id", :limit => 255
     t.integer  "away_score"
     t.datetime "start_date"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
     t.boolean  "final"
     t.integer  "week"
   end
