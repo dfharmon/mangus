@@ -28,7 +28,7 @@ class GamesController < ApplicationController
 
   def index
     week = params[:week].nil? ? Game.current_week : params[:week]
-    @games = Game.where(week: week.to_i)
+    @games = Game.where(week: week.to_i).order('start_date')
 
     respond_to do |format|
       format.html # index.html.erb
