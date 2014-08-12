@@ -11,9 +11,8 @@ module ScoreGrabber
 
     day = nil
     rows.each do |r|
-      lookup_day = r.search("div//[@class='shsDayLabel']")
+      lookup_day = r.previous_sibling.search("[@class='shsDayLabel']")
       day = lookup_day.first.inner_html if lookup_day.count > 0
-
       lookup_game = r.search("div//[@class='shsScoreboardCol']")
 
       if lookup_game.count > 0
