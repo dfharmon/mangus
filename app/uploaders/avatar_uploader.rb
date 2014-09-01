@@ -21,10 +21,10 @@ class AvatarUploader < CarrierWave::Uploader::Base
     "#{prefix}uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
-  def url
-    return "/uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}/#{File.basename(file.path)}" if ENV['OPENSHIFT_DATA_DIR'] && file
-    super
-  end
+  #def url
+  #  return "/uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}/#{File.basename(file.path)}" if ENV['OPENSHIFT_DATA_DIR'] && file
+  #  super
+  #end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
   def default_url
