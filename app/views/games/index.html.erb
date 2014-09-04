@@ -29,7 +29,7 @@
 <% @playoff = (week > 17 and week < 21) ? true : false %>
 <% @superbowl = week == 22 ? true : false %>
 <% if @playoff or @superbowl %>
-    <%= render "playoffs" %
+    <%= render "playoffs" %>
 <% else %>
 <!--VALIDATE ALL BETS -->
 <%= form_tag('/place_bets', remote: true) do %>
