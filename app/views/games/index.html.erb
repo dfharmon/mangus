@@ -40,7 +40,7 @@
     </div>
 
     <% @games.each do |game| %>
-        <% closed = game.start_date < Time.now %>
+        <% closed = game.start_date < Time.now + 2.hours %>
         <% bet = game.get_bet(current_user.id) %>
 
         <div id="game_time"><%= (game.start_date + 2.hours).strftime("%B %d, %Y, %I:%M%p") %> (MT)
