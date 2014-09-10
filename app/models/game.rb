@@ -49,7 +49,8 @@ class Game < ActiveRecord::Base
     week1start = Date.parse('Tue, 04 Sep 2014')
     thisweekstart = Date.today.beginning_of_week(start_day = :tuesday)
 
-    week = ((thisweekstart - week1start) / 7 ).to_i + 1
+    #week = ((thisweekstart - week1start) / 7 ).to_i + 1
+    week = ((thisweekstart - week1start).to_i / 7.0 ).ceil + 1
     week = 22 if week == 21
     return (week > 0) ? week : 1
   end
