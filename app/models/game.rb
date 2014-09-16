@@ -13,7 +13,7 @@ class Game < ActiveRecord::Base
   def self.scan_games
     spreads = SpreadGrabber.current_spreads
 
-    (Game.current_week..22).each do |week|
+    ((Game.current_week - 1)..22).each do |week|
       next if week == 21
       weekly_games = ScoreGrabber.games_in_week(week)
       weekly_games.each do |game|

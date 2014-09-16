@@ -52,7 +52,7 @@ class GamesController < ApplicationController
   def user_bets
     @week = params[:week]
     @games = Game.where(final: true)
-    @games = @games.where(week: @week)
+    @games = @games.where(week: @week).order('start_date')
     @user = User.find(params[:user_id])
 
     respond_to do |format|
