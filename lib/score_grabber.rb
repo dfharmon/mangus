@@ -4,6 +4,7 @@ module ScoreGrabber
   BASEURL2 = "http://scores.nbcsports.msnbc.com/fb/scoreboard.asp?seasontype=reg&week="
 
   def self.games_in_week(week = 1)
+    pp "w: #{week}"
     games = []
     doc = Hpricot(open("#{BASEURL2}#{week}"))
     master_doc = doc.search("div//[@class='shsScoreboardDaily']")
@@ -11,12 +12,17 @@ module ScoreGrabber
 
     day = nil
     rows.each do |r|
+
+      next if r.search("[@class='shsDayLabel']").count > 0
       lookup_day = r.previous_sibling.search("[@class='shsDayLabel']")
+
+      pp lookup_day
       day = lookup_day.first.inner_html if lookup_day.count > 0
       lookup_game = r.search("div//[@class='shsScoreboardCol']")
 
       if lookup_game.count > 0
         lookup_game.each do |g|
+          next if g.inner_html == "&nbsp;"
           time = g.search("span//[@class='shsTimezone shsMTZone']").inner_html
           time = (time.present?) ? Time.parse("#{day} #{time}").utc : g.search("td//[@class='shsNamD']").first.inner_html
           visit = g.search("a//[@href]").first.inner_html
