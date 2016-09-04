@@ -1,18 +1,6 @@
 class GamesController < ApplicationController
   require "#{Rails.root}/lib/score_grabber.rb"
 
-  def show
-    @game = Game.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-    end
-  end
-
-  def edit
-    @game = Game.find(params[:id])
-  end
-
   def update
     @game = Game.find(params[:id])
 
@@ -28,7 +16,7 @@ class GamesController < ApplicationController
 
   def index
     week = params[:week].nil? ? Game.current_week : params[:week]
-    @games = Game.where(week: week.to_i).order('start_date')
+    @games = Game.where('start_date > ?', Game.last_season_end).where(week: week.to_i).order('start_date')
 
     respond_to do |format|
       format.html # index.html.erb
@@ -51,7 +39,7 @@ class GamesController < ApplicationController
 
   def user_bets
     @week = params[:week]
-    @games = Game.where(final: true)
+    @games = Game.where('start_date > ?', Game.last_season_end).where(final: true)
     @games = @games.where(week: @week).order('start_date')
     @user = User.find(params[:user_id])
 

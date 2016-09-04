@@ -13,7 +13,7 @@ class Bet < ActiveRecord::Base
   def self.validate_bets(params, current_user)
     games = params[:games] #sends in saved bets AND new bets
     current_week = params[:current_week].to_i
-    game_count = Game.where(week: current_week).count
+    game_count = Game.where(week: current_week).where('start_date > ?', Game.last_season_end).count
     large_bets_made = 0
     large_bets_needed = 0
     complete_bets = 0

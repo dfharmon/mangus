@@ -2,7 +2,7 @@ require 'score_grabber'
 require 'spread_grabber'
 
 class Game < ActiveRecord::Base
-  attr_accessible :favorite_id, :spread, :home_team, :away_team, :start_date, :week, :winner
+  attr_accessible :favorite_id, :spread, :home_team, :away_team, :start_date, :week, :winner, :last_season_end
 
   belongs_to :home_team, class_name: 'Team'
   belongs_to :away_team, class_name: 'Team'
@@ -29,7 +29,7 @@ class Game < ActiveRecord::Base
         end
 
         if home_team and away_team
-          found_game = Game.where(week: week, home_team_id: home_team, away_team_id: away_team).first
+          found_game = Game.where(week: week, home_team_id: home_team, away_team_id: away_team).where('start_date > ?', Game.last_season_end).first
           unless found_game
             found_game = Game.create(week: week, home_team: home_team, away_team: away_team)
           end
@@ -46,7 +46,7 @@ class Game < ActiveRecord::Base
   end
 
   def self.current_week
-    week1start = Date.parse('Tue, 04 Sep 2014')
+    week1start = Date.parse('Tue, 06 Sep 2016')
     thisweekstart = Date.today.beginning_of_week(start_day = :tuesday)
 
     #week = ((thisweekstart - week1start) / 7 ).to_i + 1
@@ -88,5 +88,9 @@ class Game < ActiveRecord::Base
     bet = User.find(user_id).bets.where("game_id=#{self.id}")[0]
     return nil if bet.nil?
     bet
+  end
+
+  def self.last_season_end
+    'March 01, 2016'.to_date
   end
 end

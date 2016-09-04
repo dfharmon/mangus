@@ -1,4 +1,4 @@
-<% week = Game.pluck(:week).sort.uniq.last %>
+<% week = Game.where('start_date > ?', Game.last_season_end).pluck(:week).sort.uniq.last %>
 <div id="week_menu"><span class="bold">Week:</span>
 <% while week > 0
      if week == 21
@@ -25,7 +25,6 @@
 <% end %>
 </div>
 
-<% week = Game.pluck(:week).sort.uniq.last %>
 <% @playoff = (week > 17 and week < 21) ? true : false %>
 <% @superbowl = week == 22 ? true : false %>
 <% if @playoff or @superbowl %>
@@ -49,22 +48,25 @@
           <tr>
           </tr>
           <tr>
-            <td class="team_icons"><%= image_tag "icons/#{game.home_team.mascot.downcase}.jpg", alt:"#{game.home_team.id}" %></td>
-            <td class="team_name"><%= "@#{game.home_team.location} #{game.home_team.mascot}" %></td>
-            <td class="score"><%= game.home_score %></td>
-            <td class="spread"><%= game.spread %></td>
+            <td class="team_icons"><%= image_tag "icons/#{game.away_team.mascot.downcase}.jpg", alt: "#{game.away_team.id}" %></td>
+            <td class="team_name"><%= "#{game.away_team.location} #{game.away_team.mascot}" %></td>
+            <td class="score"><%= game.away_score %></td>
+            <td class="spread"></td>
 
-            <!-- If no bet or user didn't pick home team, checked is false -->
-            <% checked = bet.nil? || bet.pick_team != game.home_team ? false : true %>
+
+            <!-- If no bet or user didn't pick away team, checked is false -->
+            <% checked = bet.nil? || bet.pick_team != game.away_team ? false : true %>
             <td class="winner">
-                <% if closed %>
-                    <%= radio_button_tag("games[#{game.id}][winner]", "#{game.home_team.id}", checked = checked, disabled: closed) %>
-                    <%= hidden_field_tag "games[#{game.id}][winner]", "#{game.home_team.id}" if checked %>
-                    <%= hidden_field_tag "games[#{game.id}][closed]", true %>
-                <% else %>
-                    <%= radio_button_tag("games[#{game.id}][winner]", "#{game.home_team.id}", checked = checked, disabled: closed) %>
-                <% end %>
+              <% if closed %>
+                  <%= radio_button_tag("games[#{game.id}][winner]", "#{game.away_team.id}", checked = checked, disabled: closed) %>
+                  <%= hidden_field_tag "games[#{game.id}][winner]", "#{game.away_team.id}" if checked %>
+                  <%= hidden_field_tag "games[#{game.id}][closed]", true %>
+              <% else %>
+                  <%= radio_button_tag("games[#{game.id}][winner]", "#{game.away_team.id}", checked = checked, disabled: closed) %>
+              <% end %>
             </td>
+
+
             <td class="bet">
               <% if closed %>
                   <%= select_tag("games[#{game.id}][bet]", options_for_select([['$1.00', 1], ['$4.00', 4]], bet.nil? ? 1 : bet.amount), disabled: closed) %>
@@ -79,23 +81,27 @@
             </td>
             <td class="spacer"><%= hidden_field_tag 'current_week', game.week %></td>
           </tr>
-          <tr>
-            <td class="team_icons"><%= image_tag "icons/#{game.away_team.mascot.downcase}.jpg", alt: "#{game.away_team.id}" %></td>
-            <td class="team_name"><%= "#{game.away_team.location} #{game.away_team.mascot}" %></td>
-            <td class="score"><%= game.away_score %></td>
-            <td class="spread"></td>
 
-            <!-- If no bet or user didn't pick away team, checked is false -->
-            <% checked = bet.nil? || bet.pick_team != game.away_team ? false : true %>
+
+          <tr>
+            <td class="team_icons"><%= image_tag "icons/#{game.home_team.mascot.downcase}.jpg", alt:"#{game.home_team.id}" %></td>
+            <td class="team_name"><%= "@#{game.home_team.location} #{game.home_team.mascot}" %></td>
+            <td class="score"><%= game.home_score %></td>
+            <td class="spread"><%= game.spread %></td>
+
+            <!-- If no bet or user didn't pick home team, checked is false -->
+            <% checked = bet.nil? || bet.pick_team != game.home_team ? false : true %>
             <td class="winner">
-                <% if closed %>
-                    <%= radio_button_tag("games[#{game.id}][winner]", "#{game.away_team.id}", checked = checked, disabled: closed) %>
-                    <%= hidden_field_tag "games[#{game.id}][winner]", "#{game.away_team.id}" if checked %>
-                    <%= hidden_field_tag "games[#{game.id}][closed]", true %>
-                <% else %>
-                    <%= radio_button_tag("games[#{game.id}][winner]", "#{game.away_team.id}", checked = checked, disabled: closed) %>
-                <% end %>
+              <% if closed %>
+                  <%= radio_button_tag("games[#{game.id}][winner]", "#{game.home_team.id}", checked = checked, disabled: closed) %>
+                  <%= hidden_field_tag "games[#{game.id}][winner]", "#{game.home_team.id}" if checked %>
+                  <%= hidden_field_tag "games[#{game.id}][closed]", true %>
+              <% else %>
+                  <%= radio_button_tag("games[#{game.id}][winner]", "#{game.home_team.id}", checked = checked, disabled: closed) %>
+              <% end %>
             </td>
+
+
             <td class="bet"></td>
             <td class="spacer"></td>
           </tr>
