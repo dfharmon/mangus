@@ -76,7 +76,7 @@ GEM
     jquery-ui-rails (4.0.4)
       jquery-rails
       railties (>= 3.1.0)
-    json (1.8.1)
+    json (1.8.2)
     libv8 (3.3.10.4)
     mail (2.5.4)
       mime-types (~> 1.16)
