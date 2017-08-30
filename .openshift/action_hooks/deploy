@@ -1,9 +1,9 @@
-echo "Installing rack 1.4.5"
-gem install rack -v '1.4.5'
-echo "migrating"
-pushd ${OPENSHIFT_REPO_DIR} > /dev/null
-echo "exec rake db:migrate RAILS_ENV=${RAILS_ENV:-production}"
-popd > /dev/null
-rm -rf $OPENSHIFT_REPO_DIR/public/uploads
-ln -sf $OPENSHIFT_DATA_DIR/uploads $OPENSHIFT_REPO_DIR/public
-echo "end of deploy file"
+#echo "Installing rack 1.4.5"
+#gem install rack -v '1.4.5'
+#echo "migrating"
+#pushd ${OPENSHIFT_REPO_DIR} > /dev/null
+#echo "exec rake db:migrate RAILS_ENV=${RAILS_ENV:-production}"
+#popd > /dev/null
+#rm -rf $OPENSHIFT_REPO_DIR/public/uploads
+#ln -sf $OPENSHIFT_DATA_DIR/uploads $OPENSHIFT_REPO_DIR/public
+#echo "end of deploy file"
