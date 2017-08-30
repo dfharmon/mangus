@@ -1,7 +1,7 @@
 class UpdateTeamType < ActiveRecord::Migration
   def up
-    change_column :games, :home_team_id, :integer, using: 'home_team_id::integer'
-    change_column :games, :away_team_id, :integer, using: 'away_team_id::integer'
+    change_column :games, :home_team_id, :integer, 'integer USING CAST(home_team_id AS integer)'
+    change_column :games, :away_team_id, :integer, 'integer USING CAST(away_team_id AS integer)'
   end
 
   def down
