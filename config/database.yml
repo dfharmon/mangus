@@ -1,20 +1,24 @@
-# SQLite version 3.x
-#   gem install sqlite3
-#
-#   Ensure the SQLite 3 gem is defined in your Gemfile
-#   gem 'sqlite3'
+# PostgreSQL. Versions 8.2 and up are supported.
 
+<% user = ENV.key?("POSTGRESQL_ADMIN_PASSWORD") ? "root" : ENV["POSTGRESQL_USER"] %>
+<% password = ENV.key?("POSTGRESQL_ADMIN_PASSWORD") ? ENV["POSTGRESQL_ADMIN_PASSWORD"] : ENV["POSTGRESQL_PASSWORD"] %>
 <% db_service = ENV.fetch("DATABASE_SERVICE_NAME","").upcase %>
 
-development:
-  adapter: sqlite3
-  database: db/development.sqlite3
-  pool: 5
-  timeout: 5000
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  # For details on connection pooling, see rails configuration guide
+  # http://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: <%= ENV["POSTGRESQL_MAX_CONNECTIONS"] || 5 %>
+  username: <%= user %>
+  password: <%= password %>
+  host: <%= ENV["#{db_service}_SERVICE_HOST"] %>
+  port: <%= ENV["#{db_service}_SERVICE_PORT"] %>
+  database: <%= ENV["POSTGRESQL_DATABASE"] %>
 
-# Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
-# Do not set this db to the same as development or production.
+development:
+  <<: *default
+
 test:
   adapter: sqlite3
   database: db/test.sqlite3
@@ -22,12 +26,4 @@ test:
   timeout: 5000
 
 production:
-  adapter: postgresql
-  encoding: utf8
-  reconnect: false
-  pool: 5
-  database: <%=ENV['POSTGRESQL_DATABASE']%>
-  username: <%=ENV['POSTGRESQL_USER']%>
-  password: <%=ENV['POSTGRESQL_PASSWORD']%>
-  host:   <%=ENV["#{db_service}_SERVICE_HOST"]%>
-  port:   <%=ENV["#{db_service}_SERVICE_PORT"]%>
+  <<: *default
