@@ -35,7 +35,7 @@ class Game < ActiveRecord::Base
           end
 
           found_game.start_date = game[:time] if game[:time].is_a?(Time)
-          found_game.final = true if game[:time] == 'Final'
+          found_game.final = true if game[:time].to_s == 'Final'
           found_game.home_score = game[:home_score] unless game[:home_score].nil?
           found_game.away_score = game[:visit_score] unless game[:visit_score].nil?
           found_game.spread = found_game.find_game_spread(spreads) unless found_game.spread and found_game.spread.match(/[0-9]+/)

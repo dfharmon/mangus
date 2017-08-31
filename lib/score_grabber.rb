@@ -22,7 +22,7 @@ module ScoreGrabber
 
       if lookup_game.count > 0
         lookup_game.each do |g|
-          binding.pry
+          #binding.pry
           next if g.inner_html == "&nbsp;"
           time = 'Final' if g.search("td//[@class='shsNamD']").try(:[], 1).try(:inner_html) == 'Final'
           time ||= g.search("span//[@class='shsTimezone shsMTZone']").inner_html
