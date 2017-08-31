@@ -61,17 +61,17 @@ class Game < ActiveRecord::Base
   # If the game is not found it will be nil
   def find_game_spread(spreads)
     home_team = {draw: 'Home', name: self.home_team.location}
-    home_team[:name] = "#{home_team[:name]} #{self.home_team.mascot}" if home_team[:name] == 'New York'
+    home_team[:name] = "#{home_team[:name]} #{self.home_team.mascot}"# if home_team[:name] == 'New York'
 
     visit_team = {draw: 'Visiting', name: self.away_team.location}
-    visit_team[:name] = "#{visit_team[:name]} #{self.away_team.mascot}" if visit_team[:name] == 'New York'
+    visit_team[:name] = "#{visit_team[:name]} #{self.away_team.mascot}"# if visit_team[:name] == 'New York'
 
     begin
       found_spreads = spreads.select { |x|
           #(Time.parse(x[:time].to_s) == Time.parse(self.start_date.to_s) ||
           #Time.parse(x[:time].to_s) == (Time.parse(self.start_date.to_s) - 1.hour) ) &&
-          x[:teams][1][:name].scan(/#{home_team[:name]}/).count > 0 &&
-          x[:teams][0][:name].scan(/#{visit_team[:name]}/).count > 0
+          x[:teams][0][:name].scan(/#{home_team[:name]}/).count > 0 &&
+          x[:teams][1][:name].scan(/#{visit_team[:name]}/).count > 0
           }
     rescue => e
       pp e
