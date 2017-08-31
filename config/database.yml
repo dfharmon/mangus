@@ -17,14 +17,7 @@ default: &default
   database: <%= ENV["POSTGRESQL_DATABASE"] %>
 
 development:
-  adapter: postgresql
-  encoding: unicode
-  # For details on connection pooling, see rails configuration guide
-  # http://guides.rubyonrails.org/configuring.html#database-pooling
-  username: mangus
-  password: mangus
-  host: localhost
-  database: nfl_dev
+  <<: *default
 
 test:
   adapter: sqlite3
