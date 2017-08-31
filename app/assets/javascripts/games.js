@@ -1,4 +1,4 @@
-var LIGHT_PAGES = ['/users/sign_in', '/users/sign_up', '/users/', '/users/edit'];
+var LIGHT_PAGES = ['/users/sign_in', '/users/sign_up', '/users/', '/users/edit', '/users/password/new', '/users/password/edit'];
 $(function () {
   $(".hide_on_login").each(function () {
     if ($.inArray(window.location.pathname, LIGHT_PAGES) != -1) {

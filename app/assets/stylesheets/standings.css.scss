@@ -2,60 +2,55 @@ td {
   padding-left: 0;
 }
 
-// USER BADGE
-#badge img {
-  width: 70px;
-  margin-bottom: 16px;
-  max-height: 70px;
-}
-
-#badge .top {
-  font-weight: 800;
-  font-size: 1.3em;
-}
-
-
 // STANDINGS
 #standings_head {
-  margin-top: 26px;
 }
 .standings {
   background-color: #222222;
   color: white;
-  width: 400px;
-  margin-top: 9px;
   padding: 5px 0 10px 0;
-  margin-bottom: 20px;
+  font-size: 1.2em;
+  margin-bottom: 1em;
 }
 
 .standings_table {
   border-spacing: 0;
-  margin-top: 5px;
   padding-bottom: 15px;
+
+  tbody {
+    border: none;
+  }
 }
 .standings_table td {
   padding-bottom: 5px;
 }
 
 .standings_table tr:nth-child(odd)  {
-  background-color: #2D2D2D;
-  //background-color:#282828;
+  background-color: #191A1A;
 }
-.standings_table tr.standings_header,  {
-  background-color: #222222;
+.standings_table tr:nth-child(even)  {
+  background-color: #0c0d0d;
+
+}
+.standings_table tr.standings_header  {
+  background-color: #191A1A;
+}
+.standings_header {
+  border-bottom: 1px solid #4d4d4d;
+
 }
 .standings_header td {
   padding-bottom: 5px;
-  padding-top: 3px;
+  padding-top: 15px;
 }
 .users {
   padding-bottom: 20px;
 }
 .name {
-  width: 200px;
   padding-left: 10px;
   padding-right: 0px;
   text-align: left;
+
 }
 .name a {
   color: white;
@@ -64,12 +59,10 @@ td {
   color: gray;
 }
 .cash_head, .cash {
-  width: 100px;
   text-align: right;
   padding-right: 15px;
 }
 .cash_plus, .cash_minus {
-  width: 100px;
   text-align: right;
   padding-right: 15px;
 }
@@ -80,11 +73,7 @@ td {
 .cash_minus {
   color: red;
 }
-.percent {
-  width: 70px;
-}
 .wins, .losses {
-  width: 45px;
 }
 .wins, .losses, .percent {
   text-align: right;
@@ -95,7 +84,6 @@ td {
 
 // BY THE WEEK
 #by_the_week {
-  width: 400px;
   margin-top: 76px;
 }
 #week_count {
@@ -103,6 +91,9 @@ td {
   background-color: #222222;
   padding-left:10px;
   padding-top:5px;
+  td {
+    padding-top: 15px;
+  }
 }
 
 // PLAYOFFS
@@ -110,22 +101,20 @@ td {
   font-weight: bold;
   color: green;
   font-size: 1.3em;
-  position:relative;
-  right: 30px;
 }
 #playoff_rules  {
-  width: 370px;
-  min-height: 200px;
-  padding-left: 10px;
-  padding-right: 20px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  margin-top: 50px;
-  background-color: #2D2D2D;
+  padding: 1em;
+  margin-bottom: 2em;
+  background-color: #222;
   color: white;
+  font-size: 1.2em;
 }
 #playoff_rules li.no_bullet {
   list-style-type: none;
+}
+.tiny {
+  font-size: .8em;
+  text-align: right;
 }
 
 

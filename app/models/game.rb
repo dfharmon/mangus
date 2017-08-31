@@ -11,7 +11,7 @@ class Game < ActiveRecord::Base
 
   # Run me each day to scan the entire season and see if I can update or create any new info
   def self.scan_games
-    spreads = SpreadGrabber.current_spreads
+    spreads = SpreadGrabber.alternate_spreads
 
     ((Game.current_week - 1)..22).each do |week|
       next if week == 21
@@ -39,6 +39,7 @@ class Game < ActiveRecord::Base
           found_game.home_score = game[:home_score] unless game[:home_score].nil?
           found_game.away_score = game[:visit_score] unless game[:visit_score].nil?
           found_game.spread = found_game.find_game_spread(spreads) unless found_game.spread and found_game.spread.match(/[0-9]+/)
+          found_game.spread = 'OFF' if found_game.spread.nil?
           found_game.save!
         end
       end
@@ -46,7 +47,7 @@ class Game < ActiveRecord::Base
   end
 
   def self.current_week
-    week1start = Date.parse('Tue, 06 Sep 2016')
+    week1start = Date.parse('Tue, 05 Sep 2017')
     thisweekstart = Date.today.beginning_of_week(start_day = :tuesday)
 
     #week = ((thisweekstart - week1start) / 7 ).to_i + 1
@@ -85,12 +86,10 @@ class Game < ActiveRecord::Base
   end
 
   def get_bet(user_id)
-    bet = User.find(user_id).bets.where("game_id=#{self.id}")[0]
-    return nil if bet.nil?
-    bet
+    User.find(user_id).bets.find_by_game_id(self.id)
   end
 
   def self.last_season_end
-    'March 01, 2016'.to_date
+    'March 01, 2017'.to_date
   end
 end

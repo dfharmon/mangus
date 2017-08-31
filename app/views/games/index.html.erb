@@ -1,117 +1,100 @@
 <% week = Game.where('start_date > ?', Game.last_season_end).pluck(:week).sort.uniq.last %>
-<div id="week_menu"><span class="bold">Week:</span>
-<% while week > 0
-     if week == 21
-       week -= 1
-       next
-     end
-     this_week = @games.first.nil? ?  21 : @games.first.week
-     case week
-       when 22
-         label = 'Superbowl'
-       when 20
-         label = 'Conf Championship'
-       when 19
-         label = 'Divisional'
-       when 18
-         label = 'Wild Card'
-       else
-         label = week
-     end
-
-     week_class = (this_week == week) ? 'class=selected_link' : ''%>
-    <a <%= week_class %> href="?week=<%= week %>"><%= label %></a>
-<% week -= 1 %>|
-<% end %>
-</div>
-
 <% @playoff = (week > 17 and week < 21) ? true : false %>
 <% @superbowl = week == 22 ? true : false %>
-<% if @playoff or @superbowl %>
-    <%= render "playoffs" %>
-<% else %>
-<!--VALIDATE ALL BETS -->
-<%= form_tag('/place_bets', remote: true) do %>
-    <div id="games_header">
-      <span id="final">FINAL</span>
-      <span id="spread_header">SPREAD</span>
-      <span id="bet_header">BET</span>
-    </div>
 
-    <% @games.each do |game| %>
+<% if current_user.active %>
+  <% if @playoff  %>
+    <%= render "playoffs" %>
+  <% elsif @superbowl %>
+    <%= render 'superbowl' %>
+  <% else %>
+    <!--VALIDATE ALL BETS -->
+    <%= form_tag('/place_bets', remote: true) do %>
+      <div id='game-header' class="row">
+        <div class="small-2 small-offset-2 large-1 large-offset-4 columns">FINAL</div>
+        <div class="small-2 large-1 columns">SPREAD</div>
+        <div class="small-3 small-offset-2 end large-3 text-center large-offset-1 columns end">BET</div>
+      </div>
+
+      <% @games.each do |game| %>
         <% closed = game.start_date < Time.now - 2.hours %>
         <% bet = game.get_bet(current_user.id) %>
 
-        <div id="game_time"><%= (game.start_date + 2.hours).strftime("%B %d, %Y, %I:%M%p") %> (MT)
+        <div id="game_time" class="small-12"><%= (game.start_date + 1.hour).strftime("%B %d, %Y, %I:%M%p") %>
+          (MT)
         </div>
-        <table class="game">
-          <tr>
-          </tr>
-          <tr>
-            <td class="team_icons"><%= image_tag "icons/#{game.away_team.mascot.downcase}.jpg", alt: "#{game.away_team.id}" %></td>
-            <td class="team_name"><%= "#{game.away_team.location} #{game.away_team.mascot}" %></td>
-            <td class="score"><%= game.away_score %></td>
-            <td class="spread"></td>
-
+        <div class="game">
+          <div class="row padding-large-top">
+            <div class="team_icons small-3 medium-1 columns"><%= image_tag "icons/#{game.away_team.mascot.downcase}.jpg", alt: "#{game.away_team.id}" %></div>
+            <div class="hide-for-small-only medium-2 large-3 columns"><%= "#{game.away_team.location} #{game.away_team.mascot}" %></div>
+            <div class="score small-2 large-1 columns"><%= game.away_score.nil? ? '&nbsp;'.html_safe : game.away_score %></div>
+            <div class="spread small-2 large-2 columns">&nbsp;</div>
 
             <!-- If no bet or user didn't pick away team, checked is false -->
             <% checked = bet.nil? || bet.pick_team != game.away_team ? false : true %>
-            <td class="winner">
+            <div class="choose-team small-1 large-1 columns">
               <% if closed %>
-                  <%= radio_button_tag("games[#{game.id}][winner]", "#{game.away_team.id}", checked = checked, disabled: closed) %>
-                  <%= hidden_field_tag "games[#{game.id}][winner]", "#{game.away_team.id}" if checked %>
-                  <%= hidden_field_tag "games[#{game.id}][closed]", true %>
+                <%= radio_button_tag("games[#{game.id}][winner]", "#{game.away_team.id}", checked = checked, disabled: closed) %>
+                <%= hidden_field_tag "games[#{game.id}][winner]", "#{game.away_team.id}" if checked %>
+                <%= hidden_field_tag "games[#{game.id}][closed]", true %>
               <% else %>
-                  <%= radio_button_tag("games[#{game.id}][winner]", "#{game.away_team.id}", checked = checked, disabled: closed) %>
+                <%= radio_button_tag("games[#{game.id}][winner]", "#{game.away_team.id}", checked = checked, disabled: closed) %>
               <% end %>
-            </td>
+            </div>
 
-
-            <td class="bet">
+            <div class="small-3 large-2 columns">
               <% if closed %>
-                  <%= select_tag("games[#{game.id}][bet]", options_for_select([['$1.00', 1], ['$4.00', 4]], bet.nil? ? 1 : bet.amount), disabled: closed) %>
-                  <%= hidden_field_tag "games[#{game.id}][bet]", bet.nil? ? 1 : bet.amount %>
+                <%= select_tag("games[#{game.id}][bet]", options_for_select([['$1', 1], ['$4', 4]], bet.nil? ? 1 : bet.amount), disabled: closed) %>
+                <%= hidden_field_tag "games[#{game.id}][bet]", bet.nil? ? 1 : bet.amount %>
               <% else %>
-                  <%= select_tag("games[#{game.id}][bet]", options_for_select([['$1.00', 1], ['$4.00', 4]], bet.nil? ? 1 : bet.amount), class: 'bet_option') %>
+                <%= select_tag("games[#{game.id}][bet]", options_for_select([['$1', 1], ['$4', 4]], bet.nil? ? 1 : bet.amount), class: 'bet_option') %>
               <% end %>
-              <span class='score'>
-                <%= (bet.present? and bet.correct) ? 'W' : 'L' if game.final unless game.winner.nil? %>
-                <%= 'P' if game.final and game.winner.nil? %>
-              </span>
-            </td>
-            <td class="spacer"><%= hidden_field_tag 'current_week', game.week %></td>
-          </tr>
+            </div>
 
 
-          <tr>
-            <td class="team_icons"><%= image_tag "icons/#{game.home_team.mascot.downcase}.jpg", alt:"#{game.home_team.id}" %></td>
-            <td class="team_name"><%= "@#{game.home_team.location} #{game.home_team.mascot}" %></td>
-            <td class="score"><%= game.home_score %></td>
-            <td class="spread"><%= game.spread %></td>
+            <div class="outcome small-1 large-1 columns">
+              <%= (bet.present? and bet.correct) ? 'W' : 'L' if game.final unless game.winner.nil? %>
+              <%= 'P' if game.final and game.winner.nil? %>
+            </div>
+            <%= hidden_field_tag 'current_week', game.week %>
+          </div>
+
+          <div class="row">
+            <div class="team_icons small-3 medium-1 columns"><%= image_tag "icons/#{game.home_team.mascot.downcase}.jpg", alt: "#{game.home_team.id}" %></div>
+            <div class="hide-for-small-only medium-2 large-3 columns"><%= "@#{game.home_team.location} #{game.home_team.mascot}" %></div>
+            <div class="score small-2 large-1 columns"><%= game.home_score.nil? ? ' &nbsp;'.html_safe : game.home_score %></div>
+            <div class="spread small-2 large-2 columns"><%= game.spread.nil? ? '&nbsp;'.html_safe : game.spread %></div>
+
 
             <!-- If no bet or user didn't pick home team, checked is false -->
             <% checked = bet.nil? || bet.pick_team != game.home_team ? false : true %>
-            <td class="winner">
+            <div class="choose-team small-1 large-1 columns end">
               <% if closed %>
-                  <%= radio_button_tag("games[#{game.id}][winner]", "#{game.home_team.id}", checked = checked, disabled: closed) %>
-                  <%= hidden_field_tag "games[#{game.id}][winner]", "#{game.home_team.id}" if checked %>
-                  <%= hidden_field_tag "games[#{game.id}][closed]", true %>
+                <%= radio_button_tag("games[#{game.id}][winner]", "#{game.home_team.id}", checked = checked, disabled: closed) %>
+                <%= hidden_field_tag "games[#{game.id}][winner]", "#{game.home_team.id}" if checked %>
+                <%= hidden_field_tag "games[#{game.id}][closed]", true %>
               <% else %>
-                  <%= radio_button_tag("games[#{game.id}][winner]", "#{game.home_team.id}", checked = checked, disabled: closed) %>
+                <%= radio_button_tag("games[#{game.id}][winner]", "#{game.home_team.id}", checked = checked, disabled: closed) %>
               <% end %>
-            </td>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <div id="bet_submit" class="row show-for-large-up hide-for-medium-only hide-for-small-only">
+        <%= image_submit_tag("bet_logo.png", id: "bet_button", class: '') %>
+      </div>
 
+      <div class="row" id="submit-bet-for-small">
+        <input type="submit" class="button small-12"/>
+        <br/>
+      </div>
 
-            <td class="bet"></td>
-            <td class="spacer"></td>
-          </tr>
-
-        </table>
     <% end %>
-    <div id="bet_submit">
-    <%= image_submit_tag("bet_logo.png", id: "bet_button")  %>
-    </div>
-    <% end %>
+  <% end %>
+<% else %>
+  <h3><strong>Sorry, Boss. You opted out this year.</strong></h3>
+  <iframe src="//giphy.com/embed/qeQNvRWAzBl0A" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+  <p><a href="https://giphy.com/gifs/quarterback-qeQNvRWAzBl0A">via GIPHY</a></p>
 <% end %>
 
 

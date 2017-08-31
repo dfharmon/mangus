@@ -13,12 +13,12 @@ class Bet < ActiveRecord::Base
   def self.validate_bets(params, current_user)
     games = params[:games] #sends in saved bets AND new bets
     current_week = params[:current_week].to_i
-    game_count = Game.where(week: current_week).where('start_date > ?', Game.last_season_end).count
+    game_count = Game.where('start_date > ?', Game.last_season_end).where(week: current_week).count
     large_bets_made = 0
     large_bets_needed = 0
     complete_bets = 0
-    playoffs = current_week > 17 and current_week < 21 ? true : false
-    superbowl = current_week == 21 ? true : false
+    playoffs = current_week > 17 and current_week < 21
+    superbowl = current_week == 21
 
     if !playoffs and !superbowl
       # count large bets
@@ -48,8 +48,6 @@ class Bet < ActiveRecord::Base
       elsif large_bets_made < large_bets_needed
         error = "You must make 2 $4.00 bets. Live a little sport. New bets were not saved - please adjust"
       end
-    elsif superbowl
-      error = validate_superbowl_bet(params, current_user)
     end
 
     if error
@@ -57,23 +55,6 @@ class Bet < ActiveRecord::Base
     else
       return Bet.make_bets(params, current_user)
     end
-  end
-
-  def self.validate_superbowl_bet(params, user)
-    bet_amount = 0
-    user = User.find(user)
-    cash_balance = user.get_results[0].first
-    games = params[:games]
-    games.each do |game_id, bet|
-      next if bets["winner"].nil?
-      bets.each do |key, value|
-        if key == "bet"
-
-        end
-      end
-    end
-
-
   end
 
   def correct
@@ -89,7 +70,7 @@ class Bet < ActiveRecord::Base
         games.each do |game_id, bets|
           game = Game.find(game_id)
           # do not save if a bet was submitted after game started or there is no bet
-          next if bets["winner"].nil? or game.start_date < Time.now - 2.hours
+          next if bets["winner"].nil? or game.start_date < Time.now + 1.hour
           user_bet = Bet.find_by_game_id_and_user_id(game_id, current_user.id)
           user_bet = Bet.new if user_bet.nil?
 

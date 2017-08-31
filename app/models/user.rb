@@ -3,8 +3,8 @@ class User < ActiveRecord::Base
   # validates :email, presence: true
   # validates :name, uniqueness: true
 
-  devise :database_authenticatable, :rememberable, :trackable, :validatable, :registerable
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :admin, :total_cash, :name, :avatar
+  devise :database_authenticatable, :rememberable, :trackable, :validatable, :registerable, :recoverable
+         attr_accessible :email, :password, :password_confirmation, :remember_me, :admin, :total_cash, :name, :avatar
   attr_accessor :total_cash
 
   # Include default devise modules. Others available are:
@@ -16,7 +16,6 @@ class User < ActiveRecord::Base
   has_many :bets
   has_many :games, through: :bets
   has_many :user_week_resultses
-
 
   # Tallys results for a user, returns array where the 0'th element is the total, and the others are for each week
   def get_results()
@@ -33,7 +32,8 @@ class User < ActiveRecord::Base
     missedbets = {}
     weeks = (1..Game.current_week)
     weeks.each do |w|
-      res = UserWeekResults.where(week: w, user_id: self.id)
+      next unless self.active
+      res = UserWeekResults.where(week: w, user_id: self.id).where('created_at > ?', Game.last_season_end)
       if w < Game.current_week and res.count > 0
         res = res.first
         winnings[w] = res.result
@@ -43,8 +43,7 @@ class User < ActiveRecord::Base
         winnings[w] = 0.00
         wins[w] = 0
         loss[w] = 0
-
-        largebets[w] = self.bets.joins(:game).where(amount: 4.00, games: {week: w}).count
+        largebets[w] = self.bets.joins(:game).where(amount: 4.00, games: {week: w}).select{|b| b.created_at > Game.last_season_end}.count
         missedbets[w] = Game.where('start_date > ?', Game.last_season_end).where(week: w).count - self.bets.joins(:game).where(games: {week: w}).where('start_date > ?', Game.last_season_end).count
 
         games = Game.where('start_date > ?', Game.last_season_end).where(final: true, week: w)
@@ -105,7 +104,7 @@ class User < ActiveRecord::Base
           end
 
         end
-        UserWeekResults.create(user_id: self.id, week: w, win: wins[w], loss: loss[w], result: winnings[w]) if w < Game.current_week
+        UserWeekResults.create(user_id: self.id, week: w, win: wins[w], loss: loss[w], result: winnings[w]) if w < Game.current_week and Game.where(week: w, final: nil).where('start_date > ?', Game.last_season_end).count == 0
       end
     end
 

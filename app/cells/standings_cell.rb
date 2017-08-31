@@ -6,7 +6,7 @@ class StandingsCell < Cell::Rails
     @users = User.all
     user = current_user
 
-    render if user
+    render if user and user.active
   end
 
 end

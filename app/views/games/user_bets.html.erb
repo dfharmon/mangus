@@ -1,25 +1,53 @@
 <% user = User.find(@user.id) %>
-<div id="modal_header"><span id="avatar_small"><%= image_tag user.avatar.to_s %></span>&nbsp; <%= user.name %> crushed it in Week <%= @week %>!</div>
+<% winning_week = UserWeekResults.where('created_at > ?', Game.last_season_end).where(user_id: user, week: @week).first.try(:result) %>
+
+<% if winning_week.blank?
+     msg = "jury's still out on this guy"
+   elsif winning_week > 0
+     msg = Message.where(message_category_id: MessageCategory.find_by_name('results_won').id).sample.content
+   elsif winning_week == 0
+     msg = "Not bad. Breaking even is worth celebrating!"
+   else
+     msg = Message.where(message_category_id: MessageCategory.find_by_name('results_lost').id).sample.content
+   end %>
+<div id="modal_header">
+  <div class="row">
+    <div class="small-3 columns">
+      <span id="avatar_small"><%= image_tag user.avatar.to_s %></span>
+    </div>
+    <div class="small-9 columns">
+      Week &nbsp;<%= @week %><br/> <%= msg %>
+    </div>
+  </div>
+</div>
+<br/>
 <div id="bets_for_week">
   <% @games.each do |game| %>
-      <% bet = game.get_bet(@user.id) %>
-      <table id="results">
-        <tr>
-          <td class="m_team_name"><%= "@#{game.home_team.location} #{game.home_team.mascot}" %></td>
-          <td class="m_score"><%= game.home_score %></td>
-          <td class="m_spread"><%= game.spread %></td>
-          <td class='m_wl'><%= (bet.present? and bet.correct) ? 'W' : 'L' if game.final unless game.winner.nil? %><%= 'P' if game.final and game.winner.nil? %></td>
-          <% amount = bet.present? ? "$#{bet.amount}.00" : "No bet" %>
-          <td class="m_amount"><%= amount %></td>
-        </tr>
-        <tr id="pad_bottom">
-          <td class="m_team_name"><%= "#{game.away_team.location} #{game.away_team.mascot}" %></td>
-          <td class="m_score"><%= game.away_score %></td>
-          <td class="m_spread"></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </table>
+    <% bet = game.get_bet(@user.id) %>
+    <table id="results">
+      <tr id="pad_bottom">
+        <td class="m_team_name"><%= "#{game.away_team.location} #{game.away_team.mascot}" %></td>
+        <td class="m_score"><%= game.away_score %></td>
+        <td class="m_spread"></td>
+        <% if game.final and game.winner.nil?
+             add_class = ''
+           else
+             add_class = (bet.present? and bet.correct) ? 'cash_plus' : 'cash_minus'
+           end
+        %>
+        <td class='m_wl <%= add_class %>'><%= (bet.present? and bet.correct) ? 'W' : 'L' if game.final unless game.winner.nil? %><%= 'P' if game.final and game.winner.nil? %></td>
+        <% amount = bet.present? ? "$#{bet.amount}.00" : "No bet" %>
+        <td class="m_amount <%= add_class %>"><strong><%= amount %></strong></td>
+      </tr>
+      <tr>
+        <td class="m_team_name"><%= "@#{game.home_team.location} #{game.home_team.mascot}" %></td>
+        <td class="m_score"><%= game.home_score %></td>
+        <td class="spread m_spread"><%= game.spread %></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
   <% end %>
 
 </div>
+

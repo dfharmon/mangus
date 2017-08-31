@@ -1,22 +1,9 @@
 class GamesController < ApplicationController
   require "#{Rails.root}/lib/score_grabber.rb"
 
-  def update
-    @game = Game.find(params[:id])
-
-    respond_to do |format|
-      if @game.update_attributes(params[:game])
-        format.html { redirect_to @game, notice: 'game was successfully updated.' }
-      else
-        flash.now[:error] = 'Please correct the following errors'
-        format.html { render action: "edit" }
-      end
-    end
-  end
-
   def index
-    week = params[:week].nil? ? Game.current_week : params[:week]
-    @games = Game.where('start_date > ?', Game.last_season_end).where(week: week.to_i).order('start_date')
+    @week = params[:week].nil? ? Game.current_week.to_i : params[:week].to_i
+    @games = Game.where('start_date > ?', Game.last_season_end).where(week: @week.to_i).order('start_date')
 
     respond_to do |format|
       format.html # index.html.erb
@@ -31,7 +18,7 @@ class GamesController < ApplicationController
       if result != true
         flash[:error] = result
       else
-        flash[:notice] = "Nice bets. Good luck!"
+        flash[:notice] = Message.where(message_category_id: MessageCategory.find_by_name('bets').id).sample.content
         format.json { head :no_content }
       end
     end

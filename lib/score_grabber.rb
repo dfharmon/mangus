@@ -23,10 +23,16 @@ module ScoreGrabber
       if lookup_game.count > 0
         lookup_game.each do |g|
           next if g.inner_html == "&nbsp;"
-          time = g.search("span//[@class='shsTimezone shsMTZone']").inner_html
+          time = 'Final' if g.search("td//[@class='shsNamD']").try(:[], 1).try(:inner_html) == 'Final'
+          time ||= g.search("span//[@class='shsTimezone shsMTZone']").inner_html
+
+          # TODO Had to remove the || to get the games to initially scan. FIX it, Amy
+          #time ||= (time.present?) ? Time.parse("#{day} #{time}").utc : g.search("td//[@class='shsNamD']").first.inner_html
           time = (time.present?) ? Time.parse("#{day} #{time}").utc : g.search("td//[@class='shsNamD']").first.inner_html
-          visit = g.search("a//[@href]").first.inner_html
-          home = g.search("a//[@href]")[1].inner_html
+
+          visit = g.search("a//[@href]").first.try(:inner_html)
+          home = g.search("a//[@href]")[1].try(:inner_html)
+          next if visit.nil? or home.nil?
 
           scores = g.search("td//[@class='shsTotD']")
           if scores.count > 0
@@ -39,11 +45,11 @@ module ScoreGrabber
             end
           end
           games << {
-              time: time,
-              home: home.gsub('NY', 'New York'),
-              home_score: home_score,
-              visit: visit.gsub('NY', 'New York'),
-              visit_score: visit_score
+            time: time,
+            home: home.gsub('NY', 'New York'),
+            home_score: home_score,
+            visit: visit.gsub('NY', 'New York'),
+            visit_score: visit_score
           }
         end
       end

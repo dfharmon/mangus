@@ -6,120 +6,119 @@
 .game {
   border: 2px solid #333333;
   padding-bottom: 10px;
+  padding-top: 2.5em;
   padding-left: 10px;
   margin-top:5px;
-  margin-bottom:50px;
-  width: 760px;
-}
 
-tr {
-}
+  @media screen and (min-width: 40em) {
+    margin-bottom:50px;
+  }
+  @media screen and (max-width: 1024px) {
+    margin-bottom:20px;
 
-td, thead {
-  padding-top:10px;
-}
+  }
+  @media screen and (max-width: 39.9375em) {
+    margin-bottom:10px;
 
-td, thead {
-  //padding-right: 20px;
-  text-align: left;
-  vertical-align: top;
-}
+  }
 
-#games_header {
-  width:600px;
-  margin-left:180px;
-  position:relative;
-  top:40px;
 }
-#final {
-  color: #1D3767;
+#game-header {
   font-weight: bold;
-  font-size:1.2em;
-  margin-left:136px;
+  padding: 1em 0 1em 0 !important;
+  background-color: #e2e2e2;
+  margin-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
 }
-#bet_header {
-  color: #1D3767;
-  font-weight: bold;
-  font-size:1.2em;
-  margin-left:59px;
-}
-#spread_header {
-  color: #1D3767;
-  font-weight: bold;
-  font-size:1.2em;
-  margin-left:88px;
-}
-#week_menu {
-  width: 1000px;
-}
-
 #game_time {
   font-weight: bold;
-  margin-top: 30px;
 }
-
-.team_icons img {
-  width: 50px;
-  height: 39px;
+.top-bar {
 }
-
-.team_icons {
-  padding-right:20px;
-}
-
-.team_name {
-  vertical-align: middle;
-  width:230px;
-}
-
-.score {
-  vertical-align: middle;
-  width:55px;
-  font-weight:bold;
-  text-align: right;
-}
-
 .spread {
-  vertical-align: middle;
-  width: 170px;
-  text-align:right;
   font-weight:bold;
+  color: #2199e8;
+  @media screen and (min-width: 40em) {
+    position:relative;
+    left: 2em;
+
+  }
+  @media screen and (max-width: 39.9375em) {
+    position:relative;
+    right: 10px;
+  }
 }
+.score {
+  font-weight: bold;
+  @media screen and (min-width: 40em) {
+    position:relative;
+    left: 1em;
 
-.winner {
-  vertical-align: middle;
-  width: 130px;
-  text-align:right;
-
+  }
+  @media screen and (max-width: 39.9375em) {
+    position:relative;
+    right: 10px;
+  }
 }
-
-.bet {
-  vertical-align: bottom;
+.outcome {
+  font-weight:bold;
   position:relative;
-  top:15px;
-  left:35px;
-  width: 110px;
-  text-align:right;
+  top: 3em;
 }
+.game .row {
+  padding-left: 0;
+}
+.team_icons {
+  margin-bottom: 1em;
+}
+.team_icons img {
+  max-width: 50px;
+  position: relative;
+  bottom: .5em;
+}
+.bet_option {
+  position: relative;
+  top: 1.3em;
+}
+.choose-team {
+  position: relative;
 
-.spacer {
-  width: 40px;
+  @media screen and (min-width: 64em) {
+    left: 10px;
+
+
+  }
+
+  @media screen and (max-width: 39.9375em) {
+    right: 5px;
+  }
 }
 
 #bet_submit {
   position: fixed;
-  top: 210px;
   width: 70px;
   margin: 10px;
-  margin-left:750px;
   padding: 20px;
+
+  @media screen and (min-width: 64em) {
+    left: 86%;
+    top: 70px;
+
+  }
+  @media only screen and (min-width: 40.063em) and (max-width: 64em)  {
+    left: 87%;
+    top: 70px;
+  }
+}
+#submit-bet-for-small {
+  @media screen and (min-width: 64em) {
+    display: none;
+  }
 }
 
 #bet_button {
   height: 100px;
-}
-
-#footer {
 }
 
 /* USER BET MODAL */
@@ -129,22 +128,21 @@ td, thead {
   padding-bottom: 5px;
 }
 #avatar_small img {
-  width: 40px;
+  max-width: 40px;
 }
 #bets_for_week {
   font-size: .9em;
-  width: 400px;
   background-color: white;
   opacity: .99;
 
 }
 #results {
   border: 1px solid gray;
-  margin-bottom: 4px;
+  margin-bottom: 10px;
   padding: 2px 0 2px 2px;
 }
 #bets_for_week td {
-  padding: 2px;
+  padding: 4px;
 }
 
 #bets_for_week tr {

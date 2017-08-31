@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140811122121) do
+ActiveRecord::Schema.define(:version => 20160918162219) do
 
   create_table "bets", :force => true do |t|
     t.integer  "game_id"
@@ -27,15 +27,28 @@ ActiveRecord::Schema.define(:version => 20140811122121) do
   create_table "games", :force => true do |t|
     t.string   "favorite_id"
     t.string   "spread"
-    t.integer  "home_team_id", :limit => 255
+    t.integer  "home_team_id"
     t.integer  "home_score"
-    t.integer  "away_team_id", :limit => 255
+    t.integer  "away_team_id"
     t.integer  "away_score"
     t.datetime "start_date"
-    t.datetime "created_at",                  :null => false
-    t.datetime "updated_at",                  :null => false
-    t.boolean  "final"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
     t.integer  "week"
+    t.boolean  "final"
+  end
+
+  create_table "message_categories", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "messages", :force => true do |t|
+    t.string   "content"
+    t.integer  "message_category_id"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
   end
 
   create_table "standings", :force => true do |t|
@@ -84,6 +97,7 @@ ActiveRecord::Schema.define(:version => 20140811122121) do
     t.string   "avatar"
     t.integer  "wins",                   :default => 0
     t.integer  "losses",                 :default => 0
+    t.boolean  "active",                 :default => true
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

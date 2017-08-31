@@ -1,21 +1,22 @@
-<% user = current_user %>
-<% image_url = user.avatar ? user.avatar_url.to_s : User.find_by_email('nfluser@admin.com').avatar_url.to_s %>
-<div id="badge"><%= image_tag image_url %> <span class="top"><%= user.name %></span></div>
-
 <div class='hide_on_login'>
-  <!--<div id="playoff_rules">
-    <ul><span id="playoff_header">Playoffs</span>
-      <li class="no_bullet">&nbsp;</li>
-      <li>Bets are open from $1.00 - $4.00</li>
+  <div id="playoff_rules">
+    <ul><span id="playoff_header">Regular Season</span>
+      <li>Bets are open at $1.00 and $4.00</li>
+      <li>You must make exactly two $4.00 bets per week</li>
+      <li>Betting is open per game until it starts</li>
+      <li>Stat junkie? Homeboy ALWAYS bets for the home team. try to beat him!</li>
+    </ul>
+    <br/>
+    <ul><span id="playoff_header">Playoff Rules</span>
+      <li>Bets are open from $1.00 - $4.00, in $1.00 increments</li>
       <li>No max or min number of $4.00 bets</li>
       <li>Penalty for no bet is $4.00 per game, so get your bets in fellas</li>
     </ul>
-    <br />
+    <br/>
     <ul><span id="playoff_header">Superbowl</span>
-      <li class="no_bullet">&nbsp;</li>
       <li>Mandatory $12.00 bet with option to add any amount of positive winnings (in $1.00 increments)</li>
     </ul>
-  </div>-->
+  </div>
 
   <div id="standings_head">Overall Standings</div>
   <div class="standings">
@@ -30,7 +31,7 @@
 
 
       <% users = {}
-         User.all.each do |u|
+         User.where(active: true).each do |u|
            users[u] = u.get_results
          end
          users = users.sort_by { |k, v| v[0][0] }.reverse
@@ -54,11 +55,18 @@
   <div>
     <% week_count = Game.current_week
        while week_count > 0
+         week_count -= 1 if week_count == 21
     %>
-
       <div class="standings">
         <table class="standings_table">
-          <th id="week_count">Week <%= week_count %></th>
+          <tr id="week_count">
+            <td>Week <%= week_count %></td>
+            <td></td>
+            <td></td>
+            <% if week_count == Game.current_week %>
+              <td colspan="2"><span class='tiny'>* = incomplete bets</span></td>
+            <% end %>
+          </tr>
           <tr class="standings_header">
             <td class="name"></td>
             <td class="cash_head">$</td>
@@ -68,14 +76,14 @@
           </tr>
 
           <%
-             users = users.sort_by { |k, v| v[0][week_count] }.reverse
-             users.each do |u, results|
-               cash, wins, loss = results[0][week_count], results[1][week_count], results[2][week_count]
+            users = users.sort_by { |k, v| v[0][week_count] }.reverse
+            users.each do |u, results|
+              cash, wins, loss = results[0][week_count], results[1][week_count], results[2][week_count]
           %>
             <tr class="users">
               <td class="name">
-                <%= link_to_modal (u.name) ? u.name : u.email, "user_bets?user_id=#{u.id}&week=#{week_count}", class: "button", remote: true %>
-                <% if week_count == Game.current_week and Game.where(final:nil, week:Game.current_week).where('start_date > ?', Game.last_season_end).count - u.bets.joins(:game).where(games: {week: Game.current_week, final:nil}).where('start_date > ?', Game.last_season_end).count > 0 %>
+                <%= link_to_modal (u.name) ? u.name : u.email, "user_bets?user_id=#{u.id}&week=#{week_count}", remote: true %>
+                <% if week_count == Game.current_week and Game.where(final: nil, week: Game.current_week).where('start_date > ?', Game.last_season_end).count - u.bets.joins(:game).where(games: {week: Game.current_week, final: nil}).where('start_date > ?', Game.last_season_end).count > 0 %>
                   <a title='User has bets to make this week.  Go bug them.'>*</a>
                 <% end %>
               </td>
