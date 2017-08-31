@@ -58,3 +58,6 @@ Message.create(content: "Nice work, and without ever leaving the couch!", messag
 Message.create(content: "Whoa. Clairvoyant are we?", message_category_id: MessageCategory.find_by_name('results_won').id)
 Message.create(content: "I feel like I'm the best, but you're not going to get me to say that.", message_category_id: MessageCategory.find_by_name('results_won').id)
 Message.create(content: "Whoa, this ninja's headin to Vegas.", message_category_id: MessageCategory.find_by_name('results_won').id)
+
+Team.find_by_location('St. Louis').update_column('location', 'Los Angeles')
+Team.find_by_location('San Diego').update_column('location', 'Los Angeles')

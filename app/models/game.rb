@@ -24,8 +24,14 @@ class Game < ActiveRecord::Base
         if game[:home].match(/New York/)
           home_team = Team.where(location: 'New York', mascot: game[:home].gsub('New York ', '')).first
         end
+        if game[:home].match(/Los Angeles/)
+          home_team = Team.where(location: 'Los Angeles', mascot: game[:home].gsub('Los Angeles ', '')).first
+        end
         if game[:visit].match(/New York/)
           away_team = Team.where(location: 'New York', mascot: game[:visit].gsub('New York ', '')).first
+        end
+        if game[:visit].match(/Los Angeles/)
+          away_team = Team.where(location: 'Los Angeles', mascot: game[:visit].gsub('Los Angeles ', '')).first
         end
 
         if home_team and away_team

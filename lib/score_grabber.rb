@@ -49,8 +49,10 @@ module ScoreGrabber
           games << {
             time: time,
             home: home.gsub('NY', 'New York'),
+            home: home.gsub('LA', 'Los Angeles'),
             home_score: home_score,
             visit: visit.gsub('NY', 'New York'),
+            visit: visit.gsub('LA', 'Los Angeles'),
             visit_score: visit_score
           }
         end
