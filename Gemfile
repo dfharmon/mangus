@@ -40,6 +40,7 @@ gem 'jquery-modal-rails'
 gem 'jquery-rails'
 
 group :test, :development do
+  gem 'test-unit'
   gem 'better_errors'
   gem 'pry'
   gem 'pry-rails'
