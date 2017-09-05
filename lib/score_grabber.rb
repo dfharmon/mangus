@@ -28,8 +28,8 @@ module ScoreGrabber
           time ||= g.search("span//[@class='shsTimezone shsMTZone']").inner_html
 
           # TODO Had to remove the || to get the games to initially scan. FIX it, Amy
-          #time ||= (time.present?) ? Time.parse("#{day} #{time}").utc : g.search("td//[@class='shsNamD']").first.inner_html
-          time = (time.present?) ? Time.parse("#{day} #{time}").utc : g.search("td//[@class='shsNamD']").first.inner_html
+          time ||= (time.present?) ? Time.parse("#{day} #{time}").utc : g.search("td//[@class='shsNamD']").first.inner_html
+          #time = (time.present?) ? Time.parse("#{day} #{time}").utc : g.search("td//[@class='shsNamD']").first.inner_html
 
 
           visit = g.search("a//[@href]").first.try(:inner_html)
