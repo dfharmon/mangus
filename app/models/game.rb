@@ -21,19 +21,20 @@ class Game < ActiveRecord::Base
         away_team = Team.where(location: game[:visit]).first
 
         pp "game #{game}"
-        if game[:home].match(/New York/)
+        if game[:home].match(/New York/) or game[:home].match(/NY/)
           home_team = Team.where(location: 'New York', mascot: game[:home].gsub('New York ', '')).first
+          home_team ||= Team.where(location: 'New York', mascot: game[:home].gsub('NY ', '')).first
         end
         if game[:home].match(/Los Angeles/)
           home_team = Team.where(location: 'Los Angeles', mascot: game[:home].gsub('Los Angeles ', '')).first
         end
-        if game[:visit].match(/New York/)
+        if game[:visit].match(/New York/) or game[:visit].match(/NY/)
           away_team = Team.where(location: 'New York', mascot: game[:visit].gsub('New York ', '')).first
+          away_team ||= Team.where(location: 'New York', mascot: game[:visit].gsub('NY ', '')).first
         end
         if game[:visit].match(/Los Angeles/)
           away_team = Team.where(location: 'Los Angeles', mascot: game[:visit].gsub('Los Angeles ', '')).first
         end
-
         if home_team and away_team
           found_game = Game.where(week: week, home_team_id: home_team, away_team_id: away_team).where('start_date > ?', Game.last_season_end).first
           unless found_game
