@@ -10,7 +10,7 @@
         <% closed = game.start_date < Time.now %>
         <% bet = game.get_bet(current_user.id) %>
 
-        <div id="game_time" class="small-12"><%= game.start_date.in_time_zone.strftime("%B %d, %Y, %I:%M%p %Z") %>
+        <div id="game_time" class="small-12"><%= game.start_date.utc.in_time_zone.strftime("%B %d, %Y, %I:%M%p %Z") %>
 
         </div>
         <div class="game">
