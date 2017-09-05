@@ -86,6 +86,7 @@ GEM
       treetop (~> 1.4.8)
     method_source (0.8.1)
     mime-types (1.25.1)
+    minitest (4.3.2)
     multi_json (1.10.1)
     orm_adapter (0.5.0)
     ox (2.0.3)
@@ -177,6 +178,7 @@ DEPENDENCIES
   jquery-modal-rails
   jquery-rails
   jquery-ui-rails
+  minitest
   ox
   pg
   pry

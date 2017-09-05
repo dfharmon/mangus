@@ -19,7 +19,8 @@ gem 'execjs'
 gem 'therubyracer', '0.12.0'
 #gem 'libv8', '3.11.8.0'
 
-
+gem 'test-unit'
+gem 'minitest'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -40,7 +41,7 @@ gem 'jquery-modal-rails'
 gem 'jquery-rails'
 
 group :test, :development do
-  gem 'test-unit'
+
   gem 'better_errors'
   gem 'pry'
   gem 'pry-rails'
