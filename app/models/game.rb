@@ -110,6 +110,8 @@ class Game < ActiveRecord::Base
         return "#{(self.start_date - 1.hour).strftime("%B %d, %Y, %I:%M%p")} PT"
       when 'Mountain'
         return "#{(self.start_date).strftime("%B %d, %Y, %I:%M%p")} MT"
+      when 'Alaska'
+        return "#{(self.start_date - 2.hours).strftime("%B %d, %Y, %I:%M%p")} AKT"
     end
   end
 end
