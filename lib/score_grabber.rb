@@ -25,7 +25,7 @@ module ScoreGrabber
           #binding.pry
           next if g.inner_html == "&nbsp;"
           time = 'Final' if g.search("td//[@class='shsNamD']").try(:[], 1).try(:inner_html) == 'Final'
-          time ||= g.search("span//[@class='shsTimezone shsMTZone']").inner_html
+          time ||= g.search("span//[@class='shsTimezone shsGMTZone']").inner_html
 
           # TODO Had to remove the || to get the games to initially scan. FIX it, Amy
           #time ||= (time.present?) ? Time.parse("#{day} #{time}").utc : g.search("td//[@class='shsNamD']").first.inner_html
