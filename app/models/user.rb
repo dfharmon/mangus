@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   # validates :name, uniqueness: true
 
   devise :database_authenticatable, :rememberable, :trackable, :validatable, :registerable, :recoverable
-         attr_accessible :email, :password, :password_confirmation, :remember_me, :admin, :total_cash, :name, :avatar
+         attr_accessible :email, :password, :password_confirmation, :remember_me, :admin, :total_cash, :name, :avatar, :timezone
   attr_accessor :total_cash
 
   # Include default devise modules. Others available are:

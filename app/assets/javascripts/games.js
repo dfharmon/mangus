@@ -70,6 +70,14 @@ $(document).ready(function (event, request) {
     $('#notices').hide().delay(800).slideDown(800).delay(4000).slideUp(800);
   }
   $('html, body').animate({ scrollTop: 0 }, 'slow');
+
+  $('#edit_user').submit(function() {
+    if($('#user_timezone').val() == '' || $('#user_timezone').val() == null) {
+      alert( "Please select your local timezone!" );
+      $('#user_timezone').focus() ;
+      return false;
+    }
+  })
 });
 
 

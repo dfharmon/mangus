@@ -7,11 +7,11 @@
     </div>
 
     <% @games.each do |game| %>
-        <% closed = game.start_date < Time.now + 1.hour %>
+        <% closed = game.start_date < Time.now %>
         <% bet = game.get_bet(current_user.id) %>
 
-        <div id="game_time" class="small-12"><%= (game.start_date + 2.hours).strftime("%B %d, %Y, %I:%M%p") %>
-          (MT)
+        <div id="game_time" class="small-12"><%= game.start_date.in_time_zone.strftime("%B %d, %Y, %I:%M%p %Z") %>
+
         </div>
         <div class="game">
           <div class="row padding-large-top">

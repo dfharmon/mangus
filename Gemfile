@@ -21,6 +21,7 @@ gem 'therubyracer', '0.12.0'
 
 gem 'test-unit'
 gem 'minitest'
+gem 'tzinfo'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
