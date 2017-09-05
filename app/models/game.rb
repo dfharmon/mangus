@@ -58,7 +58,7 @@ class Game < ActiveRecord::Base
     thisweekstart = Date.today.beginning_of_week(start_day = :tuesday)
 
     #week = ((thisweekstart - week1start) / 7 ).to_i + 1
-    week = ((thisweekstart - week1start).to_i / 7.0 ).ceil + 1
+    week = ((thisweekstart - week1start).to_i / 7.0).ceil + 1
     week = 22 if week == 21
     return (week > 0) ? week : 1
   end
@@ -67,19 +67,19 @@ class Game < ActiveRecord::Base
   # If the game is found but the spread is not yet listed it will be "OFF"
   # If the game is not found it will be nil
   def find_game_spread(spreads)
-    home_team = {draw: 'Home', name: self.home_team.location}
-    home_team[:name] = "#{home_team[:name]} #{self.home_team.mascot}"# if home_team[:name] == 'New York'
+    home_team = { draw: 'Home', name: self.home_team.location }
+    home_team[:name] = "#{home_team[:name]} #{self.home_team.mascot}" # if home_team[:name] == 'New York'
 
-    visit_team = {draw: 'Visiting', name: self.away_team.location}
-    visit_team[:name] = "#{visit_team[:name]} #{self.away_team.mascot}"# if visit_team[:name] == 'New York'
+    visit_team = { draw: 'Visiting', name: self.away_team.location }
+    visit_team[:name] = "#{visit_team[:name]} #{self.away_team.mascot}" # if visit_team[:name] == 'New York'
 
     begin
       found_spreads = spreads.select { |x|
-          #(Time.parse(x[:time].to_s) == Time.parse(self.start_date.to_s) ||
-          #Time.parse(x[:time].to_s) == (Time.parse(self.start_date.to_s) - 1.hour) ) &&
-          x[:teams][0][:name].scan(/#{home_team[:name]}/).count > 0 &&
+        #(Time.parse(x[:time].to_s) == Time.parse(self.start_date.to_s) ||
+        #Time.parse(x[:time].to_s) == (Time.parse(self.start_date.to_s) - 1.hour) ) &&
+        x[:teams][0][:name].scan(/#{home_team[:name]}/).count > 0 &&
           x[:teams][1][:name].scan(/#{visit_team[:name]}/).count > 0
-          }
+      }
     rescue => e
       pp e
     end
@@ -98,5 +98,18 @@ class Game < ActiveRecord::Base
 
   def self.last_season_end
     'March 01, 2017'.to_date
+  end
+
+  def adjust_for_timezone(user)
+    case (user.timezone)
+      when 'Eastern'
+        return "#{(self.start_date + 2.hours).strftime("%B %d, %Y, %I:%M%p")} ET"
+      when 'Central'
+        return "#{(self.start_date + 1.hour).strftime("%B %d, %Y, %I:%M%p")} CT"
+      when 'Pacific'
+        return "#{(self.start_date - 1.hour).strftime("%B %d, %Y, %I:%M%p")} PT"
+      when 'Mountain'
+        return "#{(self.start_date).strftime("%B %d, %Y, %I:%M%p")} MT"
+    end
   end
 end

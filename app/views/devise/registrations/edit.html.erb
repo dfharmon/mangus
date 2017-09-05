@@ -3,47 +3,45 @@
   <div class="small-4"><h2>Edit <%= resource_name.to_s.humanize %></h2></div>
 </div>
 
-<%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => {:method => :put}) do |f| %>
-    <%= devise_error_messages! %>
+<%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
+  <%= devise_error_messages! %>
 
-    <div class="row">
-      <div class="small-12 medium-6 large-4">
-        <%= f.label 'Email' %>
+  <div class="row">
+    <div class="small-12 medium-6 large-4">
+      <%= f.label 'Email' %>
 
-        <%= f.email_field :email, :autofocus => true %>
-      </div>
+      <%= f.email_field :email, :autofocus => true %>
     </div>
+  </div>
 
-
-  <% us = TZInfo::Country.get('US') %>
-  <% timezones = us.zone_identifiers %>
+  <% timezones = ['Eastern', 'Central', 'Mountain', 'Pacific'] %>
   <div class="row">
     <div class="small-12 medium-6 large-4">
       <%= f.label 'Timezone' %>
-      <%= f.select :timezone,timezones, prompt: 'Select your timezone', options_for_select: {:required => true} %>
+      <%= f.select :timezone, timezones, prompt: 'Select your timezone', options_for_select: { :required => true } %>
 
     </div>
   </div>
 
-    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-        <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-    <% end %>
+  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+  <% end %>
 
-    <div class="row">
-      <div class="small-12 medium-6 large-4">
-        <%= f.label 'Display Name' %>
-        <%= f.text_field :name, placeholder: 'Display name' %>
-      </div>
+  <div class="row">
+    <div class="small-12 medium-6 large-4">
+      <%= f.label 'Display Name' %>
+      <%= f.text_field :name, placeholder: 'Display name' %>
     </div>
+  </div>
 
 
-    <div class="row">
-      <div class="small-12 medium-6 large-4">
-        <%= f.label :avatar %>
-        <%= f.file_field :avatar %>
-      </div>
+  <div class="row">
+    <div class="small-12 medium-6 large-4">
+      <%= f.label :avatar %>
+      <%= f.file_field :avatar %>
     </div>
-    <br/>
+  </div>
+  <br/>
   <div class="row">
     <div class="small-12 medium-6 large-4"><%= f.label :current_password %>
       <i>(we need your current password to confirm your above changes)</i>
@@ -51,30 +49,30 @@
     </div>
   </div>
 
-<br/>
-<br/>
+  <br/>
+  <br/>
 
 
-    <div class="row">
-      <div class="small-12 medium-6 large-4"><%= f.label 'New Password' %>
-        <i class="red">(leave blank unless you're changing your password)</i>
-        <%= f.password_field :password, :autocomplete => "off" %>
-      </div>
+  <div class="row">
+    <div class="small-12 medium-6 large-4"><%= f.label 'New Password' %>
+      <i class="red">(leave blank unless you're changing your password)</i>
+      <%= f.password_field :password, :autocomplete => "off" %>
     </div>
+  </div>
 
-    <div class="row">
-      <div class="small-12 medium-6 large-4"><%= f.label :password_confirmation %>
-        <%= f.password_field :password_confirmation %>
-      </div>
+  <div class="row">
+    <div class="small-12 medium-6 large-4"><%= f.label :password_confirmation %>
+      <%= f.password_field :password_confirmation %>
     </div>
+  </div>
 
 
-    <br/>
-    <div class="row">
-      <div class="small-12 medium-6 large-4">
-        <%= f.submit "Update", class: 'button small-12' %>
-      </div>
+  <br/>
+  <div class="row">
+    <div class="small-12 medium-6 large-4">
+      <%= f.submit "Update", class: 'button small-12' %>
     </div>
+  </div>
 <% end %>
 
 <br/>

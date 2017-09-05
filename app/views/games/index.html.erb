@@ -20,7 +20,8 @@
         <% closed = game.start_date.utc < Time.now.utc %>
         <% bet = game.get_bet(current_user.id) %>
 
-        <div id="game_time" class="small-12"><%= game.start_date.in_time_zone(current_user.timezone).strftime("%B %d, %Y, %I:%M%p %Z") %>
+
+        <div id="game_time" class="small-12"><%= game.adjust_for_timezone(current_user) %>
         </div>
         <div class="game">
           <div class="row padding-large-top">
