@@ -15,20 +15,19 @@ module ScoreGrabber
 
       next if r.search("[@class='shsDayLabel']").count > 0
       lookup_day = r.previous_sibling.search("[@class='shsDayLabel']")
-
       pp lookup_day
       day = lookup_day.first.inner_html if lookup_day.count > 0
       lookup_game = r.search("div//[@class='shsScoreboardCol']")
 
       if lookup_game.count > 0
         lookup_game.each do |g|
-          #binding.pry
           next if g.inner_html == "&nbsp;"
           time = 'Final' if g.search("td//[@class='shsNamD']").try(:[], 1).try(:inner_html) == 'Final'
-          time ||= g.search("span//[@class='shsTimezone shsGMTZone']").inner_html
+          time ||= g.search("span//[@class='shsTimezone shsMTZone']").inner_html
 
           # TODO Had to remove the || to get the games to initially scan. FIX it, Amy
           #time ||= (time.present?) ? Time.parse("#{day} #{time}").utc : g.search("td//[@class='shsNamD']").first.inner_html
+
           time = (time.present?) ? Time.parse("#{day} #{time}").utc : g.search("td//[@class='shsNamD']").first.inner_html
 
 
