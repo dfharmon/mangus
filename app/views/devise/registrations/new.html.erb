@@ -9,12 +9,11 @@
       <div class="small-12 medium-6 large-4"><%= f.email_field :email, :autofocus => true, placeholder: 'Email' %></div>
     </div>
 
-  <% timezones = ['Eastern', 'Central', 'Mountain', 'Pacific', 'Alaska'] %>
 
   <div class="row">
     <div class="small-12 medium-6 large-4">
       <%= f.label 'Timezone' %>
-      <%= f.select :timezone,timezones, prompt: 'Select your timezone', options_for_select: {:required => true} %>
+      <%= f.select :timezone, us_timezones, prompt: 'Select your timezone', options_for_select: {:required => true} %>
 
     </div>
   </div>

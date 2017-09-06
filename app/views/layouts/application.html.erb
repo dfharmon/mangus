@@ -49,6 +49,7 @@
         <% user = current_user %>
         <% image_url = user.avatar ? user.avatar_url.to_s : User.find_by_email('nfluser@admin.com').avatar_url.to_s %>
         <div id="badge"><%= image_tag image_url %> <span class="top"><%= user.name %></span></div>
+        <p class="red">* still working on the server migration, so avatars are not being stored. my apologies. I'll let you know when it's fixed.</p>
       </div>
       <% if current_user.active %>
           <% if current_page?('/') %>
@@ -74,7 +75,6 @@
                          else
                            label = week
                        end
-
                        week_class = (this_week == week) ? 'class=selected_link' : '' %>
                       <a <%= week_class %> href="?week=<%= week %>"><%= label %></a>
                       <% week -= 1 %>|

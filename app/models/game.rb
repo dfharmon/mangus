@@ -99,19 +99,4 @@ class Game < ActiveRecord::Base
   def self.last_season_end
     'March 01, 2017'.to_date
   end
-
-  def adjust_for_timezone(user)
-    case (user.timezone)
-      when 'Eastern'
-        return "#{(self.start_date + 2.hours).strftime("%B %d, %Y, %I:%M%p")} ET"
-      when 'Central'
-        return "#{(self.start_date + 1.hour).strftime("%B %d, %Y, %I:%M%p")} CT"
-      when 'Pacific'
-        return "#{(self.start_date - 1.hour).strftime("%B %d, %Y, %I:%M%p")} PT"
-      when 'Mountain'
-        return "#{(self.start_date).strftime("%B %d, %Y, %I:%M%p")} MT"
-      when 'Alaska'
-        return "#{(self.start_date - 2.hours).strftime("%B %d, %Y, %I:%M%p")} AKT"
-    end
-  end
 end
