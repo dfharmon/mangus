@@ -3,8 +3,8 @@ class User < ActiveRecord::Base
   # validates :email, presence: true
   # validates :name, uniqueness: true
 
-  devise :database_authenticatable, :rememberable, :trackable, :validatable, :registerable, :recoverable
-         attr_accessible :email, :password, :password_confirmation, :remember_me, :admin, :total_cash, :name, :avatar, :timezone
+  devise :database_authenticatable, :trackable, :validatable, :registerable, :recoverable
+         attr_accessible :email, :password, :password_confirmation, :admin, :total_cash, :name, :avatar, :timezone
   attr_accessor :total_cash
 
   # Include default devise modules. Others available are:
