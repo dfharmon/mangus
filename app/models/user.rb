@@ -17,6 +17,10 @@ class User < ActiveRecord::Base
   has_many :games, through: :bets
   has_many :user_week_resultses
 
+  Warden::Manager.before_logout do |user,auth,opts|
+    user.forget_me!
+  end
+
   # Tallys results for a user, returns array where the 0'th element is the total, and the others are for each week
   def get_results()
     winnings = []
