@@ -11,7 +11,7 @@ gem 'sqlite3'
 gem 'pg'
 gem 'rest-client'
 gem 'ox'
-gem 'devise'
+gem 'devise', '3.4.0'
 gem 'hpricot', '0.8.3'
 #gem 'rhc'
 
