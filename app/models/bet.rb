@@ -70,7 +70,8 @@ class Bet < ActiveRecord::Base
         games.each do |game_id, bets|
           game = Game.find(game_id)
           # do not save if a bet was submitted after game started or there is no bet
-          next if bets["winner"].nil? or game.start_date < Time.now + 1.hour
+          # TODO return msg if some bets were not saved
+          next if bets["winner"].nil? or game.start_date.utc < Time.now
           user_bet = Bet.find_by_game_id_and_user_id(game_id, current_user.id)
           user_bet = Bet.new if user_bet.nil?
 

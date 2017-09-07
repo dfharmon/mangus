@@ -18,7 +18,6 @@ gem 'hpricot', '0.8.3'
 gem 'execjs'
 gem 'therubyracer', '0.12.0'
 #gem 'libv8', '3.11.8.0']
-gem 'tzinfo'
 
 gem 'test-unit'
 gem 'minitest'
