@@ -18,6 +18,7 @@
 
       <% @games.each do |game| %>
         <% closed = game.start_date.utc < Time.now.utc %>
+        <% closed = false %>
         <% bet = game.get_bet(current_user.id) %>
 
 
