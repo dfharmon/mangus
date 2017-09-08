@@ -114,4 +114,19 @@ class Game < ActiveRecord::Base
         return "#{(self.start_date - 2.hours).strftime("%B %d, %Y, %I:%M%p")} AKT"
     end
   end
+
+  # def adjust_for_timezone(user)
+  #   case (user.timezone)
+  #     when 'Eastern'
+  #       return "#{(self.start_date - 4.hours).strftime("%B %d, %Y, %I:%M%p")} ET"
+  #     when 'Central'
+  #       return "#{(self.start_date - 5.hours).strftime("%B %d, %Y, %I:%M%p")} CT"
+  #     when 'Pacific'
+  #       return "#{(self.start_date - 7.hours).strftime("%B %d, %Y, %I:%M%p")} PT"
+  #     when 'Mountain'
+  #       return "#{(self.start_date - 6.hours).strftime("%B %d, %Y, %I:%M%p")} MT"
+  #     when 'Alaska'
+  #       return "#{(self.start_date - 8.hours).strftime("%B %d, %Y, %I:%M%p")} AKT"
+  #   end
+  # end
 end

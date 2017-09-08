@@ -21,7 +21,7 @@
         <% bet = game.get_bet(current_user.id) %>
 
 
-        <div id="game_time" class="small-12"><%= game.adjust_for_timezone(current_user) %> <span class='red'>&nbsp;&nbsp;<%= 'betting closed' if closed %></span>
+        <div id="game_time" class="small-12"><%= game.adjust_for_timezone(current_user)  %> <span class='red'>&nbsp;&nbsp;<%= 'betting closed' if closed and !game.final %></span>
         </div>
         <div class="game">
           <div class="row padding-large-top">
