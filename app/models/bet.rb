@@ -65,13 +65,15 @@ class Bet < ActiveRecord::Base
 
   def self.make_bets(params, current_user)
     games = params[:games]
+    bets_closed = 0
     begin
       transaction do
         games.each do |game_id, bets|
           game = Game.find(game_id)
           # do not save if a bet was submitted after game started or there is no bet
-          # TODO return msg if some bets were not saved
-          next if bets["winner"].nil? or game.start_date.utc < Time.now.utc
+          closed = game.start_date.utc < Time.now.utc
+
+          next if bets["winner"].nil?
           user_bet = Bet.find_by_game_id_and_user_id(game_id, current_user.id)
           user_bet = Bet.new if user_bet.nil?
 
@@ -84,10 +86,18 @@ class Bet < ActiveRecord::Base
             elsif key == "winner"
               user_bet.pick_team_id = value
             end
+            if user_bet.present? and closed
+              if user_bet.pick_team_id_changed? or user_bet.amount_changed?
+                bets_closed += 1
+              end
+              next
+            end
             user_bet.save
           end
         end
       end
+
+      return bets_closed unless bets_closed.zero?
       return true
     rescue => e
       return e.message

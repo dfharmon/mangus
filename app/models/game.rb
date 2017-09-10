@@ -7,7 +7,7 @@ class Game < ActiveRecord::Base
   belongs_to :home_team, class_name: 'Team'
   belongs_to :away_team, class_name: 'Team'
 
-  has_many :bets
+  has_many :bets, dependent: :destroy
 
   # Run me each day to scan the entire season and see if I can update or create any new info
   def self.scan_games
@@ -103,30 +103,15 @@ class Game < ActiveRecord::Base
   def adjust_for_timezone(user)
     case (user.timezone)
       when 'Eastern'
-        return "#{(self.start_date + 2.hours).strftime("%B %d, %Y, %I:%M%p")} ET"
+        return "#{(self.start_date - 4.hours).strftime("%B %d, %Y, %I:%M%p")} ET"
       when 'Central'
-        return "#{(self.start_date + 1.hour).strftime("%B %d, %Y, %I:%M%p")} CT"
+        return "#{(self.start_date - 5.hours).strftime("%B %d, %Y, %I:%M%p")} CT"
       when 'Pacific'
-        return "#{(self.start_date - 1.hour).strftime("%B %d, %Y, %I:%M%p")} PT"
+        return "#{(self.start_date - 7.hours).strftime("%B %d, %Y, %I:%M%p")} PT"
       when 'Mountain'
-        return "#{(self.start_date).strftime("%B %d, %Y, %I:%M%p")} MT"
+        return "#{(self.start_date - 6.hours).strftime("%B %d, %Y, %I:%M%p")} MT"
       when 'Alaska'
-        return "#{(self.start_date - 2.hours).strftime("%B %d, %Y, %I:%M%p")} AKT"
+        return "#{(self.start_date - 8.hours).strftime("%B %d, %Y, %I:%M%p")} AKT"
     end
   end
-
-  # def adjust_for_timezone(user)
-  #   case (user.timezone)
-  #     when 'Eastern'
-  #       return "#{(self.start_date - 4.hours).strftime("%B %d, %Y, %I:%M%p")} ET"
-  #     when 'Central'
-  #       return "#{(self.start_date - 5.hours).strftime("%B %d, %Y, %I:%M%p")} CT"
-  #     when 'Pacific'
-  #       return "#{(self.start_date - 7.hours).strftime("%B %d, %Y, %I:%M%p")} PT"
-  #     when 'Mountain'
-  #       return "#{(self.start_date - 6.hours).strftime("%B %d, %Y, %I:%M%p")} MT"
-  #     when 'Alaska'
-  #       return "#{(self.start_date - 8.hours).strftime("%B %d, %Y, %I:%M%p")} AKT"
-  #   end
-  # end
 end

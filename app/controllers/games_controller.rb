@@ -15,10 +15,14 @@ class GamesController < ApplicationController
     result = Bet.validate_bets(params, current_user)
 
     respond_to do |format|
-      if result != true
+      if result.is_a?(Integer) and !result.zero?
+        flash[:error] = "Some of your bets were not saved because those games have already started."
+      elsif result != true
         flash[:error] = result
+        #format.json { head result }
       else
         flash[:notice] = Message.where(message_category_id: MessageCategory.find_by_name('bets').id).sample.content
+
         format.json { head :no_content }
       end
     end

@@ -62,10 +62,9 @@
         <table class="standings_table">
           <tr id="week_count">
             <td>Week <%= week_count %></td>
-            <td></td>
-            <td></td>
+
             <% if week_count == Game.current_week %>
-              <td colspan="2"><span class='tiny'>* = incomplete bets</span></td>
+              <td colspan="3" class='tiny'>* = incomplete bets</td>
             <% end %>
           </tr>
           <tr class="standings_header">

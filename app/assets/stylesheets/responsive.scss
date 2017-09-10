@@ -65,10 +65,20 @@
   display: none;
   width: 355px;
   padding: 7px 7px 5px 7px;
-  background-color: #000;
-  color: white;
-  font-size: 1.3em;
+  background-color: #e2e2e2;
+  border-radius: 5px;
+  margin-top: 4px;
+  color: darkgreen;
+  font-size: 1.2em;
   //margin-left: 10px;
+}
+
+#alert {
+  margin-top: 5px;
+  color: #DA3E1C;
+}
+.notice_tri, .notice_check {
+  margin-right: 5px;
 }
 
 #error_explanation h2, #error_explanation ul li {

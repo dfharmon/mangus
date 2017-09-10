@@ -31,21 +31,29 @@ $(document).ajaxComplete(function (event, request) {
 
 
   var msg;
+  var alert_msg;
   if (request.getResponseHeader('X-Flash-Notice')) {
     msg = request.getResponseHeader('X-Flash-Notice');
   }
-  else if (request.getResponseHeader('X-Flash-Alert')) {
-    msg = request.getResponseHeader('X-Flash-Alert');
-  }
   else if (request.getResponseHeader('X-Flash-Error')) {
-    msg = request.getResponseHeader('X-Flash-Error');
+    alert_msg = request.getResponseHeader('X-Flash-Error');
   }
 
-  if (msg) {
-    $('#notice').html(msg);
-
+  if (msg && msg.length > 0) {
+    $('#notice').html('<i class="fa fa-check-square-o notice_check" aria-hidden="true"></i>' + msg);
+    $('#alert').html('');
 
     if ($('#notice').text().length > 0) {
+      $('#notices').hide().delay(800).slideDown(800).delay(4000).slideUp(800);
+      $('html, body').animate({ scrollTop: 0 }, 'slow');
+    }
+  }
+
+  if (alert_msg && alert_msg.length > 0) {
+    $('#alert').html('<i class="fa fa-exclamation-triangle notice_tri" aria-hidden="true"></i>' + alert_msg);
+    $('#notice').html('');
+
+    if ($('#alert').text().length > 0) {
       $('#notices').hide().delay(800).slideDown(800).delay(4000).slideUp(800);
       $('html, body').animate({ scrollTop: 0 }, 'slow');
     }
@@ -66,7 +74,7 @@ $(document).ajaxComplete(function (event, request) {
 });
 
 $(document).ready(function (event, request) {
-  if ($('#notice').text().length > 0) {
+  if ($('#notice').text().length > 0 || $('#alert').text().length > 0)  {
     $('#notices').hide().delay(800).slideDown(800).delay(4000).slideUp(800);
   }
   $('html, body').animate({ scrollTop: 0 }, 'slow');
