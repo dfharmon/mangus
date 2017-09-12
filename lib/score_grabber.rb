@@ -23,12 +23,14 @@ module ScoreGrabber
         lookup_game.each do |g|
           next if g.inner_html == "&nbsp;"
           time = 'Final' if g.search("td//[@class='shsNamD']").try(:[], 1).try(:inner_html) == 'Final'
-          time ||= g.search("span//[@class='shsTimezone shsGMTZone']").inner_html
+          time ||= g.search("span//[@class='shsTimezone shsMTZone']").inner_html
 
           # TODO Had to remove the || to get the games to initially scan. FIX it, Amy
           #time ||= (time.present?) ? Time.parse("#{day} #{time}").utc : g.search("td//[@class='shsNamD']").first.inner_html
 
-          time = (time.present?) ? Time.parse("#{day} #{time}") : g.search("td//[@class='shsNamD']").first.inner_html
+          # Since we're pullintg MT zone times so we get the date correct,
+          # add the offset AFTER we've parsed the time so it advances the date when applicable
+          time = (time.present?) ? Time.parse("#{day} #{time}") + 6.hours : g.search("td//[@class='shsNamD']").first.inner_html
 
 
           visit = g.search("a//[@href]").first.try(:inner_html)
