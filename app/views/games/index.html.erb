@@ -20,8 +20,8 @@
         <% closed = game.start_date.utc < Time.now.utc %>
         <% bet = game.get_bet(current_user.id) %>
 
-
-        <div id="game_time" class="small-12"><%= game.adjust_for_timezone(current_user)  %> <span class='red'>&nbsp;&nbsp;<%= 'betting closed' if closed and !game.final %></span>
+        <% offset, timezone = Game.timezone_offset(current_user.timezone) %>
+        <div id="game_time" class="small-12"><%= (game.start_date - offset).strftime("%B %d, %Y, %I:%M%p") %>&nbsp;<%= timezone %>  <span class='red'>&nbsp;&nbsp;<%= 'betting closed' if closed and !game.final %></span>
         </div>
         <div class="game">
           <div class="row padding-large-top">

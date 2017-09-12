@@ -2,7 +2,13 @@ class GamesController < ApplicationController
   require "#{Rails.root}/lib/score_grabber.rb"
 
   def index
-    @week = params[:week].nil? ? Game.current_week.to_i : params[:week].to_i
+    week1start = Date.parse('Tue, 05 Sep 2017')
+    thisweekstart = (DateTime.now.utc - Game.timezone_offset(current_user.timezone)[0]).to_date.beginning_of_week(start_day = :tuesday)
+    week = ((thisweekstart - week1start).to_i / 7.0).ceil + 1
+    week = 22 if week == 21
+    week = (week > 0) ? week : 1
+
+    @week = params[:week].nil? ? week : params[:week].to_i
     @games = Game.where('start_date > ?', Game.last_season_end).where(week: @week.to_i).order('start_date')
 
     respond_to do |format|

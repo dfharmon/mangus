@@ -41,7 +41,8 @@ class Game < ActiveRecord::Base
             found_game = Game.create(week: week, home_team: home_team, away_team: away_team)
           end
 
-          found_game.start_date = game[:time] if game[:time].is_a?(Time)
+          # save in UTC
+          found_game.start_date = game[:time].utc if game[:time].is_a?(Time)
           found_game.final = true if game[:time].to_s == 'Final'
           found_game.home_score = game[:home_score] unless game[:home_score].nil?
           found_game.away_score = game[:visit_score] unless game[:visit_score].nil?
@@ -100,18 +101,18 @@ class Game < ActiveRecord::Base
     'March 01, 2017'.to_date
   end
 
-  def adjust_for_timezone(user)
-    case (user.timezone)
+  def self.timezone_offset(timezone)
+    case timezone
       when 'Eastern'
-        return "#{(self.start_date - 4.hours).strftime("%B %d, %Y, %I:%M%p")} ET"
+        return 4.hours, 'ET'
       when 'Central'
-        return "#{(self.start_date - 5.hours).strftime("%B %d, %Y, %I:%M%p")} CT"
-      when 'Pacific'
-        return "#{(self.start_date - 7.hours).strftime("%B %d, %Y, %I:%M%p")} PT"
+        return 5.hours, 'CT'
       when 'Mountain'
-        return "#{(self.start_date - 6.hours).strftime("%B %d, %Y, %I:%M%p")} MT"
+        return 6.hours, 'MT'
+      when 'Pacific'
+        return 7.hours, 'PT'
       when 'Alaska'
-        return "#{(self.start_date - 8.hours).strftime("%B %d, %Y, %I:%M%p")} AKT"
+        return 8.hours, 'AKT'
     end
   end
 end

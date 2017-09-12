@@ -82,7 +82,7 @@
           %>
             <tr class="users">
               <td class="name">
-                <%= link_to_modal (u.name) ? u.name : u.email, "user_bets?user_id=#{u.id}&week=#{week_count}", remote: true %>
+                <%= link_to_modal (u.name) ? u.name : u.email, "user_bets?user_id=#{u.id}&week=#{week_count}", remote: true, title: "Click to see #{u.name}'s results" %>
                 <% if week_count == Game.current_week and Game.where(final: nil, week: Game.current_week).where('start_date > ?', Game.last_season_end).count - u.bets.joins(:game).where(games: {week: Game.current_week, final: nil}).where('start_date > ?', Game.last_season_end).count > 0 %>
                   <a title='User has bets to make this week.  Go bug them.'>*</a>
                 <% end %>
