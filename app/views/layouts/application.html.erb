@@ -53,10 +53,8 @@
   <% if user_signed_in? %>
     <div class="small-12 medium-2 large-4  columns margin-large-top">
       <% user = current_user %>
-      <% image_url = user.avatar ? user.avatar_url.to_s : User.find_by_email('nfluser@admin.com').avatar_url.to_s %>
+      <% image_url = User.find_by_email('nfluser@admin.com').avatar_url.to_s %>
       <div id="badge"><%= image_tag image_url %> <span class="top"><%= user.name %></span></div>
-      <p class="red">* still working on the server migration, so avatars are not being stored. my apologies.
-        I'll let you know when it's fixed.</p>
     </div>
     <% if current_user.active %>
       <% if current_page?('/') %>
