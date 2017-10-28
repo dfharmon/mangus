@@ -5,7 +5,7 @@
       <div class="small-2 large-1 columns">SPREAD</div>
       <div class="small-3 small-offset-2 end large-3 text-center large-offset-1 columns end">BET</div>
     </div>
-
+<!-- comment -->
     <% @games.each do |game| %>
         <% closed = game.start_date < Time.now %>
         <% bet = game.get_bet(current_user.id) %>
