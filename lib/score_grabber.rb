@@ -30,7 +30,8 @@ module ScoreGrabber
 
           # Since we're pullintg MT zone times so we get the date correct,
           # add the offset AFTER we've parsed the time so it advances the date when applicable
-          time = (time.present?) ? Time.parse("#{day} #{time}") + 6.hours : g.search("td//[@class='shsNamD']").first.inner_html
+          #TODO NEed to account for end of daylight savings time
+          time = (time.present?) ? Time.parse("#{day} #{time}") + 7.hours : g.search("td//[@class='shsNamD']").first.inner_html
 
 
           visit = g.search("a//[@href]").first.try(:inner_html)

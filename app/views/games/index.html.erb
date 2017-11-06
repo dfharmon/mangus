@@ -21,6 +21,7 @@
         <% bet = game.get_bet(current_user.id) %>
 
         <% offset, timezone = Game.timezone_offset(current_user.timezone) %>
+        <% offset += 1.hour if game.start_date.to_date >= Date.parse('November 4, 2017') %>
         <div id="game_time" class="small-12"><%= (game.start_date - offset).strftime("%B %d, %Y, %I:%M%p") %>&nbsp;<%= timezone %>  <span class='red'>&nbsp;&nbsp;<%= 'betting closed' if closed and !game.final %></span>
         </div>
         <div class="game">
