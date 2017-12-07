@@ -55,8 +55,22 @@ body {
 .red {
     color: red;
 }
+.darkred {
+    color: #d6262f;
+}
 .green {
     color: green;
+}
+
+.blink_me {
+    animation-duration: 1s;
+    animation-name: blinker;
+    animation-iteration-count: 7;
+    animation-timing-function: steps(1, start);
+}
+
+@keyframes blinker {
+    50% { opacity: 0; }
 }
 
 
