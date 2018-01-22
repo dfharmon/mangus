@@ -1,4 +1,5 @@
-<% week = Game.where('start_date > ?', Game.last_season_end).pluck(:week).sort.uniq.last %>
+
+<% week = params[:week].to_i %>
 <% @playoff = (week > 17 and week < 21) ? true : false %>
 <% @superbowl = week == 22 ? true : false %>
 
